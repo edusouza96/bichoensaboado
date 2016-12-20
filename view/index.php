@@ -4,6 +4,7 @@
     include_once("../dao/DiaryDAO.php");
     $diaryDao = new DiaryDAO();
     $clientDao = new ClientDAO();
+    $clientList = $clientDao->SearchAll(); 
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,54 +66,64 @@
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='text' id='nameAnimal' name='nameAnimal' class='form-control nameAnimal'>";
+                            echo "<input type='text' id='nameAnimal".$i."' name='nameAnimal' class='form-control nameAnimal'>";
+                            echo "</td>";
+
+                            echo "<td id='breed".$i."'>";
                             echo "</td>";
 
                             echo "<td>";
+                            echo "<select id='owner".$i."' name='owner' onClick='removeOption(".$i.");' onChange='teste(".$i.");' class='form-control'>";
+                            echo "<option value='0'>-- Selecione --</option>";
+                            foreach($clientList as $client){
+                                $value = $client->idClient."_".$client->nameAnimal;
+                                echo "<option value='".$value."'>";
+                                echo $client->owner;
+                                echo "</option>";
+                            }
+                            echo "</select>";
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<button type='button' class='btn btn-default' data-toggle='modal' data-target='#modalOwner'>Selecionar Dono</button>";
+                            echo "<input type='checkbox' id='search".$i."' name='search' value='1' class='form-control'>";
                             echo "</td>";
 
-                            echo "<td>";
-                            echo "<input type='checkbox' id='search' name='search' value='1' class='form-control'>";
+                            echo "<td id='address".$i."'>";
                             echo "</td>";
 
-                            echo "<td>";
+                            echo "<td id='district".$i."'>";
                             echo "</td>";
 
-                            echo "<td>";
+                            echo "<td id='phone1".$i."'>";
                             echo "</td>";
 
-                            echo "<td>";
-                            echo "</td>";
-
-                            echo "<td>";
+                            echo "<td id='phone2".$i."'>";
                             echo "</td>";
                             
+                            echo "<td id='service".$i."'>";
+                            echo "</td>";
+
+                            echo "<td>";
+                            echo "<input type='text' id='price".$i."' name='price' onChange='totalPrice(this.value, &quot;price&quot;);' class='form-control'>";
+                            echo "</td>";
+
+                            echo "<td>";
+                            echo "<input type='text' id='deliveryPrice".$i."' name='deliveryPrice' onChange='totalPrice(this.value, &quot;deliveryPrice&quot;);' class='form-control'>";
+                            echo "</td>";
+
                             echo "<td>";
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='text' id='price' name='price' onChange='totalPrice(this.value, &quot;price&quot;);' class='form-control'>";
-                            echo "</td>";
-
-                            echo "<td>";
-                            echo "<input type='text' id='deliveryPrice' name='deliveryPrice' onChange='totalPrice(this.value, &quot;deliveryPrice&quot;);' class='form-control'>";
-                            echo "</td>";
-
-                            echo "<td>";
-                            echo "</td>";
-
-                            echo "<td>";
-                            echo "<input type='button' value='Agendar'/>";
+                            echo "<input type='button' id='save".$i."' value='Agendar'/>";
                             echo "</td>";
 
                             echo "</tr>";
                             
                         }else{
+                            //$j = 0;
                             foreach($diaryList as $diary){
+                                //$j++;
                                 echo "<tr onClick='positionRow(this);'>";
 
                                 $dHour = new DateTime($diary->dateHour);
@@ -127,6 +138,8 @@
 
                                 echo "<td>";
                                 echo $diary->client->breed->nameBreed;
+                                //echo "<input type='text' id='breed".$i."_".$j."' name='breed' class='form-control' value='".$diary->client->breed->nameBreed."' rezadonly>";
+                                echo "</td>";
                                 echo "</td>";
 
                                 echo "<td>";
@@ -188,46 +201,45 @@
                 
             </tbody>
         </table>
-        <!-- Modal -->
-        <div class="modal fade" id="modalOwner" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Escolher Dono</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Nome</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Eduardo Souza</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Edu Silva</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
     </body>
 </html>
 <script>
+    function teste(id){
+        document.getElementById('breed'+id).innerHTML = 'raça';
+        document.getElementById('phone1'+id).innerHTML = 'telefone 1';
+        document.getElementById('phone2'+id).innerHTML = 'telefone 2';
+        document.getElementById('service'+id).innerHTML = 'serviço';
+        document.getElementById('address'+id).innerHTML = 'endereço';
+        document.getElementById('district'+id).innerHTML = 'bairro';
+
+    }
+
+    function removeOption(id){
+        setTimeout(function () {
+            var select = document.getElementById('owner'+id);
+            var nameAnimal = document.getElementById('nameAnimal'+id).value;
+            if(nameAnimal != ''){
+                for (i = 1; i < select.length; i++) {
+                    var selectValue = select.options[i].value;
+                    var selectValueArray = selectValue.split("_");
+                    if(nameAnimal != selectValueArray[1]){
+                        select.remove(i);
+                    }
+                
+                }    
+            }
+            
+        }, 1000)
+
+    }
+    
     function addRow(hour){
         setTimeout(function () {
             var pRow = window.sessionStorage.getItem('pRow');
             var table=document.getElementById('tableDiary');
             var row=table.insertRow(pRow);
-            console.log(row);
+            var id = (table.rows.length);
             var colCount=table.rows[0].cells.length;
             row.setAttribute("onClick", "positionRow(this);");
             for(var i=0;i<colCount;i++){
@@ -237,9 +249,11 @@
                     newcell.innerHTML = hour;
                     newcell.setAttribute('onClick', "addRow('"+hour+"');");
                 }else if (i == 1){
-                    newcell.innerHTML = "<input type='text' id='nameAnimal' name='nameAnimal' class='form-control nameAnimal'>";
+                    newcell.innerHTML = "<input type='text' id='nameAnimal"+id+"' name='nameAnimal' class='form-control nameAnimal'>";
+                }else if(i ==2){
+                    newcell.innerHTML = "<input type='text' id='breed"+id+"' name='breed' class='form-control'>";
                 }else if( i==4){
-                    newcell.innerHTML = "<input type='checkbox' id='search' name='search' value='1' class='form-control'>";
+                    newcell.innerHTML = "<input type='checkbox' id='search"+id+"' name='search' value='1' class='form-control'>";
                 } 
 
             }
