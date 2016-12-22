@@ -14,7 +14,7 @@ class ClientClass{
     function __construct(){
         //
     }
-
+   
     function ClientClass($idClient, $owner, $nameAnimal, $breed, $address, $addressNumber, $addressComplement, $phone1, $phone2, $email){
          $this->idClient = $idClient;
          $this->owner = $owner;

@@ -4,10 +4,11 @@ class ClientDAO {
       public static $instance;
    
       public function __construct() {
-          include_once("../class/Conexao.php");
-          include_once("../class/ClientClass.php");
-          include_once("../dao/AddressDAO.php");
-          include_once("../dao/BreedDAO.php");
+          $path = $_SERVER['DOCUMENT_ROOT']; 
+          include_once($path."/bichoensaboado/class/Conexao.php");  
+          include_once($path."/bichoensaboado/class/ClientClass.php");
+          include_once($path."/bichoensaboado/dao/AddressDAO.php");
+          include_once($path."/bichoensaboado/dao/BreedDAO.php");
       }
    
       public static function getInstance() {

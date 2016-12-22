@@ -4,8 +4,9 @@ class ServicDAO {
       public static $instance;
    
       public function __construct() {
-          include_once("../class/Conexao.php");
-          include_once("../class/ServicClass.php");
+          $path = $_SERVER['DOCUMENT_ROOT']; 
+          include_once($path."/bichoensaboado/class/Conexao.php");  
+          include_once($path."/bichoensaboado/class/ServicClass.php");
       }
    
       public static function getInstance() {

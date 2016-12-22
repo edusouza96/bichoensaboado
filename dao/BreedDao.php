@@ -4,8 +4,9 @@ class BreedDAO {
       public static $instance;
    
       public function __construct() {
-          include_once("../class/Conexao.php");
-          include_once("../class/BreedClass.php");
+          $path = $_SERVER['DOCUMENT_ROOT']; 
+          include_once($path."/bichoensaboado/class/Conexao.php");  
+          include_once($path."/bichoensaboado/class/BreedClass.php");
       }
    
       public static function getInstance() {

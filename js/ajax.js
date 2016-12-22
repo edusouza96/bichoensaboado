@@ -1,4 +1,4 @@
-function ajax(url, div) {
+function ajax(url) {
   req = null;
   if (window.XMLHttpRequest) {
     req = new XMLHttpRequest();
@@ -18,20 +18,19 @@ function ajax(url, div) {
 function processReqChange() {
   if (req.readyState == 4) {
     if (req.status ==200) {
-      var returnn = req.responseText;
-      var arrayReturnn = returnn.split(",");
-      var owner = document.getElementById("owner");
-      while (owner.length) {
-        owner.remove(0);
-      }
-      for (i = 0; i < arrayReturnn.length; i++) {
-        var arrayReturnnId = arrayReturnn[i].split("_"); 
-        var opt0 = document.createElement("option");
-        opt0.value = arrayReturnnId[1];
-        opt0.text = arrayReturnnId[1];
-        owner.add(opt0, owner.options[0]);
-      }
-
+      var returnn = req.responseText.split(",");
+      var idField = parseInt(returnn[0]);
+      
+      var breed = document.getElementById("breed"+idField);
+      var address = document.getElementById("address"+idField);
+      var district = document.getElementById("district"+idField);
+      var phone1 = document.getElementById("phone1"+idField);
+      var phone2 = document.getElementById("phone2"+idField);
+        breed.innerHTML = returnn[1];
+        address.innerHTML = returnn[4]+', '+returnn[3]+'\n'+returnn[2];
+        district.innerHTML = returnn[5];
+        phone1.innerHTML = returnn[6];
+        phone2.innerHTML = returnn[7];
       
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);

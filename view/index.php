@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" /> 
         <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+        <script language="javascript" src="../js/ajax.js"></script>
         <script>
             $(function(){
                 $(".nameAnimal").autocomplete({
@@ -73,7 +74,7 @@
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<select id='owner".$i."' name='owner' onClick='removeOption(".$i.");' onChange='teste(".$i.");' class='form-control'>";
+                            echo "<select id='owner".$i."' name='owner' onClick='removeOption(".$i.");' onChange='completeField(this.value,".$i.");' class='form-control'>";
                             echo "<option value='0'>-- Selecione --</option>";
                             foreach($clientList as $client){
                                 $value = $client->idClient."_".$client->nameAnimal;
@@ -205,14 +206,9 @@
     </body>
 </html>
 <script>
-    function teste(id){
-        document.getElementById('breed'+id).innerHTML = 'raça';
-        document.getElementById('phone1'+id).innerHTML = 'telefone 1';
-        document.getElementById('phone2'+id).innerHTML = 'telefone 2';
-        document.getElementById('service'+id).innerHTML = 'serviço';
-        document.getElementById('address'+id).innerHTML = 'endereço';
-        document.getElementById('district'+id).innerHTML = 'bairro';
-
+    function completeField(idClient, idField){
+        var url = "ajax/completeFull.php?idClient=" + idClient + "&idField=" + idField; 
+        ajax(url);
     }
 
     function removeOption(id){

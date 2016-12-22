@@ -5,6 +5,5 @@
     $list = array();
 	$clientDao = new ClientDAO();
     $list = $clientDao->SearchOwner($nameAnimal);
-    
-
 	echo( json_encode( $list ) );
+    
