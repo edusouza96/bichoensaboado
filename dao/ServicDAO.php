@@ -92,6 +92,23 @@ class ServicDAO {
           }
       }
    
+      public function SearchBreed($idBreed) {
+          try {
+              $sql = "SELECT * FROM servic WHERE breed_idBreed = :idBreed";
+              $p_sql = Conexao::getInstance()->prepare($sql);
+              $p_sql->bindValue(":idBreed", $idBreed);
+              $p_sql->execute();
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+              $f_list = array();
+   
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
+              return $f_list;
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
      
       public function SearchAll() {
           try {

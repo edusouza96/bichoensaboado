@@ -102,17 +102,18 @@
                             echo "</td>";
                             
                             echo "<td id='service".$i."'>";
+
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='text' id='price".$i."' name='price' onChange='totalPrice(this.value, &quot;price&quot;);' class='form-control'>";
+                            echo "<input type='text' id='price".$i."' name='price' class='form-control'>";
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='text' id='deliveryPrice".$i."' name='deliveryPrice' onChange='totalPrice(this.value, &quot;deliveryPrice&quot;);' class='form-control'>";
+                            echo "<input type='text' id='deliveryPrice".$i."' name='deliveryPrice' class='form-control'>";
                             echo "</td>";
 
-                            echo "<td>";
+                            echo "<td id='totalPrice".$i."'>";
                             echo "</td>";
 
                             echo "<td>";
@@ -134,12 +135,12 @@
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo "<input type='text' id='nameAnimal' name='nameAnimal' class='form-control nameAnimal' value='".$diary->client->nameAnimal."' rezadonly>";
+                                echo "<input type='text' id='nameAnimal' name='nameAnimal' class='form-control nameAnimal' value='".$diary->client->nameAnimal."' readonly>";
                                 echo "</td>";
 
                                 echo "<td>";
                                 echo $diary->client->breed->nameBreed;
-                                //echo "<input type='text' id='breed".$i."_".$j."' name='breed' class='form-control' value='".$diary->client->breed->nameBreed."' rezadonly>";
+                                //echo "<input type='text' id='breed".$i."_".$j."' name='breed' class='form-control' value='".$diary->client->breed->nameBreed."' readonly>";
                                 echo "</td>";
                                 echo "</td>";
 
@@ -149,9 +150,9 @@
 
                                 echo "<td>";
                                 if($diary->search == 1){
-                                    echo"<input type='checkbox' id='search' name='search' value='1' class='form-control' checked>";
+                                    echo"<input type='checkbox' id='search' name='search' value='1' class='form-control' disabled checked>";
                                 }else{
-                                    echo"<input type='checkbox' id='search' name='search' value='1' class='form-control'>";
+                                    echo"<input type='checkbox' id='search' name='search' value='1' class='form-control' disabled>";
                                 }
                                 echo "</td>";
 
@@ -206,6 +207,11 @@
     </body>
 </html>
 <script>
+    function selectValuation(idService,idField){
+        var url = "ajax/completeValuation.php?idService=" + idService + "&idField=" + idField; 
+        ajaxValuation(url);
+    }
+
     function completeField(idClient, idField){
         var url = "ajax/completeFull.php?idClient=" + idClient + "&idField=" + idField; 
         ajax(url);
