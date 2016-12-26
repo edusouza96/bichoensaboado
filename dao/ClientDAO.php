@@ -139,17 +139,16 @@ class ClientDAO {
 
       public function SearchOwner($nameAnimal) {
           try {
-              $sql = "SELECT * FROM client WHERE nameAnimal =  :nameAnimal ";
+              $sql = "SELECT * FROM client WHERE nameAnimal = :nameAnimal ";
               $p_sql = Conexao::getInstance()->prepare($sql);              
               $p_sql->bindValue(":nameAnimal", $nameAnimal);
               $p_sql->execute();
-              $list = ($p_sql->fetchAll(PDO::FETCH_ASSOC));
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
               $f_list = array();
    
-              foreach ($list as $row){
-                  $obj = $this->ShowObject($row);
-                  $f_list[] = array('idCliente' => $obj->idClient ,'owner' => $obj->owner);
-              }
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
               return $f_list;
           } catch (Exception $e) {
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";

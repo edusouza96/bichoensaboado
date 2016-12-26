@@ -8,6 +8,7 @@ class DiaryClass{
     private $deliveryPrice;
     private $totalPrice;
     private $dateHour;
+    private $status;
 
     function __construct(){
         //

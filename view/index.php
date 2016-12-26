@@ -20,16 +20,8 @@
         <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
         <script language="javascript" src="../js/ajax.js"></script>
-        <script>
-            $(function(){
-                $(".nameAnimal").autocomplete({
-                    source: <?php 
-                                echo json_encode($clientDao->SearchName());
-                            ?>
-                });
-            });
-        </script>
-       
+        <script language="javascript" src="../js/functionsDiary.js"></script>
+        
     </head>
     <body>
         <div class="jumbotron"> 
@@ -62,27 +54,18 @@
                         if(empty($diaryList)){
                             echo "<tr onClick='positionRow(this);'>";
 
-                            echo "<td onClick='addRow(&quot;".$hour."&quot;);'>";
+                            echo "<td id='hour".$i."' onClick='addRow(&quot;".$hour."&quot; , &quot;".$date."&quot;);'>";
                             echo $hour;
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='text' id='nameAnimal".$i."' name='nameAnimal' class='form-control nameAnimal'>";
+                            echo "<input type='text' id='nameAnimal".$i."' name='nameAnimal' onKeyPress='completeNameAnimal();' onBlur='selectOwner(this.value,".$i.");' class='form-control nameAnimal'>";
                             echo "</td>";
 
                             echo "<td id='breed".$i."'>";
                             echo "</td>";
 
-                            echo "<td>";
-                            echo "<select id='owner".$i."' name='owner' onClick='removeOption(".$i.");' onChange='completeField(this.value,".$i.");' class='form-control'>";
-                            echo "<option value='0'>-- Selecione --</option>";
-                            foreach($clientList as $client){
-                                $value = $client->idClient."_".$client->nameAnimal;
-                                echo "<option value='".$value."'>";
-                                echo $client->owner;
-                                echo "</option>";
-                            }
-                            echo "</select>";
+                            echo "<td id='ownerTD".$i."'>";
                             echo "</td>";
 
                             echo "<td>";
@@ -102,35 +85,32 @@
                             echo "</td>";
                             
                             echo "<td id='service".$i."'>";
-
                             echo "</td>";
 
-                            echo "<td>";
-                            echo "<input type='text' id='price".$i."' name='price' class='form-control'>";
+                            echo "<td id='price".$i."'>";
+                            // echo "<input type='text' id='price".$i."' name='price' class='form-control'>";
                             echo "</td>";
 
-                            echo "<td>";
-                            echo "<input type='text' id='deliveryPrice".$i."' name='deliveryPrice' class='form-control'>";
+                            echo "<td id='deliveryPrice".$i."'>";
+                            // echo "<input type='text' id='deliveryPrice".$i."' name='deliveryPrice' class='form-control'>";
                             echo "</td>";
 
                             echo "<td id='totalPrice".$i."'>";
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='button' id='save".$i."' value='Agendar'/>";
+                            echo "<input type='button' id='save".$i."' onClick='save(".$i.",&quot;".$date."&quot;)' value='Agendar'/>";
                             echo "</td>";
 
                             echo "</tr>";
                             
                         }else{
-                            //$j = 0;
                             foreach($diaryList as $diary){
-                                //$j++;
                                 echo "<tr onClick='positionRow(this);'>";
 
                                 $dHour = new DateTime($diary->dateHour);
                                 $dHourShow = $dHour->format('H:i');
-                                echo "<td onClick='addRow(&quot;".$dHourShow."&quot;);'>";
+                                echo "<td onClick='addRow(&quot;".$dHourShow."&quot; , &quot;".$date."&quot;);'>";
                                 echo $dHourShow;
                                 echo "</td>";
 
@@ -140,7 +120,6 @@
 
                                 echo "<td>";
                                 echo $diary->client->breed->nameBreed;
-                                //echo "<input type='text' id='breed".$i."_".$j."' name='breed' class='form-control' value='".$diary->client->breed->nameBreed."' readonly>";
                                 echo "</td>";
                                 echo "</td>";
 
@@ -189,8 +168,12 @@
                                 echo $diary->totalPrice;
                                 echo "</td>";
 
-                                echo "<td>";
-                                echo "<input type='button' value='Finalizar'/>";
+                                echo "<td id='status".$diary->idDiary."' >";
+                                if($diary->status == 1){
+                                    echo "Finalizado";
+                                }else{
+                                    echo "<input type='button' onClick='finish(".$diary->idDiary.");' value='Finalizar'/>";
+                                }
                                 echo "</td>";
 
                                 echo "</tr>";
@@ -207,75 +190,11 @@
     </body>
 </html>
 <script>
-    function selectValuation(idService,idField){
-        var url = "ajax/completeValuation.php?idService=" + idService + "&idField=" + idField; 
-        ajaxValuation(url);
-    }
-
-    function completeField(idClient, idField){
-        var url = "ajax/completeFull.php?idClient=" + idClient + "&idField=" + idField; 
-        ajax(url);
-    }
-
-    function removeOption(id){
-        setTimeout(function () {
-            var select = document.getElementById('owner'+id);
-            var nameAnimal = document.getElementById('nameAnimal'+id).value;
-            if(nameAnimal != ''){
-                for (i = 1; i < select.length; i++) {
-                    var selectValue = select.options[i].value;
-                    var selectValueArray = selectValue.split("_");
-                    if(nameAnimal != selectValueArray[1]){
-                        select.remove(i);
-                    }
-                
-                }    
-            }
-            
-        }, 1000)
-
-    }
-    
-    function addRow(hour){
-        setTimeout(function () {
-            var pRow = window.sessionStorage.getItem('pRow');
-            var table=document.getElementById('tableDiary');
-            var row=table.insertRow(pRow);
-            var id = (table.rows.length);
-            var colCount=table.rows[0].cells.length;
-            row.setAttribute("onClick", "positionRow(this);");
-            for(var i=0;i<colCount;i++){
-                var newcell=row.insertCell(i);
-                
-                if (i == 0) {
-                    newcell.innerHTML = hour;
-                    newcell.setAttribute('onClick', "addRow('"+hour+"');");
-                }else if (i == 1){
-                    newcell.innerHTML = "<input type='text' id='nameAnimal"+id+"' name='nameAnimal' class='form-control nameAnimal'>";
-                }else if(i ==2){
-                    newcell.innerHTML = "<input type='text' id='breed"+id+"' name='breed' class='form-control'>";
-                }else if( i==4){
-                    newcell.innerHTML = "<input type='checkbox' id='search"+id+"' name='search' value='1' class='form-control'>";
-                } 
-
-            }
-        }, 1000)
-    }
-
-    function positionRow(pRow) {
-        window.sessionStorage.setItem('pRow', (pRow.rowIndex+=1));
-    }
-
-    function totalPrice(pValue,pText) {
-        setTimeout(function () {
-            var pRow = parseInt(window.sessionStorage.getItem('pRow')) -1;
-            var row=document.getElementById('tableDiary').getElementsByTagName("tr");
-            var cells = row[pRow].getElementsByTagName("td");
-            window.sessionStorage.setItem( pText+pRow, pValue);
-            var pPrice = window.sessionStorage.getItem('price'+pRow);
-            var pDeliveryPrice = window.sessionStorage.getItem('deliveryPrice'+pRow);
-            cells[12].innerHTML = parseFloat(pPrice) + parseFloat(pDeliveryPrice);
-        }, 1000)
-
+    function completeNameAnimal(){
+        $(".nameAnimal").autocomplete({
+            source: <?php 
+                        echo json_encode($clientDao->SearchName());
+                    ?>
+        });
     }
 </script>
