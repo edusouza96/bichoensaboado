@@ -136,8 +136,7 @@
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo $diary->client->address->street;
-                                echo "</br>N°".$diary->client->addressNumber;
+                                echo $diary->client->addressNumber;
                                 echo "</td>";
 
                                 echo "<td>";

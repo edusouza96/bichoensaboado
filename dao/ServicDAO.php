@@ -23,7 +23,7 @@ class ServicDAO {
                 breed_idBreed,
                 sizeAnimal,
                 valuation
-                VALUES (
+                )VALUES (
                 :nameServic,
                 :breed_idBreed,
                 :sizeAnimal,
@@ -39,7 +39,7 @@ class ServicDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+              print $e;//"Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    

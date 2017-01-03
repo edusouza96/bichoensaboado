@@ -23,20 +23,18 @@ class ClientDAO {
               $sql = "INSERT INTO client (    
                 owner,
                 nameAnimal,
-                breed,
-                address,
+                breed_idBreed,
+                address_idAddress,
                 addressNumber,
-                addressComplement,
                 phone1,
                 phone2,
                 email
-                VALUES (
+                )VALUES (
                 :owner,
                 :nameAnimal,
-                :breed,
-                :address,
+                :breed_idBreed,
+                :address_idAddress,
                 :addressNumber,
-                :addressComplement,
                 :phone1,
                 :phone2,
                 :email)";
@@ -48,7 +46,6 @@ class ClientDAO {
               $p_sql->bindValue(":breed_idBreed",     $client->breed);
               $p_sql->bindValue(":address_idAddress", $client->address);
               $p_sql->bindValue(":addressNumber",     $client->addressNumber);
-              $p_sql->bindValue(":addressComplement", $client->addressComplement);
               $p_sql->bindValue(":phone1",            $client->phone1);
               $p_sql->bindValue(":phone2",            $client->phone2);
               $p_sql->bindValue(":email",             $client->email);
@@ -56,7 +53,7 @@ class ClientDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+              print $e;///"Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
