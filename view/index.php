@@ -7,9 +7,9 @@
     $clientList = $clientDao->SearchAll(); 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="ISO 8895-1">
         <title>Agenda Pet</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,27 +19,27 @@
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" /> 
         <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-        <script language="javascript" src="../js/ajax.js"></script>
-        <script language="javascript" src="../js/functionsDiary.js"></script>
+        <script language="javascript" src="../js/ajax.js?v=2"></script>
+        <script language="javascript" src="../js/functionsDiary.js?v=2"></script>
         
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Hor√°rios</h2>
+            <h2>Hor·rios</h2>
         </div>
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Hora</th>
                     <th>Nome Animal</th>
-                    <th>Ra√ßa</th>
-                    <th>Propriet√°rio</th>
+                    <th>RaÁa</th>
+                    <th>Propriet·rio</th>
                     <th>Busca</th>
-                    <th>Endere√ßo</th>
+                    <th>EndereÁo</th>
                     <th>Bairro</th>
                     <th>Telefone 1</th>
                     <th>Telefone 2</th>
-                    <th>Servi√ßo</th>
+                    <th>ServiÁo</th>
                     <th>Valor</th>
                     <th>Taxa de Entrega</th>
                     <th>Total</th>
@@ -69,7 +69,7 @@
                             echo "</td>";
 
                             echo "<td>";
-                            echo "<input type='checkbox' id='search".$i."' name='search' value='1' class='form-control'>";
+                            echo "<input type='checkbox' id='search".$i."' onClick='deliveryChecked(this, ".$i.");' name='search' value='1' class='form-control'>";
                             echo "</td>";
 
                             echo "<td id='address".$i."'>";

@@ -37,12 +37,15 @@ function processReqChange() {
         option += '<option value='+optionFormat[0]+'>'+optionFormat[1]+'</option>';
       }
       breed.innerHTML = returnn[1];
-      address.innerHTML = returnn[4]+', '+returnn[3]+'\n'+returnn[2];
-      district.innerHTML = returnn[5];
+      addressValue = returnn[3]+'\n'+returnn[2];
+      address.innerHTML = '<input type="hidden" id="hiddenAddress'+idField+'" value="'+addressValue+'" >';
+      districtValue = returnn[5];
+      district.innerHTML = '<input type="hidden" id="hiddenDistrict'+idField+'" value="'+districtValue+'" >';
       phone1.innerHTML = returnn[6];
-      phone2.innerHTML = returnn[7];
+      phone2.innerHTML = returnn[7]; 
       service.innerHTML = '<select id="serviceSelect'+idField+'" name="service" onChange="selectValuation(this.value,'+idField+');" class="form-control">'+option+'</select>';
-      deliveryPrice.innerHTML = returnn[8];
+      deliveryPriceValue = returnn[8];
+      deliveryPrice.innerHTML = '<input type="hidden" id="hiddenDeliveryPrice'+idField+'" value="'+deliveryPriceValue+'" >';
       // deliveryPrice.value = returnn[8];
 
     } else{
@@ -52,7 +55,7 @@ function processReqChange() {
 }
 
 /**
- *Completa Valor do serviÃ§o
+ *Completa Valor do serviço
  */
 function ajaxValuation(url) {
   req = null;
@@ -80,10 +83,14 @@ function processReqValuation() {
       var price = document.getElementById("price"+idField);
       var deliveryPrice = document.getElementById("deliveryPrice"+idField);
       var totalPrice = document.getElementById("totalPrice"+idField);
-      
-      price.innerHTML = returnn[1];
-      totalPrice.innerHTML = parseFloat(deliveryPrice.innerHTML) + parseFloat(returnn[1]); 
-      
+      if(deliveryPrice.innerHTML.indexOf("hidden") == -1){
+        price.innerHTML = returnn[1];
+        totalPrice.innerHTML = parseFloat(deliveryPrice.innerHTML) + parseFloat(returnn[1]); 
+      }else{
+        price.innerHTML = returnn[1];
+        totalPrice.innerHTML = parseFloat(returnn[1]); 
+      }
+    
 
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -135,7 +142,7 @@ function processReqSelectOwner() {
 
 
 /**
- *Salva os dados e modifica a visualizaÃ§Ã£o da linha
+ *Salva os dados e modifica a visualização da linha
  */
 function ajaxSave(url) {
   req = null;
@@ -172,7 +179,7 @@ function processReqSave() {
 
 
 /**
- *Finaliza serviÃ§o
+ *Finaliza serviço
  */
 function ajaxFinish(url) {
   req = null;
@@ -196,10 +203,47 @@ function processReqFinish() {
     if (req.status ==200) {
       var returnn = req.responseText.split("|");
       if(parseInt(returnn[0])){
-        alert('ServiÃ§o Finalizado!');
+        alert('Serviço Finalizado!');
         document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Finalizado';
       }else{
         alert('Falha ao finalizar, tente novamente');
+      }
+    } else{
+      alert("Houve um problema ao obter os dados:n" + req.statusText);
+    }
+  }
+}
+
+
+/**
+ *Deletar Registros
+ */
+function ajaxDeleteRegister(url) {
+  req = null;
+  if (window.XMLHttpRequest) {
+    req = new XMLHttpRequest();
+    req.onreadystatechange = processReqDeleteRegister;
+    req.open("GET", url, true);
+    req.send(null);
+  } else if (window.ActiveXObject) {
+    req = new ActiveXObject("Microsoft.XMLHTTP");
+    if (req) {
+      req.onreadystatechange = processReqDeleteRegister;
+      req.open("GET", url, true);
+      req.send(null);
+    }
+  }
+}
+
+function processReqDeleteRegister() {
+  if (req.readyState == 4) {
+    if (req.status == 200) {
+      var returnn = req.responseText;
+      if(returnn){
+        alert('Registro Excluido!');
+        location.reload();
+      }else{
+        alert('Falha ao Excluir Registro, Tente Novamente');
       }
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);

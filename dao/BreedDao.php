@@ -20,16 +20,16 @@ class BreedDAO {
           try {
               $sql = "INSERT INTO breed (    
                 nameBreed
-                VALUES (
+                )VALUES (
                 :nameBreed)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-              $p_sql->bindValue(":nameBreed",  $breed->district);
+              $p_sql->bindValue(":nameBreed",  $breed->nameBreed);
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -46,7 +46,7 @@ class BreedDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
       

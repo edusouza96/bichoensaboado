@@ -22,7 +22,7 @@ class AddressDAO {
                 district,
                 street,
                 valuation
-                VALUES (
+                )VALUES (
                 :district,
                 :street,
                 :valuation)";
@@ -36,7 +36,7 @@ class AddressDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -45,18 +45,19 @@ class AddressDAO {
               $sql = "UPDATE address set
                         district  = :district,
                         street    = :street,
+                        valuation = :valuation
                     WHERE idAddress = :idAddress";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":idAddress", $address->idAddress);
-                $p_sql->bindValue(":district",$address->district);
+              $p_sql->bindValue(":district",$address->district);
               $p_sql->bindValue(":street",    $address->street);
               $p_sql->bindValue(":valuation", $address->valuation);
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
       

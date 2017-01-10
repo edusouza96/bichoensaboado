@@ -1,3 +1,22 @@
+    function deliveryChecked(search, idField){
+        var fieldAddress = document.getElementById('address'+idField);
+        var fieldDistrict = document.getElementById('district'+idField);
+        var fieldDeliveryPrice = document.getElementById('deliveryPrice'+idField);
+        if(search.checked){
+            var fieldAddressHidden = document.getElementById('hiddenAddress'+idField).value;
+            var fieldDistrictHidden = document.getElementById('hiddenDistrict'+idField).value;
+            var fieldDeliveryPriceHidden = document.getElementById('hiddenDeliveryPrice'+idField).value;
+            fieldAddress.innerHTML = fieldAddressHidden;
+            fieldDistrict.innerHTML = fieldDistrictHidden;
+            fieldDeliveryPrice.innerHTML = fieldDeliveryPriceHidden;
+        }else{
+            fieldAddress.innerHTML = '<input type="hidden" id="hiddenAddress'+idField+'" value="'+fieldAddress.innerHTML+'" >';
+            fieldDistrict.innerHTML = '<input type="hidden" id="hiddenDistrict'+idField+'" value="'+fieldDistrict.innerHTML+'" >';
+            fieldDeliveryPrice.innerHTML = '<input type="hidden" id="hiddenDeliveryPrice'+idField+'" value="'+fieldDeliveryPrice.innerHTML+'" >';
+        }
+
+    }
+
     function finish(idDiary){
         var url = "ajax/finish.php?idDiary=" + idDiary; 
         ajaxFinish(url);
@@ -14,7 +33,7 @@
         }
         var price = document.getElementById('price'+idField).innerHTML;
         var deliveryPrice = document.getElementById('deliveryPrice'+idField).innerHTML;
-        var totalPrice = document.getElementById('totalPrice'+idField).innerHTML;
+        var totalPrice = parseFloat(price) + parseFloat(deliveryPrice);
         var hour = document.getElementById('hour'+idField).innerHTML;
         var dateHour = date+' '+hour;
         var paramSave = owner + '|' + service + '|' + search + '|' + price + '|' + deliveryPrice + '|' + totalPrice + '|' + dateHour;
@@ -61,7 +80,7 @@
                     newcell.setAttribute('id', 'ownerTD'+id);
                     // newcell.innerHTML = "<select id='owner"+id+"' name='owner'  onChange='completeField(this.value,"+id+");' class='form-control'><option value='0'>-- Selecione --</option>";
                 }else if( i == 4){
-                    newcell.innerHTML = "<input type='checkbox' id='search"+id+"' name='search' value='1' class='form-control'>";
+                    newcell.innerHTML = "<input type='checkbox' id='search"+id+"' onClick='deliveryChecked(this, "+id+");' name='search' value='1' class='form-control'>";
                 }else if( i == 5){
                     newcell.setAttribute('id', 'address'+id);   
                 }else if( i == 6){
