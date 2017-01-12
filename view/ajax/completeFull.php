@@ -26,7 +26,7 @@
                 'deliveryPrice' => $address->valuation
                 );
     foreach ($servicList as $servic) {
-      $list[] = $servic->idServic.'-'.$servic->nameServic;
+      $list[] = $servic->idServic.'|'.$servic->nameServic;
     }
    echo implode(',' , $list);
 

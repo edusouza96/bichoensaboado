@@ -19,12 +19,13 @@
     // $x = $clientDao->Insert($client);
     // echo $x;
     
-    include_once($path."/bichoensaboado/dao/DiaryDAO.php");
-    include_once($path."/bichoensaboado/class/DiaryClass.php");
-    $diaryDao = new DiaryDAO();
-    $clientDao = new ClientDAO();
-    $clientList = $clientDao->SearchAll(); 
-    echo '<pre>';
-    print_r($clientList);
-    echo '</pre>';
+    // include_once($path."/bichoensaboado/dao/DiaryDAO.php");
+    // include_once($path."/bichoensaboado/class/DiaryClass.php");
+    // $diaryDao = new DiaryDAO();
+    // $clientDao = new ClientDAO();
+    // $clientList = $clientDao->SearchAll(); 
+    // echo '<pre>';
+    // print_r($clientList);
+    // echo '</pre>';
+    
 ?>

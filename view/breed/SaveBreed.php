@@ -21,6 +21,10 @@
         <div class="jumbotron">
             <h2>Raça</h2>
         </div>
+        <?php
+            include_once($path."/bichoensaboado/view/inc/inc.php");
+        ?>
+        
         <form action="../../controller/Manager.php" method="POST">
             <input type="hidden" name="module" value="breed"> 
             <input type="hidden" name="idBreed" value="<?=$idBreed?>" > 

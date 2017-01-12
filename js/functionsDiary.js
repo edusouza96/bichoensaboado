@@ -17,8 +17,8 @@
 
     }
 
-    function finish(idDiary){
-        var url = "ajax/finish.php?idDiary=" + idDiary; 
+    function finish(idDiary,status){
+        var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
         ajaxFinish(url);
     }
 
@@ -33,6 +33,9 @@
         }
         var price = document.getElementById('price'+idField).innerHTML;
         var deliveryPrice = document.getElementById('deliveryPrice'+idField).innerHTML;
+        if(isNaN(deliveryPrice)){
+            deliveryPrice = 0;
+        }
         var totalPrice = parseFloat(price) + parseFloat(deliveryPrice);
         var hour = document.getElementById('hour'+idField).innerHTML;
         var dateHour = date+' '+hour;

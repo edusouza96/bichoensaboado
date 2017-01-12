@@ -1,5 +1,6 @@
 <?php
     $date = $_GET['date'];
+    $path = $_SERVER['DOCUMENT_ROOT']; 
     date_default_timezone_set('America/Sao_Paulo');
     include_once("../dao/DiaryDAO.php");
     $diaryDao = new DiaryDAO();
@@ -19,14 +20,17 @@
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" /> 
         <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-        <script language="javascript" src="../js/ajax.js?v=2"></script>
-        <script language="javascript" src="../js/functionsDiary.js?v=2"></script>
+        <script language="javascript" src="../js/ajax.js?v=<?=rand(100, 500)?>"></script>
+        <script language="javascript" src="../js/functionsDiary.js?v=<?=rand(100, 500)?>"></script>
         
     </head>
     <body>
         <div class="jumbotron"> 
             <h2>Horários</h2>
         </div>
+        <?php
+            include_once($path."/bichoensaboado/view/inc/inc.php");
+        ?>
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
@@ -106,7 +110,17 @@
                             
                         }else{
                             foreach($diaryList as $diary){
-                                echo "<tr onClick='positionRow(this);'>";
+                                $bgColor = '';
+                                if($diary->status == 2){
+                                    $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
+                                }else if($diary->status == -1){                                                                        $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
+                                    $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
+                                }else if($diary->status == 1){
+                                    $bgColor = "style='background: rgba(24,202,39,0.6);'";
+                                }else if($diary->status == 0){
+                                    $bgColor = "style='background: rgba(222,217,8,0.6);'";
+                                }
+                                echo "<tr ".$bgColor." id='tr".$diary->idDiary."' onClick='positionRow(this);'>";
 
                                 $dHour = new DateTime($diary->dateHour);
                                 $dHourShow = $dHour->format('H:i');
@@ -136,11 +150,13 @@
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo $diary->client->addressNumber;
+                                if($diary->search == 1)
+                                    echo $diary->client->addressNumber;
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo $diary->client->address->district;
+                                if($diary->search == 1)
+                                    echo $diary->client->address->district;
                                 echo "</td>";
 
                                 echo "<td>";
@@ -168,10 +184,15 @@
                                 echo "</td>";
 
                                 echo "<td id='status".$diary->idDiary."' >";
-                                if($diary->status == 1){
+                                if($diary->status == 2){
                                     echo "Finalizado";
-                                }else{
-                                    echo "<input type='button' onClick='finish(".$diary->idDiary.");' value='Finalizar'/>";
+                                }else if($diary->status == -1){
+                                    echo "Cancelado";
+                                }else if($diary->status == 1){
+                                    echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";                                
+                                }else if($diary->status == 0){
+                                    echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
+                                    echo "<input type='button' onClick='finish(".$diary->idDiary.", -1);' value='Cancelar'/>";
                                 }
                                 echo "</td>";
 

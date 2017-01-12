@@ -55,19 +55,20 @@ class DiaryDAO {
       }
    
 
-      public function UpdateStatus($idDiary) {
+      public function UpdateStatus($idDiary,$status) {
           try {
               $sql = "UPDATE diary set
-                        status          = 1
+                        status = :status
                     WHERE idDiary = :idDiary";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
+              $p_sql->bindValue(":status", $status);
               $p_sql->bindValue(":idDiary", $idDiary);
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
       

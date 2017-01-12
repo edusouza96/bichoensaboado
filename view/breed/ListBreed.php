@@ -17,6 +17,12 @@
         <div class="jumbotron"> 
             <h2>Raças</h2>
         </div>
+        <?php
+            include_once($path."/bichoensaboado/view/inc/inc.php");
+        ?>
+        <a href="SaveBreed.php" class='btn btn-success btn-sm'style="margin-top: -5.5%;float: right;">
+            <span class='glyphicon glyphicon-plus'></span> Adicionar
+        </a>
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>

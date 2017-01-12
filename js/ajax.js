@@ -33,7 +33,7 @@ function processReqChange() {
       var deliveryPrice = document.getElementById("deliveryPrice"+idField);
       var option = '<option value>-- Selecione --</option>';
       for(var i=9; i<returnn.length; i++){
-        var optionFormat = returnn[i].split("-");
+        var optionFormat = returnn[i].split("|");
         option += '<option value='+optionFormat[0]+'>'+optionFormat[1]+'</option>';
       }
       breed.innerHTML = returnn[1];
@@ -203,10 +203,23 @@ function processReqFinish() {
     if (req.status ==200) {
       var returnn = req.responseText.split("|");
       if(parseInt(returnn[0])){
-        alert('Serviço Finalizado!');
-        document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Finalizado';
+        if(parseInt(returnn[2]) == 2){
+          alert('Serviço Finalizado!');
+          document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Finalizado';
+          document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
+          
+        }else if(parseInt(returnn[2]) == 1){
+          alert('Check-in feito!');
+          document.getElementById('status'+parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish("+returnn[1]+",2);' value='Finalizar'/>";
+          document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
+        }else if(parseInt(returnn[2]) == - 1){
+         alert('Serviço Cancelado!');
+         document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
+         document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
+        }
+        
       }else{
-        alert('Falha ao finalizar, tente novamente');
+        alert('Falha, tente novamente');
       }
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
