@@ -39,6 +39,20 @@
                     </div><!-- end div name Servic-->
                 </div><!-- end div line name servic-->
 
+                <div class="row"> <!--div line package-->
+                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div package-->
+                        <div class="form-group"> 
+                            <label for="package">Pacote</label>
+                            <select id="package" name="package" class="form-control">
+                                <option value="0">Não</option>
+                                <option value="1">15 Dias</option>
+                                <option value="2">30 Dias</option>
+                            </select>
+                        </div>
+                    </div> <!-- end div package-->
+                </div><!-- end div line package-->
+
+
                 <div class="row"> <!--div line breed-->
                     <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div breed-->
                         <div class="form-group"> 

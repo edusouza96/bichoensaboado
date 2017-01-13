@@ -23,12 +23,14 @@ class ServicDAO {
                 nameServic,
                 breed_idBreed,
                 sizeAnimal,
-                valuation
+                valuation,
+                package
                 )VALUES (
                 :nameServic,
                 :breed_idBreed,
                 :sizeAnimal,
-                :valuation)";
+                :valuation,
+                :package)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -36,7 +38,7 @@ class ServicDAO {
               $p_sql->bindValue(":breed_idBreed",    $servic->breed);
               $p_sql->bindValue(":sizeAnimal",    $servic->sizeAnimal);
               $p_sql->bindValue(":valuation", $servic->valuation);
-   
+              $p_sql->bindValue(":package", $servic->package);
    
               return $p_sql->execute();
           } catch (Exception $e) {
@@ -49,7 +51,8 @@ class ServicDAO {
               $sql = "UPDATE servic set
                         nameServic    = :nameServic,
                         breed_idBreed = :breed_idBreed,
-                        valuation     = :valuation
+                        valuation     = :valuation,
+                        package       = :package
                     WHERE idServic = :idServic";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
@@ -57,6 +60,7 @@ class ServicDAO {
               $p_sql->bindValue(":nameServic",  $servic->nameServic);
               $p_sql->bindValue(":breed_idBreed",    $servic->breed);
               $p_sql->bindValue(":valuation", $servic->valuation);
+              $p_sql->bindValue(":package", $servic->package);
    
               return $p_sql->execute();
           } catch (Exception $e) {
@@ -72,7 +76,7 @@ class ServicDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -132,6 +136,7 @@ class ServicDAO {
         $servic->breed = BreedDAO::getInstance()->SearchId($row['breed_idBreed']);
         $servic->sizeAnimal = $row['sizeAnimal'];
         $servic->valuation =$row['valuation'];
+        $servic->package =$row['package'];
         return $servic;
       }
    

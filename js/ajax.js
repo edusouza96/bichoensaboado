@@ -21,7 +21,7 @@ function ajax(url) {
 function processReqChange() {
   if (req.readyState == 4) {
     if (req.status ==200) {
-      var returnn = req.responseText.split(",");
+      var returnn = req.responseText.split("||");
       var idField = parseInt(returnn[0]);
       
       var breed = document.getElementById("breed"+idField);

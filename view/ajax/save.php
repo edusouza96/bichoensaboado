@@ -6,9 +6,14 @@
 
   include_once($path."/bichoensaboado/dao/DiaryDAO.php");
   include_once($path."/bichoensaboado/class/DiaryClass.php");
-  
+  include_once($path."/bichoensaboado/dao/ServicDAO.php");
+
   $paramDiary = explode('|', $paramSave);
-  if($paramDiary[1] == -1){
+
+  $servicDao = new ServicDAO();
+  $servic = $servicDao->SearchId($paramDiary[1]);
+  
+  if($servic->package == 2){
     for($i=0; $i<4; $i++){
        
       $diary = new DiaryClass();
@@ -29,7 +34,7 @@
       $diaryDao = new DiaryDAO();
       $response = $diaryDao->Insert($diary);
     }
-  }else if($paramDiary[1] == -2){
+  }else if($servic->package == 1){
     for($i=0; $i<2; $i++){
        
       $diary = new DiaryClass();
@@ -50,7 +55,7 @@
       $diaryDao = new DiaryDAO();
       $response = $diaryDao->Insert($diary);
     }
-  }else if($paramDiary[1] > 0){
+  }else if($servic->package == 0){
       $diary = new DiaryClass();
       $diary->DiaryClass(0
                         , $paramDiary[0]

@@ -5,17 +5,19 @@ class ServicClass{
     private $breed;
     private $sizeAnimal;
     private $valuation;
+    private $package;
 
     function __construct(){
         //
     }
 
-    function ServicClass($idServic, $nameServic, $breed, $sizeAnimal, $valuation){
+    function ServicClass($idServic, $nameServic, $breed, $sizeAnimal, $valuation, $package){
          $this->idServic = $idServic;
          $this->nameServic = $nameServic;
          $this->breed = $breed;
          $this->sizeAnimal = $sizeAnimal;
          $this->valuation = $valuation;
+         $this->package = $package;
     }
 
      public function __get($property) {
