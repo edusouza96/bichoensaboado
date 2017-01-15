@@ -21,6 +21,7 @@
         <meta charset="ISO 8895-1">
         <title>Cadastro de Clientes</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
     </head>
     <body>
         <div class="jumbotron">

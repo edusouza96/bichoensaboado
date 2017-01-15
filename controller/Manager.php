@@ -56,7 +56,8 @@
             if($breedClass->idBreed != 0){
                 $breedDao->Update($breedClass);
             }else{
-                $breedDao->Insert($breedClass);
+                $idBreed = $breedDao->Insert($breedClass);
+                $servicDao->InsertDefaultBreed($idBreed);
             }
             break;
 

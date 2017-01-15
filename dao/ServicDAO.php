@@ -16,7 +16,26 @@ class ServicDAO {
    
           return self::$instance;
       }
+     
+      public function InsertDefaultBreed($idBreed) {
+          try {
+              $sql = "INSERT INTO servic (nameServic,breed_idBreed,sizeAnimal,valuation,package)
+                VALUES 
+                ('Banho', :breed_idBreed, 0, 20, 0),
+                ('Banho+Higienica', :breed_idBreed, 0, 30, 0),
+                ('Banho+Tosa', :breed_idBreed, 0, 40, 0),
+                ('Pacote 15', :breed_idBreed, 0, 100, 1),
+                ('Pacote 30', :breed_idBreed, 0, 150, 2);";
    
+              $p_sql = Conexao::getInstance()->prepare($sql);
+              $p_sql->bindValue(":breed_idBreed",    $idBreed);
+   
+              return $p_sql->execute();
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+
       public function Insert(ServicClass $servic) {
           try {
               $sql = "INSERT INTO servic (    

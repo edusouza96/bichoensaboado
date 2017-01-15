@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <script language="javascript" src="../../js/ajax.js?v=2"></script>
         <script language="javascript" src="../../js/functionsModules.js?v=2"></script>
+        <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
     </head>
     <body>
         <div class="jumbotron"> 

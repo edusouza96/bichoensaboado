@@ -8,7 +8,9 @@
   
   $diaryDao = new DiaryDAO();
   $response = $diaryDao->UpdateStatus($idDiary,$status);
-
+  if($status == -1){
+    $response = $diaryDao->Delete($idDiary);
+  }
   echo $response."|".$idDiary."|".$status;    
 ?>
 

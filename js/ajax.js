@@ -214,8 +214,9 @@ function processReqFinish() {
           document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
         }else if(parseInt(returnn[2]) == - 1){
          alert('Serviço Cancelado!');
-         document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
-         document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
+         location.reload();
+        //  document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
+        //  document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
         }
         
       }else{

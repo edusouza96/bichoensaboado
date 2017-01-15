@@ -18,31 +18,45 @@
     }
 
     function finish(idDiary,status){
-        var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
-        ajaxFinish(url);
+        if(status == -1){
+            if(prompt("Senha") == '4518'){
+                var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
+                ajaxFinish(url);
+            }
+        }else{
+            var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
+            ajaxFinish(url);
+        }
     }
 
     function save(idField, date){
+        var service = document.getElementById('serviceSelect'+idField).value;            
         var owner = document.getElementById('owner'+idField).value;
-        var service = document.getElementById('serviceSelect'+idField).value;
-        var search = document.getElementById('search'+idField).checked;
-        if(search == true){
-            search = 1;
+
+        if(service == 0){
+            alert("Selecione um Serviço");
+        }else if(owner == 0){
+            alert("Selecione um Proprietario");
         }else{
-            search = 0;
+            var search = document.getElementById('search'+idField).checked;
+            if(search == true){
+                search = 1;
+            }else{
+                search = 0;
+            }
+            var price = document.getElementById('price'+idField).innerHTML;
+            var deliveryPrice = document.getElementById('deliveryPrice'+idField).innerHTML;
+            if(isNaN(deliveryPrice)){
+                deliveryPrice = 0;
+            }
+            var totalPrice = parseFloat(price) + parseFloat(deliveryPrice);
+            var hour = document.getElementById('hour'+idField).innerHTML;
+            var dateHour = date+' '+hour;
+            var paramSave = owner + '|' + service + '|' + search + '|' + price + '|' + deliveryPrice + '|' + totalPrice + '|' + dateHour;
+            var url = "ajax/save.php?paramSave=" + paramSave + "&idField=" + idField; 
+            // console.log(url);
+            ajaxSave(url);
         }
-        var price = document.getElementById('price'+idField).innerHTML;
-        var deliveryPrice = document.getElementById('deliveryPrice'+idField).innerHTML;
-        if(isNaN(deliveryPrice)){
-            deliveryPrice = 0;
-        }
-        var totalPrice = parseFloat(price) + parseFloat(deliveryPrice);
-        var hour = document.getElementById('hour'+idField).innerHTML;
-        var dateHour = date+' '+hour;
-        var paramSave = owner + '|' + service + '|' + search + '|' + price + '|' + deliveryPrice + '|' + totalPrice + '|' + dateHour;
-        var url = "ajax/save.php?paramSave=" + paramSave + "&idField=" + idField; 
-        // console.log(url);
-        ajaxSave(url);
     }
 
     function selectOwner(nameAnimal, idField){

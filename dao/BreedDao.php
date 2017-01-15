@@ -26,13 +26,13 @@ class BreedDAO {
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":nameBreed",  $breed->nameBreed);
-   
-              return $p_sql->execute();
+              $p_sql->execute();
+              return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+              print $e."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
-   
+     
       public function Update(BreedClass $breed) {
           try {
               $sql = "UPDATE breed set

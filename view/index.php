@@ -1,4 +1,18 @@
 <?php
+    if(empty($_GET['date'])){
+        function Redirect($url, $permanent = false)
+        {
+            if (headers_sent() === false)
+            {
+                header('Location: ' . $url, true, ($permanent === true) ? 301 : 302);
+            }
+
+            exit();
+        }
+
+        Redirect('http://localhost:8080/bichoensaboado/Calendar/', false);
+
+    }
     $date = $_GET['date'];
     $path = $_SERVER['DOCUMENT_ROOT']; 
     date_default_timezone_set('America/Sao_Paulo');
@@ -22,7 +36,7 @@
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
         <script language="javascript" src="../js/ajax.js?v=<?=rand(100, 500)?>"></script>
         <script language="javascript" src="../js/functionsDiary.js?v=<?=rand(100, 500)?>"></script>
-        
+        <link rel="stylesheet" href="../css/stylePages.css?v=<?=rand(100, 500)?>">
     </head>
     <body>
         <div class="jumbotron"> 

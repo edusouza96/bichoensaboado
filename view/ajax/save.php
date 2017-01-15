@@ -22,14 +22,17 @@
                         , $paramDiary[1]
                         , $paramDiary[2]
                         , $paramDiary[3]
-                        , $paramDiary[4]
-                        , $paramDiary[5]
+                        , ($paramDiary[4] * 4)
+                        , ($paramDiary[5] + ($paramDiary[4] * 3))
                         , $paramDiary[6]
                         );
       
       $paramDiary[6] = new DateTime($paramDiary[6]);
       $paramDiary[6]->add(new DateInterval('P7D'));
       $paramDiary[6]=$paramDiary[6]->format('Y-m-d H:i');
+      $paramDiary[5] = $i+2;
+      $paramDiary[3] = 0;
+      $paramDiary[4] = 0;
 
       $diaryDao = new DiaryDAO();
       $response = $diaryDao->Insert($diary);
@@ -43,14 +46,18 @@
                         , $paramDiary[1]
                         , $paramDiary[2]
                         , $paramDiary[3]
-                        , $paramDiary[4]
-                        , $paramDiary[5]
+                        , ($paramDiary[4] * 2)
+                        , ($paramDiary[5] + $paramDiary[4])
                         , $paramDiary[6]
                         );
       
       $paramDiary[6] = new DateTime($paramDiary[6]);
       $paramDiary[6]->add(new DateInterval('P14D'));
       $paramDiary[6]=$paramDiary[6]->format('Y-m-d H:i');
+
+      $paramDiary[5] = $i+2;
+      $paramDiary[3] = 0;
+      $paramDiary[4] = 0;
 
       $diaryDao = new DiaryDAO();
       $response = $diaryDao->Insert($diary);
