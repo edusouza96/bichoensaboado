@@ -124,6 +124,22 @@
                             
                         }else{
                             foreach($diaryList as $diary){
+                                $week = '';
+                                if($diary->package->idPackage > 0){
+                                    for($iPack = 1; $iPack<5; $iPack++){
+                                        $datePack = 'date'.$iPack;
+                                        $weekPack = 'week'.$iPack;
+                                        if($diary->dateHour == $diary->package->${'datePack'}){
+                                            $week = $diary->package->${'weekPack'};
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(!empty($week)){
+                                    $service = $diary->servic->nameServic.'<br>Banho '.$week;
+                                }else{
+                                    $service = $diary->servic->nameServic;
+                                }
                                 $bgColor = '';
                                 if($diary->status == 2){
                                     $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
@@ -182,7 +198,7 @@
                                 echo "</td>";
                                 
                                 echo "<td>";
-                                echo $diary->servic->nameServic;
+                                echo $service;
                                 echo "</td>";
 
                                 echo "<td>";

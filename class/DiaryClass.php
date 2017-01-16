@@ -9,12 +9,13 @@ class DiaryClass{
     private $totalPrice;
     private $dateHour;
     private $status;
+    private $package;
 
     function __construct(){
         //
     }
 
-    function DiaryClass($idDiary, $client, $servic, $search, $price, $deliveryPrice, $totalPrice, $dateHour){
+    function DiaryClass($idDiary, $client, $servic, $search, $price, $deliveryPrice, $totalPrice, $dateHour, $package){
          $this->idDiary = $idDiary;
          $this->client = $client;
          $this->servic = $servic;
@@ -23,6 +24,7 @@ class DiaryClass{
          $this->deliveryPrice = $deliveryPrice;
          $this->totalPrice = $totalPrice;
          $this->dateHour = $dateHour;
+         $this->package = $package;
     }
 
      public function __get($property) {

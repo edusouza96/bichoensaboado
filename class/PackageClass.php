@@ -1,5 +1,5 @@
 <?php
-class AddressClass{
+class PackageClass{
     private $idPackage;
     private $date1;
     private $week1;

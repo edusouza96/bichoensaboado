@@ -1,6 +1,10 @@
 <?php
-    $path = $_SERVER['DOCUMENT_ROOT']; 
-
+    // $path = $_SERVER['DOCUMENT_ROOT']; 
+    $arquivo = 'meu_arquivo.txt';
+    $html = '<p>Eu amo PHP.</p>';
+    $handle = fopen( $arquivo, 'a+' );
+    $ler = fwrite( $handle, $html );
+    fclose($handle);
     // include_once($path."/bichoensaboado/dao/BreedDAO.php");
     // include_once($path."/bichoensaboado/dao/ServicDAO.php");
     // include_once($path."/bichoensaboado/class/ServicClass.php");

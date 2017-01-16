@@ -9,6 +9,7 @@ class DiaryDAO {
           include_once($path."/bichoensaboado/class/DiaryClass.php");
           include_once($path."/bichoensaboado/dao/ClientDAO.php");
           include_once($path."/bichoensaboado/dao/ServicDAO.php");
+          include_once($path."/bichoensaboado/dao/PackageDAO.php");
       }
    
       public static function getInstance() {
@@ -27,7 +28,8 @@ class DiaryDAO {
                   price,
                   deliveryPrice,
                   totalPrice,
-                  dateHour)
+                  dateHour,
+                  package_idPackage)
                   VALUES (
                   :client_idClient,
                   :servic_idServic,
@@ -35,22 +37,22 @@ class DiaryDAO {
                   :price,
                   :deliveryPrice,
                   :totalPrice,
-                  :dateHour)";
+                  :dateHour,
+                  :package_idPackage)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-            //   $p_sql->bindValue(":client_idClient", $diary->client->idClient);
-            //   $p_sql->bindValue(":servic_idServic", $diary->servic->idServic);
-              $p_sql->bindValue(":client_idClient", $diary->client);
-              $p_sql->bindValue(":servic_idServic", $diary->servic);
-              $p_sql->bindValue(":search",          $diary->search);
-              $p_sql->bindValue(":price",           $diary->price);
-              $p_sql->bindValue(":deliveryPrice",   $diary->deliveryPrice);
-              $p_sql->bindValue(":totalPrice",      $diary->totalPrice);
-              $p_sql->bindValue(":dateHour",        $diary->dateHour);
+              $p_sql->bindValue(":client_idClient",  $diary->client);
+              $p_sql->bindValue(":servic_idServic",  $diary->servic);
+              $p_sql->bindValue(":search",           $diary->search);
+              $p_sql->bindValue(":price",            $diary->price);
+              $p_sql->bindValue(":deliveryPrice",    $diary->deliveryPrice);
+              $p_sql->bindValue(":totalPrice",       $diary->totalPrice);
+              $p_sql->bindValue(":dateHour",         $diary->dateHour);
+              $p_sql->bindValue(":package_idPackage",$diary->package);
              return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -76,30 +78,32 @@ class DiaryDAO {
       public function Update(DiaryClass $diary) {
           try {
               $sql = "UPDATE diary set
-                        client_idClient = :client_idClient,
-                        servic_idServic = :servic_idServic,
-                        search          = :search,
-                        price           = :price,
-                        deliveryPrice   = :deliveryPrice,
-                        totalPrice      = :totalPrice,
-                        dateHour        = :dateHour,
-                        status          = :status
+                        client_idClient   = :client_idClient,
+                        servic_idServic   = :servic_idServic,
+                        search            = :search,
+                        price             = :price,
+                        deliveryPrice     = :deliveryPrice,
+                        totalPrice        = :totalPrice,
+                        dateHour          = :dateHour,
+                        status            = :status,
+                        package_idPackage = :package
                     WHERE idDiary = :idDiary";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-              $p_sql->bindValue(":client_idClient", $diary->client);
-              $p_sql->bindValue(":servic_idServic", $diary->servic);
-              $p_sql->bindValue(":search",          $diary->search);
-              $p_sql->bindValue(":price",           $diary->price);
-              $p_sql->bindValue(":deliveryPrice",   $diary->deliveryPrice);
-              $p_sql->bindValue(":totalPrice",      $diary->totalPrice);
-              $p_sql->bindValue(":dateHour",        $diary->dateHour);
-              $p_sql->bindValue(":status",          $diary->status);
+              $p_sql->bindValue(":client_idClient",   $diary->client);
+              $p_sql->bindValue(":servic_idServic",   $diary->servic);
+              $p_sql->bindValue(":search",            $diary->search);
+              $p_sql->bindValue(":price",             $diary->price);
+              $p_sql->bindValue(":deliveryPrice",     $diary->deliveryPrice);
+              $p_sql->bindValue(":totalPrice",        $diary->totalPrice);
+              $p_sql->bindValue(":dateHour",          $diary->dateHour);
+              $p_sql->bindValue(":status",            $diary->status);
+              $p_sql->bindValue(":package_idPackage", $diary->package);
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
       
@@ -111,7 +115,7 @@ class DiaryDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -125,14 +129,14 @@ class DiaryDAO {
               $p_sql->execute();
               return $this->ShowObject($p_sql->fetch(PDO::FETCH_ASSOC));
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
      
       public function SearchAll() {
           try {
-              $sql = "SELECT * FROM diary order by dateHour";
+              $sql = "SELECT * FROM diary LEFT JOIN package ON ( package.idPackage = diary.package_idPackage ) order by dateHour";
               $result = Conexao::getInstance()->query($sql);
               $list = $result->fetchAll(PDO::FETCH_ASSOC);
               $f_list = array();
@@ -142,7 +146,7 @@ class DiaryDAO {
    
               return $f_list;
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -161,7 +165,7 @@ class DiaryDAO {
               return $f_list;
 
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
 
@@ -180,7 +184,7 @@ class DiaryDAO {
               return $f_list;
 
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
 
@@ -196,6 +200,7 @@ class DiaryDAO {
           $diary->totalPrice      = ($row['totalPrice']);
           $diary->dateHour        = ($row['dateHour']);
           $diary->status          = ($row['status']);
+          $diary->package          = PackageDAO::getInstance()->SearchId($row['package_idPackage']);
           return $diary;
       }
    
