@@ -86,20 +86,21 @@ class DiaryDAO {
                         totalPrice        = :totalPrice,
                         dateHour          = :dateHour,
                         status            = :status,
-                        package_idPackage = :package
+                        package_idPackage = :package_idPackage
                     WHERE idDiary = :idDiary";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-              $p_sql->bindValue(":client_idClient",   $diary->client);
-              $p_sql->bindValue(":servic_idServic",   $diary->servic);
+              $p_sql->bindValue(":client_idClient",   $diary->client->idClient);
+              $p_sql->bindValue(":servic_idServic",   $diary->servic->idServic);
               $p_sql->bindValue(":search",            $diary->search);
               $p_sql->bindValue(":price",             $diary->price);
               $p_sql->bindValue(":deliveryPrice",     $diary->deliveryPrice);
               $p_sql->bindValue(":totalPrice",        $diary->totalPrice);
               $p_sql->bindValue(":dateHour",          $diary->dateHour);
               $p_sql->bindValue(":status",            $diary->status);
-              $p_sql->bindValue(":package_idPackage", $diary->package);
+              $p_sql->bindValue(":package_idPackage", $diary->package->idPackage);
+              $p_sql->bindValue(":idDiary",           $diary->idDiary);
    
               return $p_sql->execute();
           } catch (Exception $e) {

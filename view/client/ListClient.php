@@ -1,10 +1,17 @@
 <?php
+    error_reporting(0);
     $path = $_SERVER['DOCUMENT_ROOT']; 
+    $search = $_POST['search'];
     include_once($path."/bichoensaboado/dao/ClientDAO.php");
     include_once($path."/bichoensaboado/dao/ServicDAO.php");
     include_once($path."/bichoensaboado/dao/AddressDAO.php");
     $clientDao = new ClientDAO();
-    $clientList = $clientDao->SearchAll();
+    if(empty($search)){
+        $clientList = $clientDao->SearchAll();
+    }else{
+        $clientList = $clientDao->SearchByName($search);
+    }
+    
     $servicDao = new ServicDAO();
     $servicList = $servicDao->SearchAll();
     $addressDao = new AddressDAO();
@@ -30,6 +37,18 @@
         <a href="SaveClient.php" class='btn btn-success btn-sm'style="margin-top: -5.5%;float: right;">
             <span class='glyphicon glyphicon-plus'></span> Adicionar
         </a>
+        <form role="form" method="POST">
+            <div class="form-group col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchBar" name="search" placeholder="Buscar" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-info" value="Buscar">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
@@ -47,7 +66,7 @@
             <tbody>
                 <?php
                     foreach($clientList as $client){
-                  
+                
                         echo "<td>";
                         echo $client->nameAnimal;
                         echo "</td>";
@@ -91,15 +110,14 @@
                         echo "<span class='glyphicon glyphicon-trash'></span>";
                         echo "</a>";
                         echo "</td>";
-                      
+                    
                         echo "</tr>";
                         
                     }
-                       
+                    
                 ?>
                 
             </tbody>
         </table>
-       
     </body>
 </html>

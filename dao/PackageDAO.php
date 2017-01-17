@@ -64,22 +64,22 @@ class PackageDAO {
                         date2 = :date2,
                         week2 = :week2,
                         date3 = :date3,
-                        week3 = :week3
+                        week3 = :week3,
                         date4 = :date4,
                         week4 = :week4
                     WHERE idPackage = :idPackage";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-              $p_sql->bindValue(":idPackage", $Package->idPackage);
-              $p_sql->bindValue(":date1", $Package->date1);
-              $p_sql->bindValue(":week1", $Package->week1);
-              $p_sql->bindValue(":date2", $Package->date2);
-              $p_sql->bindValue(":week2", $Package->week2);
-              $p_sql->bindValue(":date3", $Package->date3);
-              $p_sql->bindValue(":week3", $Package->week3);
-              $p_sql->bindValue(":date4", $Package->date4);
-              $p_sql->bindValue(":week4", $Package->week4);
+              $p_sql->bindValue(":idPackage", $package->idPackage);
+              $p_sql->bindValue(":date1", $package->date1);
+              $p_sql->bindValue(":week1", $package->week1);
+              $p_sql->bindValue(":date2", $package->date2);
+              $p_sql->bindValue(":week2", $package->week2);
+              $p_sql->bindValue(":date3", $package->date3);
+              $p_sql->bindValue(":week3", $package->week3);
+              $p_sql->bindValue(":date4", $package->date4);
+              $p_sql->bindValue(":week4", $package->week4);
    
               return $p_sql->execute();
           } catch (Exception $e) {

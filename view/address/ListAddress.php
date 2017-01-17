@@ -1,8 +1,15 @@
 <?php
+    error_reporting(0);
     $path = $_SERVER['DOCUMENT_ROOT']; 
+    $search = $_POST['search'];
     include_once($path."/bichoensaboado/dao/AddressDAO.php");
     $addressDao = new AddressDAO();
-    $addressList = $addressDao->SearchAll();
+    if(empty($search)){
+        $addressList = $addressDao->SearchAll();
+    }else{
+        $addressList = $addressDao->SearchByName($search);
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,6 +31,18 @@
         <a href="SaveAddress.php" class='btn btn-success btn-sm'style="margin-top: -5.5%;float: right;">
             <span class='glyphicon glyphicon-plus'></span> Adicionar
         </a>
+        <form role="form" method="POST">
+            <div class="form-group col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchBar" name="search" placeholder="Buscar" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-info" value="Buscar">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </form>
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>

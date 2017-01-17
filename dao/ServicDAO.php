@@ -99,7 +99,24 @@ class ServicDAO {
           }
       }
    
-      
+      public function SearchByName($name) {
+          try {
+              $sql = "SELECT * FROM servic LEFT JOIN breed ON(breed.idBreed = servic.breed_idBreed) WHERE nameServic LIKE :name OR nameBreed LIKE :name";
+              $p_sql = Conexao::getInstance()->prepare($sql);   
+              $name = '%'.$name.'%';           
+              $p_sql->bindParam(':name', $name, PDO::PARAM_STR);
+              $p_sql->execute();
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+              $f_list = array();
+   
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
+              return $f_list;
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
    
       public function SearchId($idServic) {
           try {

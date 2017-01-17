@@ -149,7 +149,7 @@
                 </div><!-- end div line email-->
 
                 <div class="row"> <!--div button-->
-                    <div class="col-xs-8 col-sm-8 col-lg-8 col-md-82">
+                    <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
                         <div class="form-group">
                             <button type="submit" class="btn btn-default">Salvar</button>
                         </div>

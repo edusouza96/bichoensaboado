@@ -143,7 +143,7 @@
                                 $bgColor = '';
                                 if($diary->status == 2){
                                     $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
-                                }else if($diary->status == -1){                                                                        $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
+                                }else if($diary->status == -1){                                                                        
                                     $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
                                 }else if($diary->status == 1){
                                     $bgColor = "style='background: rgba(24,202,39,0.6);'";
@@ -222,7 +222,9 @@
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";                                
                                 }else if($diary->status == 0){
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
-                                    echo "<input type='button' onClick='finish(".$diary->idDiary.", -1);' value='Cancelar'/>";
+                                    echo "<input type='button' onClick='teste(".$diary->idDiary.",&quot;".$date."&quot;,&quot;".$dHourShow."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
+                                    echo "<br><input type='button' onClick='finish(".$diary->idDiary.", -1);' value='Cancelar'/>";
+
                                 }
                                 echo "</td>";
 
@@ -233,6 +235,41 @@
                         $hour =  date('H:i', strtotime('+30 minute', strtotime($hour)));
                     }                        
                 ?>
+                 <!-- Modal -->
+                <div class="modal fade" id="modalEdit" role="dialog">
+                    <div class="modal-dialog">
+                    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Re-Agendar</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row"> <!--div line dateHour-->
+                                <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4"> <!--div date-->
+                                    <div class="form-group"> 
+                                        <label for="dateEdit">Data</label>
+                                        <input type="date" id="dateEdit" name="dateEdit" class="form-control" value>
+                                    </div>
+                                </div> <!-- end div date-->
+                                <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div hour-->
+                                    <div class="form-group"> 
+                                        <label for="hourEdit">Hora</label>
+                                        <input type="time" id="hourEdit" name="hourEdit" class="form-control" value>
+                                        <input type="hidden" id="idEdit" name="idEdit" class="form-control" value>
+                                    </div>
+                                </div> <!-- end div hour-->
+                            </div><!-- end div line dateHour-->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="update();">Salvar</button>                        
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
                 
             </tbody>
         </table>

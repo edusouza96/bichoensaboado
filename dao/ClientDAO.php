@@ -115,7 +115,7 @@ class ClientDAO {
               $p_sql->execute();
               return $this->ShowObject($p_sql->fetch(PDO::FETCH_ASSOC));
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -133,7 +133,7 @@ class ClientDAO {
               }
               return $f_list;
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
 
@@ -151,7 +151,26 @@ class ClientDAO {
    
               return $f_list;
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+
+      public function SearchByName($name) {
+          try {
+              $sql = "SELECT * FROM client WHERE nameAnimal LIKE :name OR  owner LIKE :name ";
+              $p_sql = Conexao::getInstance()->prepare($sql);   
+              $name = '%'.$name.'%';           
+              $p_sql->bindParam(':name', $name, PDO::PARAM_STR);
+              $p_sql->execute();
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+              $f_list = array();
+   
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
+              return $f_list;
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
 
@@ -167,7 +186,7 @@ class ClientDAO {
    
               return $f_list;
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    

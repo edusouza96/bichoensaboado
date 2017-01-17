@@ -127,3 +127,18 @@
     function positionRow(pRow) {
         window.sessionStorage.setItem('pRow', (pRow.rowIndex+=1));
     }
+
+    function teste(paramId, paramDate, paramHour){
+        document.getElementById('idEdit').value = paramId;
+        document.getElementById('dateEdit').value = paramDate;
+        document.getElementById('hourEdit').value = paramHour;
+    }
+
+    function update(){
+        var id = document.getElementById('idEdit').value;
+        var date = document.getElementById('dateEdit').value;
+        var hour = document.getElementById('hourEdit').value;
+        var dateHour = date+' '+hour;
+        var url = "ajax/update.php?idField=" + id + "&dateHour=" + dateHour; 
+        ajaxUpdate(url);
+    }

@@ -264,3 +264,40 @@ function processReqDeleteRegister() {
     }
   }
 }
+
+
+/**
+ *Atualizar Registros
+ */
+function ajaxUpdate(url) {
+  req = null;
+  if (window.XMLHttpRequest) {
+    req = new XMLHttpRequest();
+    req.onreadystatechange = processReqUpdate;
+    req.open("GET", url, true);
+    req.send(null);
+  } else if (window.ActiveXObject) {
+    req = new ActiveXObject("Microsoft.XMLHTTP");
+    if (req) {
+      req.onreadystatechange = processReqUpdate;
+      req.open("GET", url, true);
+      req.send(null);
+    }
+  }
+}
+
+function processReqUpdate() {
+  if (req.readyState == 4) {
+    if (req.status == 200) {
+      var returnn = req.responseText;
+      if(returnn){
+        alert('Registro Atualizado!');
+        location.reload();
+      }else{
+        alert('Falha ao Atualizar Registro, Tente Novamente');
+      }
+    } else{
+      alert("Houve um problema ao obter os dados:n" + req.statusText);
+    }
+  }
+}
