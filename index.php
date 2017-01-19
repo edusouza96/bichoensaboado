@@ -8,6 +8,9 @@ function Redirect($url, $permanent = false)
 
     exit();
 }
-
-//Redirect('http://localhost:8080/bichoensaboado/Calendar/', false);
+$path = $_SERVER['SERVER_NAME']; 
+if($path=='localhost'){
+    $path .=':8080';
+}
+Redirect('http://'.$path.'/bichoensaboado/Calendar/', false);
 ?>
