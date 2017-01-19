@@ -9,5 +9,5 @@ function Redirect($url, $permanent = false)
     exit();
 }
 
-Redirect('http://localhost:8080/bichoensaboado/Calendar/', false);
+//Redirect('http://localhost:8080/bichoensaboado/Calendar/', false);
 ?>
