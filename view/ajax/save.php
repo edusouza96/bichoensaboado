@@ -18,7 +18,7 @@
 
   $servicDao = new ServicDAO();
   $servic = $servicDao->SearchId($paramDiary[1]);
-  
+
   if($servic->package == 2){
     for($i=0; $i<4; $i++){
       $date = "date".($i+1);
@@ -106,12 +106,13 @@
                         , $paramDiary[4]
                         , $paramDiary[5]
                         , $paramDiary[6]
+                        , 0
                         );
       
       $diaryDao = new DiaryDAO();
       $response = $diaryDao->Insert($diary);
   }
- 
+
   echo $response;    
 ?>
 

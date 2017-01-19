@@ -20,6 +20,12 @@
     $diaryDao = new DiaryDAO();
     $clientDao = new ClientDAO();
     $clientList = $clientDao->SearchAll(); 
+    $addressDao = new AddressDAO();
+    $addressList = $addressDao->SearchAll();
+    $addressArray = array();
+    foreach ($addressList as $address) {
+        $addressArray[$address->idAddress] = $address->valuation;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -154,12 +160,12 @@
 
                                 $dHour = new DateTime($diary->dateHour);
                                 $dHourShow = $dHour->format('H:i');
-                                echo "<td onClick='addRow(&quot;".$dHourShow."&quot; , &quot;".$date."&quot;);'>";
+                                echo "<td id='hour_".$diary->idDiary."' onClick='addRow(&quot;".$dHourShow."&quot; , &quot;".$date."&quot;);'>";
                                 echo $dHourShow;
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo "<input type='text' id='nameAnimal' name='nameAnimal' class='form-control nameAnimal' value='".$diary->client->nameAnimal."' readonly>";
+                                echo "<input type='text' id='nameAnimal_".$diary->idDiary."' name='nameAnimal' class='form-control nameAnimal' value='".$diary->client->nameAnimal."' readonly>";
                                 echo "</td>";
 
                                 echo "<td>";
@@ -173,20 +179,24 @@
 
                                 echo "<td>";
                                 if($diary->search == 1){
-                                    echo"<input type='checkbox' id='search' name='search' value='1' class='form-control' disabled checked>";
+                                    echo"<input type='checkbox' id='search_".$diary->idDiary."' name='search' value='1' class='form-control' disabled checked>";
                                 }else{
-                                    echo"<input type='checkbox' id='search' name='search' value='1' class='form-control' disabled>";
+                                    echo"<input type='checkbox' id='search_".$diary->idDiary."' name='search' value='1' class='form-control' disabled>";
                                 }
                                 echo "</td>";
 
-                                echo "<td>";
+                                echo "<td id='tdAddress_".$diary->idDiary."'>";
                                 if($diary->search == 1)
                                     echo $diary->client->addressNumber;
+                                 else
+                                    echo "<input type='hidden' id='address_".$diary->idDiary."' value='".$diary->client->addressNumber."' >";
                                 echo "</td>";
 
-                                echo "<td>";
+                                echo "<td id='tdDistrict_".$diary->idDiary."'>";
                                 if($diary->search == 1)
                                     echo $diary->client->address->district;
+                                else
+                                    echo "<input type='hidden' id='district_".$diary->idDiary."' value='".$diary->client->address->district."' >";
                                 echo "</td>";
 
                                 echo "<td>";
@@ -205,8 +215,11 @@
                                 echo $diary->price;
                                 echo "</td>";
 
-                                echo "<td>";
-                                echo $diary->deliveryPrice;
+                                echo "<td id='tdDeliveryPrice_".$diary->idDiary."'>";
+                                if($diary->deliveryPrice > 0)
+                                    echo $diary->deliveryPrice;
+                                else
+                                    echo "<input type='hidden' id='deliveryPrice_".$diary->idDiary."' value='".$addressArray[$diary->client->address->idAddress]."' >";
                                 echo "</td>";
 
                                 echo "<td>";
@@ -222,9 +235,8 @@
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";                                
                                 }else if($diary->status == 0){
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
-                                    echo "<input type='button' onClick='teste(".$diary->idDiary.",&quot;".$date."&quot;,&quot;".$dHourShow."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
+                                    echo "<input type='button' onClick='activeFiedsForUpdate(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' value='Editar'/>";
                                     echo "<br><input type='button' onClick='finish(".$diary->idDiary.", -1);' value='Cancelar'/>";
-
                                 }
                                 echo "</td>";
 
@@ -235,41 +247,7 @@
                         $hour =  date('H:i', strtotime('+30 minute', strtotime($hour)));
                     }                        
                 ?>
-                 <!-- Modal -->
-                <div class="modal fade" id="modalEdit" role="dialog">
-                    <div class="modal-dialog">
-                    
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Re-Agendar</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row"> <!--div line dateHour-->
-                                <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4"> <!--div date-->
-                                    <div class="form-group"> 
-                                        <label for="dateEdit">Data</label>
-                                        <input type="date" id="dateEdit" name="dateEdit" class="form-control" value>
-                                    </div>
-                                </div> <!-- end div date-->
-                                <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div hour-->
-                                    <div class="form-group"> 
-                                        <label for="hourEdit">Hora</label>
-                                        <input type="time" id="hourEdit" name="hourEdit" class="form-control" value>
-                                        <input type="hidden" id="idEdit" name="idEdit" class="form-control" value>
-                                    </div>
-                                </div> <!-- end div hour-->
-                            </div><!-- end div line dateHour-->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="update();">Salvar</button>                        
-                        </div>
-                    </div>
-                    
-                    </div>
-                </div>
+                
                 
             </tbody>
         </table>

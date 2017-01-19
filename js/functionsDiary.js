@@ -128,10 +128,76 @@
         window.sessionStorage.setItem('pRow', (pRow.rowIndex+=1));
     }
 
-    function teste(paramId, paramDate, paramHour){
+    function modalEdit(paramId, paramDate, paramHour){
         document.getElementById('idEdit').value = paramId;
         document.getElementById('dateEdit').value = paramDate;
         document.getElementById('hourEdit').value = paramHour;
+    }
+
+    function activeFiedsForUpdate(idField, hour, date){
+        var search = document.getElementById('search_'+idField);
+        if(search.disabled){
+            search.disabled = false;
+        }else{
+            search.disabled = true;
+        }
+        search.setAttribute('onClick', "deliveryCheckedUpdate(this, "+idField+");");
+        document.getElementById('status'+idField).innerHTML = "<input type='button' value='Salvar' onClick='updateDiary("+idField+")'/>";
+        document.getElementById('hour_'+idField).innerHTML = "<input type='date' id='date_"+idField+"' value="+date+"><input type='time' id='time_"+idField+"' value="+hour+">";
+        document.getElementById('hour_'+idField).removeAttribute('onClick');
+      
+    }
+
+    function updateDiary(idField){
+        var msgError = '';
+        var date = document.getElementById('date_'+idField).value;
+        var time = document.getElementById('time_'+idField).value;
+        if(date == ''){
+            msgError += "Preencha a Data\n";
+        }
+        if(time == ''){
+            msgError += "Preencha o Horario\n";
+        }
+        if(time < '08:00' || time > '17:30'){
+            msgError += "Fora do Horario de expediente\n";
+        }
+        var dateHour = date+' '+time;
+        var search = document.getElementById('search_'+idField).checked;
+        var delivery = document.getElementById('tdDeliveryPrice_'+idField).innerHTML;
+        delivery = parseFloat(delivery);
+        if(search == true){
+            search = 1;
+        }else{
+            search = 0;
+        }
+        if(isNaN(delivery)){
+            delivery = 0;
+        }
+        if(msgError == ''){
+            var url = "ajax/update.php?idField=" + idField + "&dateHour=" + dateHour + "&search=" + search + "&deliveryPrice=" + delivery; 
+            ajaxUpdate(url);
+        }else{
+            alert(msgError);            
+        }
+    }
+
+    function deliveryCheckedUpdate(search, idField){
+        var fieldAddress = document.getElementById('tdAddress_'+idField);
+        var fieldDistrict = document.getElementById('tdDistrict_'+idField);
+        var fieldDeliveryPrice = document.getElementById('tdDeliveryPrice_'+idField);
+        if(search.checked){
+            var fieldAddressHidden = document.getElementById('address_'+idField).value;
+            var fieldDistrictHidden = document.getElementById('district_'+idField).value;
+            var fieldDeliveryPriceHidden = document.getElementById('deliveryPrice_'+idField).value;
+            fieldAddress.innerHTML = fieldAddressHidden;
+            fieldDistrict.innerHTML = fieldDistrictHidden;
+            fieldDeliveryPrice.innerHTML = fieldDeliveryPriceHidden;
+        }else{
+            fieldAddress.innerHTML = '<input type="hidden" id="address_'+idField+'" value="'+fieldAddress.innerHTML+'" >';
+            fieldDistrict.innerHTML = '<input type="hidden" id="district_'+idField+'" value="'+fieldDistrict.innerHTML+'" >';
+            fieldDeliveryPrice.innerHTML = '<input type="hidden" id="deliveryPrice_'+idField+'" value="'+fieldDeliveryPrice.innerHTML+'" >';
+        }
+
     }
 
     function update(){

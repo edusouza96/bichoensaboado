@@ -2,6 +2,9 @@
   date_default_timezone_set('America/Sao_Paulo');
   $dateHour = $_GET['dateHour'];
   $idField = $_GET['idField'];
+  $search = $_GET['search'];
+  $deliveryPrice = $_GET['deliveryPrice'];
+  
   $path = $_SERVER['DOCUMENT_ROOT']; 
 
   include_once($path."/bichoensaboado/dao/PackageDAO.php");
@@ -12,6 +15,10 @@
   $diary = $diaryDao->SearchId($idField);
   $dateHourOld = $diary->dateHour;
   $diary->dateHour = $dateHour;
+  $diary->search = $search;
+  $diary->deliveryPrice = $deliveryPrice;
+  $price = $diary->price;
+  $diary->totalPrice = $price + $deliveryPrice;
 
   $response = $diaryDao->Update($diary);
   if($diary->package->idPackage > 0){

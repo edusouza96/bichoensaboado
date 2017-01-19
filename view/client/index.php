@@ -8,9 +8,6 @@ function Redirect($url, $permanent = false)
 
     exit();
 }
-$path = $_SERVER['SERVER_NAME']; 
-if($path=='localhost'){
-    $path .=':8080';
-}
-Redirect('http://'.$path.'./bichoensaboado/view/client/ListClient.php', false);
+
+Redirect('http://localhost:8080/bichoensaboado/view/client/ListClient.php', false);
 ?>
