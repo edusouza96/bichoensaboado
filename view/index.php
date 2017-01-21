@@ -232,12 +232,12 @@
                                 }else if($diary->status == -1){
                                     echo "Cancelado";
                                 }else if($diary->status == 1){
-                                    echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";                                
+                                    echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";
+                                    echo "<input type='button' onClick='activeFiedsForUpdate(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' value='Editar'/>";
                                 }else if($diary->status == 0){
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
                                     echo "<input type='button' onClick='activeFiedsForUpdate(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' value='Editar'/>";
-                                    echo "<br><input type='button' onClick='finish(".$diary->idDiary.", -1);' value='Cancelar'/>";
-                                    echo "<input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Can'/>";
+                                    echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
                                 }
                                 echo "</td>";
 

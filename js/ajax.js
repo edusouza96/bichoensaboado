@@ -210,7 +210,7 @@ function processReqFinish() {
           
         }else if(parseInt(returnn[2]) == 1){
           alert('Check-in feito!');
-          document.getElementById('status'+parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish("+returnn[1]+",2);' value='Finalizar'/>";
+          document.getElementById('status'+parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish("+returnn[1]+",2);' value='Finalizar'/><input type='button' onClick='activeFiedsForUpdate("+returnn[1]+",&quot;"+returnn[3]+"&quot; , &quot;"+returnn[4]+"&quot;);' value='Editar'/>";
           document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
         }else if(parseInt(returnn[2]) == - 1){
          alert('Serviço Cancelado!');
