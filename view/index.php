@@ -237,6 +237,7 @@
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
                                     echo "<input type='button' onClick='activeFiedsForUpdate(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' value='Editar'/>";
                                     echo "<br><input type='button' onClick='finish(".$diary->idDiary.", -1);' value='Cancelar'/>";
+                                    echo "<input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Can'/>";
                                 }
                                 echo "</td>";
 
@@ -248,7 +249,34 @@
                     }                        
                 ?>
                 
-                
+                 <!-- Modal -->
+                <div class="modal fade" id="modalCanc" role="dialog">
+                    <div class="modal-dialog">
+                    
+                    <!-- Modal content-->
+                    <div class="modal-content" style="width: 50%;">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cancelar Banho</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row"> <!--div line password-->
+                                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
+                                    <div class="form-group"> 
+                                        <label for="password">Senha</label>
+                                        <input type="password" id="password" name="password" class="form-control" value>
+                                        <input type="hidden" id="idCanc" name="idCanc" class="form-control" value>
+                                    </div>
+                                </div> <!-- end div password-->
+                            </div><!-- end div line password-->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="finish(0,-1);">Confirmar</button>                        
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
             </tbody>
         </table>
        

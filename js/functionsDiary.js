@@ -19,10 +19,19 @@
 
     function finish(idDiary,status){
         if(status == -1){
-            if(prompt("Senha") == '4518'){
+            var password = document.getElementById('password').value; 
+            var idDiary = document.getElementById('idCanc').value;            
+             if(password == '4518'){
                 var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
                 ajaxFinish(url);
+            }else{
+                alert('Senha Incorreta!');
             }
+
+            // if(prompt("Senha") == '4518'){
+            //     var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
+            //     ajaxFinish(url);
+            // }
         }else{
             var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
             ajaxFinish(url);
@@ -207,4 +216,8 @@
         var dateHour = date+' '+hour;
         var url = "ajax/update.php?idField=" + id + "&dateHour=" + dateHour; 
         ajaxUpdate(url);
+    }
+
+    function canc(idField){
+        document.getElementById('idCanc').value = idField;
     }
