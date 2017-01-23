@@ -143,18 +143,25 @@
         document.getElementById('hourEdit').value = paramHour;
     }
 
-    function activeFiedsForUpdate(idField, hour, date){
-        var search = document.getElementById('search_'+idField);
-        if(search.disabled){
-            search.disabled = false;
-        }else{
-            search.disabled = true;
+    function activeFiedsForUpdate(){
+        var idField = document.getElementById('idEdit').value;
+        var date = document.getElementById('dateEdit').value;
+        var hour = document.getElementById('hourEdit').value;
+        var password = document.getElementById('password1').value;
+        if(password == 3098){
+            var search = document.getElementById('search_'+idField);
+            if(search.disabled){
+                search.disabled = false;
+            }else{
+                search.disabled = true;
+            }
+            search.setAttribute('onClick', "deliveryCheckedUpdate(this, "+idField+");");
+            document.getElementById('status'+idField).innerHTML = "<input type='button' value='Salvar' onClick='updateDiary("+idField+")'/>";
+            document.getElementById('hour_'+idField).innerHTML = "<input type='date' id='date_"+idField+"' value="+date+"><input type='time' id='time_"+idField+"' value="+hour+">";
+            document.getElementById('hour_'+idField).removeAttribute('onClick');
+        
         }
-        search.setAttribute('onClick', "deliveryCheckedUpdate(this, "+idField+");");
-        document.getElementById('status'+idField).innerHTML = "<input type='button' value='Salvar' onClick='updateDiary("+idField+")'/>";
-        document.getElementById('hour_'+idField).innerHTML = "<input type='date' id='date_"+idField+"' value="+date+"><input type='time' id='time_"+idField+"' value="+hour+">";
-        document.getElementById('hour_'+idField).removeAttribute('onClick');
-      
+        
     }
 
     function updateDiary(idField){
@@ -220,4 +227,10 @@
 
     function canc(idField){
         document.getElementById('idCanc').value = idField;
+    }
+
+    function dataToModal(idField, hour, date){
+        document.getElementById('idEdit').value = idField;
+        document.getElementById('dateEdit').value = date;
+        document.getElementById('hourEdit').value = hour;
     }

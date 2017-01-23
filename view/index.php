@@ -233,10 +233,10 @@
                                     echo "Cancelado";
                                 }else if($diary->status == 1){
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";
-                                    echo "<input type='button' onClick='activeFiedsForUpdate(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' value='Editar'/>";
+                                    echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
                                 }else if($diary->status == 0){
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
-                                    echo "<input type='button' onClick='activeFiedsForUpdate(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' value='Editar'/>";
+                                    echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
                                     echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
                                 }
                                 echo "</td>";
@@ -249,7 +249,7 @@
                     }                        
                 ?>
                 
-                 <!-- Modal -->
+                 <!-- Modal Cancelamento -->
                 <div class="modal fade" id="modalCanc" role="dialog">
                     <div class="modal-dialog">
                     
@@ -276,7 +276,38 @@
                     </div>
                     
                     </div>
-                </div>
+                </div><!--Fim Modal Cancelamenot-->
+
+                <!-- Modal Edição -->
+                <div class="modal fade" id="modalEdit" role="dialog">
+                    <div class="modal-dialog">
+                    
+                    <!-- Modal content-->
+                    <div class="modal-content" style="width: 50%;">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Editar Banho</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row"> <!--div line password-->
+                                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
+                                    <div class="form-group"> 
+                                        <label for="password1">Senha</label>
+                                        <input type="password" id="password1" name="password1" class="form-control" value>
+                                        <input type="hidden" id="idEdit" name="idEdit" class="form-control" value>
+                                        <input type="hidden" id="hourEdit" name="hourEdit" class="form-control" value>
+                                        <input type="hidden" id="dateEdit" name="dateEdit" class="form-control" value>
+                                    </div>
+                                </div> <!-- end div password-->
+                            </div><!-- end div line password-->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="activeFiedsForUpdate();" >Confirmar</button>                        
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div><!--Fim Modal Edução-->
             </tbody>
         </table>
        
