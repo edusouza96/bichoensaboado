@@ -43,7 +43,7 @@
                 </div>
             </div>
         </form>
-        <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
+        <table border="0" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Bairro</th>
