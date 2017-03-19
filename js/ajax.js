@@ -301,3 +301,91 @@ function processReqUpdate() {
     }
   }
 }
+
+/**
+ *adicionar nome de animais do mesmo dono
+ */
+function ajaxAnimalSameOwner(url) {
+  req = null;
+  if (window.XMLHttpRequest) {
+    req = new XMLHttpRequest();
+    req.onreadystatechange = processReqAnimalSameOwner;
+    req.open("GET", url, true);
+    req.send(null);
+  } else if (window.ActiveXObject) {
+    req = new ActiveXObject("Microsoft.XMLHTTP");
+    if (req) {
+      req.onreadystatechange = processReqAnimalSameOwner;
+      req.open("GET", url, true);
+      req.send(null);
+    }
+  }
+}
+
+function processReqAnimalSameOwner() {
+  if (req.readyState == 4) {
+    if (req.status ==200) {
+      var returnn = req.responseText.split("||");
+      var select = document.createElement("select");
+      select.className = 'form-control';
+      select.name = 'nameAnimal';
+      select.addEventListener('change', function() { listServic(this.value) });
+      var option = document.createElement("option");
+      option.value = 0;
+      option.label = 'Selecione';
+      select.appendChild(option);
+      for (i=0; i < returnn.length; i++){
+        var option = document.createElement("option");
+        opt = returnn[i].split('|');
+        option.value = opt[0];
+        option.label = opt[1];
+        select.appendChild(option);
+      }
+      document.getElementById('inputName').appendChild(select);
+      
+    } else{
+      alert("Houve um problema ao obter os dados:n" + req.statusText);
+    }
+  }
+}
+
+/**
+ *adicionar serviço para o animal do mesmo dono
+ */
+function ajaxAnimalSameOwnerListServic(url) {
+  req = null;
+  if (window.XMLHttpRequest) {
+    req = new XMLHttpRequest();
+    req.onreadystatechange = processReqAnimalSameOwnerListServic;
+    req.open("GET", url, true);
+    req.send(null);
+  } else if (window.ActiveXObject) {
+    req = new ActiveXObject("Microsoft.XMLHTTP");
+    if (req) {
+      req.onreadystatechange = processReqAnimalSameOwnerListServic;
+      req.open("GET", url, true);
+      req.send(null);
+    }
+  }
+}
+
+function processReqAnimalSameOwnerListServic() {
+  if (req.readyState == 4) {
+    if (req.status ==200) {
+      var returnn = req.responseText.split("||");
+      var inpServic = document.getElementById('servicAdd');
+      inpServic.disabled = false;
+      for (i=0; i < returnn.length; i++){
+        opt = returnn[i].split('|');
+        var option = document.createElement("option");
+        option.value = opt[0];
+        option.label = opt[1];
+        inpServic.appendChild(option);
+      }
+      
+    } else{
+      alert("Houve um problema ao obter os dados:n" + req.statusText);
+    }
+  }
+}
+

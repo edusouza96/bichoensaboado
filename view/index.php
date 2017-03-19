@@ -26,6 +26,7 @@
     foreach ($addressList as $address) {
         $addressArray[$address->idAddress] = $address->valuation;
     }
+   
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -130,6 +131,7 @@
                             
                         }else{
                             foreach($diaryList as $diary){
+                                $companionList = $diaryDao->SearchCompanion($diary->idDiary);
                                 $week = '';
                                 if($diary->package->idPackage > 0){
                                     for($iPack = 1; $iPack<5; $iPack++){
@@ -166,14 +168,22 @@
 
                                 echo "<td>";
                                 echo "<input type='text' id='nameAnimal_".$diary->idDiary."' name='nameAnimal' class='form-control nameAnimal' value='".$diary->client->nameAnimal."' readonly>";
+                                foreach ($companionList as $companion) {
+                                    echo "<input type='text' id='nameAnimal_".$companion->idDiary."' name='nameAnimal' class='form-control nameAnimal' value='".$companion->client->nameAnimal."' readonly>";
+                                }
+                                echo "<div id='addCompanion".$diary->idDiary."'></div>";
                                 echo "</td>";
 
                                 echo "<td>";
                                 echo $diary->client->breed->nameBreed;
+                                foreach ($companionList as $companion) {
+                                    echo '</br></br>'.$companion->client->breed->nameBreed;
+                                }
                                 echo "</td>";
                                 echo "</td>";
 
-                                echo "<td>";
+                                // echo "<td class='cursor' data-toggle='modal' data-target='#modalAdd' >";
+                                echo "<td class='cursor' data-toggle='modal' data-target='#modalAdd' onClick='addAnimalSameOwner(".$diary->client->idOwner.");' >";
                                 echo $diary->client->owner;
                                 echo "</td>";
 
@@ -223,7 +233,11 @@
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo $diary->totalPrice;
+                                $totalPriceC = 0;
+                                foreach ($companionList as $companion) {
+                                    $totalPriceC += $companion->totalPrice;
+                                }
+                                echo $diary->totalPrice + $totalPriceC;
                                 echo "</td>";
 
                                 echo "<td id='status".$diary->idDiary."' >";
@@ -277,7 +291,7 @@
                     </div>
                     
                     </div>
-                </div><!--Fim Modal Cancelamenot-->
+                </div><!--Fim Modal Cancelamento-->
 
                 <!-- Modal Edição -->
                 <div class="modal fade" id="modalEdit" role="dialog">
@@ -308,10 +322,43 @@
                     </div>
                     
                     </div>
-                </div><!--Fim Modal Edução-->
+                </div><!--Fim Modal Edição-->
+
+                <!-- Modal adição de animal do mesmo dono -->
+                <div class="modal fade" id="modalAdd" role="dialog">
+                    <div class="modal-dialog">
+                    
+                    <!-- Modal content-->
+                    <div class="modal-content" style="width: 60%;">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Adicionar</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row"> <!--div line -->
+                                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
+                                    <div class="form-group">  <!--div name animal -->
+                                        <label for="nameAnimal-add">Nome Animal</label>
+                                        <div id='inputName'></div>
+                                        
+                                    </div><!-- end div name animal-->
+
+                                    <div class="form-group">  <!--div service-->
+                                        <label for="servic-add">Serviço</label>
+                                        <select id="servicAdd" name="servic" class="form-control" disabled></select>
+                                    </div><!-- end div service-->
+                                </div> 
+                            </div><!-- end div line -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="activeFiedsForUpdate();" >Confirmar</button>                        
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div><!--Fim Modal adição de animal do mesmo dono-->
             </tbody>
         </table>
-       
     </body>
 </html>
 <script>
@@ -321,5 +368,13 @@
                         echo json_encode($clientDao->SearchName());
                     ?>
         });
-    }
+    }    
+    
 </script>
+<!--
+***Status Banhos***
+    Cancelado = -1
+    Agendadao = 0
+    Presente = 1
+    Finalizado = 2
+-->

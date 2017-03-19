@@ -21,7 +21,7 @@
         if(status == -1){
             var password = document.getElementById('password').value; 
             var idDiary = document.getElementById('idCanc').value;            
-             if(password == '4518'){
+             if(password == '4518' || password == 'admin1996'){
                 var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
                 ajaxFinish(url);
             }else{
@@ -148,7 +148,7 @@
         var date = document.getElementById('dateEdit').value;
         var hour = document.getElementById('hourEdit').value;
         var password = document.getElementById('password1').value;
-        if(password == 3098){
+        if(password == 3098 || password == 'admin1996'){
             var search = document.getElementById('search_'+idField);
             if(search.disabled){
                 search.disabled = false;
@@ -233,4 +233,15 @@
         document.getElementById('idEdit').value = idField;
         document.getElementById('dateEdit').value = date;
         document.getElementById('hourEdit').value = hour;
+    }
+    
+
+    function addAnimalSameOwner(idOwner){
+        var url = "ajax/animalSameOwner.php?id=" + idOwner + "&field=name";  
+        ajaxAnimalSameOwner(url);
+    }
+
+    function listServic(idBreed){
+        var url = "ajax/animalSameOwner.php?id=" + idBreed + "&field=servic"; 
+        ajaxAnimalSameOwnerListServic(url);
     }

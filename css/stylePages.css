@@ -5,3 +5,9 @@ h2{
     margin-top: -4%;
 
 }
+.cursor{
+    cursor:pointer;
+}
+.ui-autocomplete {
+  z-index:2147483647;
+}

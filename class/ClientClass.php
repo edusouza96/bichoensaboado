@@ -2,6 +2,7 @@
 class ClientClass{
     private $idClient;
     private $owner;
+    private $idOwner;
     private $nameAnimal;
     private $breed;
     private $address;
@@ -15,9 +16,10 @@ class ClientClass{
         //
     }
    
-    function ClientClass($idClient, $owner, $nameAnimal, $breed, $address, $addressNumber, $addressComplement, $phone1, $phone2, $email){
+    function ClientClass($idClient, $owner, $idOwner, $nameAnimal, $breed, $address, $addressNumber, $addressComplement, $phone1, $phone2, $email){
          $this->idClient = $idClient;
          $this->owner = $owner;
+         $this->idOwner = $idOwner;
          $this->nameAnimal = $nameAnimal;
          $this->breed = $breed;
          $this->address = $address;

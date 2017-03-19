@@ -20,15 +20,35 @@
 
     switch ($module) {
         case 'client':
+            $nameAnimal = array();
+            $breed = array();
+            $idCliente =array();
+             
             foreach($_POST as $fieldKey=>$fieldValue){
-                if(${'fieldKey'} != 'module'){
+                if(${'fieldKey'} != 'module' || ${'fieldKey'} != 'nameAnimal' || ${'fieldKey'} != 'breed' || ${'fieldKey'} != 'idClient'){
                     $clientClass->${'fieldKey'} = $fieldValue;
                 }
+                if(${'fieldKey'} == 'nameAnimal'){
+                    $numberClient = count($fieldValue);
+                    $nameAnimal = $fieldValue;
+                }
+                if(${'fieldKey'} == 'breed'){
+                    $breed = $fieldValue;
+                }
+                if(${'fieldKey'} == 'idClient'){
+                    $idCliente = $fieldValue;
+                }
             }
-             if($clientClass->idClient != 0){
-                $clientDao->Update($clientClass);
-            }else{
-                $clientDao->Insert($clientClass);
+           
+            for($i=0; $i<$numberClient; $i++){
+                $clientClass->idClient = $idCliente[$i];
+                $clientClass->nameAnimal = $nameAnimal[$i];
+                $clientClass->breed = $breed[$i];
+                if($clientClass->idClient != 0){
+                    $clientDao->Update($clientClass);
+                }else{
+                    $clientDao->Insert($clientClass);
+                }
             }
             
             break;

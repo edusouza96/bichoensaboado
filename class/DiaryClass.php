@@ -10,6 +10,7 @@ class DiaryClass{
     private $dateHour;
     private $status;
     private $package;
+    private $companion;
 
     function __construct(){
         //

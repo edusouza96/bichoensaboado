@@ -172,9 +172,28 @@ class DiaryDAO {
 
       public function SearchDateHour($dateHour) {
           try {
-              $sql = "SELECT * FROM diary WHERE dateHour = :dateHour ";
+              $sql = "SELECT * FROM diary WHERE dateHour = :dateHour AND companion in ('true','false') ";
               $p_sql = Conexao::getInstance()->prepare($sql);
               $p_sql->bindValue(":dateHour", $dateHour);
+              $p_sql->execute();
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+              $f_list = array();
+   
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
+              return $f_list;
+
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+
+      public function SearchCompanion($idDiary) {
+          try {
+              $sql = "SELECT * FROM diary WHERE companion = :companion ";
+              $p_sql = Conexao::getInstance()->prepare($sql);
+              $p_sql->bindValue(":companion", $idDiary);
               $p_sql->execute();
               $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
               $f_list = array();

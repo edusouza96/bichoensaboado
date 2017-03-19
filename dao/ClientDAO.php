@@ -22,6 +22,7 @@ class ClientDAO {
           try {
               $sql = "INSERT INTO client (    
                 owner,
+                idOwner,
                 nameAnimal,
                 breed_idBreed,
                 address_idAddress,
@@ -32,6 +33,7 @@ class ClientDAO {
                 email
                 )VALUES (
                 :owner,
+                :idOwner,
                 :nameAnimal,
                 :breed_idBreed,
                 :address_idAddress,
@@ -43,7 +45,11 @@ class ClientDAO {
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
+              if($client->idOwner == 0){
+                  $client->idOwner = $this->UltimateOwner();
+              }
               $p_sql->bindValue(":owner",             $client->owner);
+              $p_sql->bindValue(":idOwner",           $client->idOwner);
               $p_sql->bindValue(":nameAnimal",        $client->nameAnimal);
               $p_sql->bindValue(":breed_idBreed",     $client->breed);
               $p_sql->bindValue(":address_idAddress", $client->address);
@@ -56,7 +62,7 @@ class ClientDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print $e;///"Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print $e;///"Ocorreu um erro ao tentar executar esta ação tente novamente mais tarde.";
           }
       }
    
@@ -89,7 +95,7 @@ class ClientDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
       
@@ -101,7 +107,7 @@ class ClientDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -118,7 +124,55 @@ class ClientDAO {
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
+
+      private function UltimateOwner() {
+          try {
+              $sql = "SELECT MAX(idOwner+1) AS idOwner FROM client ";
+              $p_sql = Conexao::getInstance()->prepare($sql);
+              $p_sql->execute();
+              $result = ($p_sql->fetch(PDO::FETCH_ASSOC));
+              return $result['idOwner'];
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+
+      public function SearchAnimalsSameOwner($idClient) {
+          try {
+              $sql = "SELECT * FROM client WHERE idOwner = (SELECT idOwner FROM client WHERE idClient = :idClient)";
+              $p_sql = Conexao::getInstance()->prepare($sql);              
+              $p_sql->bindValue(":idClient", $idClient);
+              $p_sql->execute();
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+              $f_list = array();
    
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
+              return $f_list;
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+   
+      public function SearchAnimalsSameOwnerByIdOwner($idOwner) {
+          try {
+              $sql = "SELECT * FROM client WHERE idOwner = :idOwner";
+              $p_sql = Conexao::getInstance()->prepare($sql);              
+              $p_sql->bindValue(":idOwner", $idOwner);
+              $p_sql->execute();
+              $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+              $f_list = array();
+   
+              foreach ($list as $row)
+                  $f_list[] = $this->ShowObject($row);
+   
+              return $f_list;
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+
       public function SearchName() {
           try {
               $sql = "SELECT * FROM client GROUP BY nameAnimal";
@@ -129,7 +183,7 @@ class ClientDAO {
               foreach ($list as $row){
                   $obj = $this->ShowObject($row);
                   
-                  $f_list[] = array('label' => $obj->nameAnimal);
+                  $f_list[] = array('label' => utf8_encode($obj->nameAnimal));
               }
               return $f_list;
           } catch (Exception $e) {
@@ -189,13 +243,13 @@ class ClientDAO {
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
-   
-     
+
       private function ShowObject($row) {
           
           $client = new ClientClass();
           $client->idClient          = ($row['idClient']);
           $client->owner             = ($row['owner']);
+          $client->idOwner           = ($row['idOwner']);
           $client->nameAnimal        = ($row['nameAnimal']);
           $client->breed             = BreedDAO::getInstance()->SearchId($row['breed_idBreed']);
           $client->address           = AddressDAO::getInstance()->SearchId($row['address_idAddress']);
@@ -208,5 +262,32 @@ class ClientDAO {
           return $client;
       }
    
+      
+      public function ScriptAnimalsSameOwner() {
+          try {
+              $sql = "SELECT GROUP_CONCAT( CAST( idClient AS CHAR ) SEPARATOR  '|') FROM  `client` GROUP BY addressNumber, owner, address_idAddress";
+              $result = Conexao::getInstance()->query($sql);
+              $list = $result->fetchAll(PDO::FETCH_ASSOC);
+              
+              return $list;
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+        
+      public function UpdateIdOwner($idOwner, $idClient) {
+          try {
+              $sql = "UPDATE client set idOwner = :idOwner WHERE idClient = :idClient";
+              $p_sql = Conexao::getInstance()->prepare($sql);
+    
+              $p_sql->bindValue(":idOwner",          $idOwner);
+              $p_sql->bindValue(":idClient",  $idClient);
+        
+              return $p_sql->execute();
+          } catch (Exception $e) {
+              print $e;///"Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
   }
+     
   ?>

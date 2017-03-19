@@ -1,10 +1,11 @@
 <?php
-    // $path = $_SERVER['DOCUMENT_ROOT']; 
-    $arquivo = 'meu_arquivo.txt';
-    $html = '<p>Eu amo PHP.</p>';
-    $handle = fopen( $arquivo, 'a+' );
-    $ler = fwrite( $handle, $html );
-    fclose($handle);
+    $path = $_SERVER['DOCUMENT_ROOT']; 
+
+    // $arquivo = 'meu_arquivo.txt';
+    // $html = '<p>Eu amo PHP.</p>';
+    // $handle = fopen( $arquivo, 'a+' );
+    // $ler = fwrite( $handle, $html );
+    // fclose($handle);
     // include_once($path."/bichoensaboado/dao/BreedDAO.php");
     // include_once($path."/bichoensaboado/dao/ServicDAO.php");
     // include_once($path."/bichoensaboado/class/ServicClass.php");
@@ -81,5 +82,24 @@
 //     }
 //     fclose($handle);
 // }
-    
+//Script para popular tabela animal_owner
+    include_once($path."/bichoensaboado/dao/ClientDAO.php");
+    $clientDao = new ClientDAO();
+    $listDB = $clientDao->ScriptAnimalsSameOwner();
+    $listFormat = array();
+    foreach($listDB as $listVal){
+        foreach($listVal as $val){
+            $listFormat[] = explode('|', $val);
+        }        
+    }
+    $owner = 0;
+    foreach($listFormat as $list){
+        $owner++;
+        foreach($list as $l){
+            $clientDao->UpdateIdOwner($owner, $l);
+        }
+
+    }
+    print_r('ok');
+
 ?>
