@@ -17,6 +17,9 @@
     $path = $_SERVER['DOCUMENT_ROOT']; 
     date_default_timezone_set('America/Sao_Paulo');
     include_once("../dao/DiaryDAO.php");
+    include_once("../dao/ServicDAO.php");
+    $servicDao = new ServicDAO();
+    $servicList = $servicDao->SearchAll();
     $diaryDao = new DiaryDAO();
     $clientDao = new ClientDAO();
     $clientList = $clientDao->SearchAll(); 
@@ -183,7 +186,7 @@
                                 echo "</td>";
 
                                 // echo "<td class='cursor' data-toggle='modal' data-target='#modalAdd' >";
-                                echo "<td class='cursor' data-toggle='modal' data-target='#modalAdd' onClick='addAnimalSameOwner(".$diary->client->idOwner.");' >";
+                                echo "<td class='cursor' data-toggle='modal' data-target='#modalAdd' onClick='addAnimalSameOwner(".$diary->client->idOwner.",".$diary->idDiary.");' >";
                                 echo $diary->client->owner;
                                 echo "</td>";
 
@@ -218,11 +221,48 @@
                                 echo "</td>";
                                 
                                 echo "<td>";
+                                echo "<div id='servicWithFieldEdit".$diary->idDiary."' style='display:none'>";
+                                echo "<select id='serviceSelect".$diary->idDiary."' name='service' class='form-control'>";
+                                foreach($servicList as $servic){
+                                    if($servic->breed->idBreed == $diary->client->breed->idBreed){
+                                        if($servic->idServic == $diary->servic->idServic){
+                                            echo "<option value=".$servic->idServic." selected>".$servic->nameServic."</option>";
+                                        }else{
+                                            echo "<option value=".$servic->idServic.">".$servic->nameServic."</option>";
+                                        }
+                                    }
+                                }
+                                echo "</select>";
+                                // 
+                                foreach ($companionList as $companion) {
+                                    echo "<select id='serviceSelect".$companion->idDiary."' name='service' class='form-control'>";
+                                    foreach($servicList as $servic){
+                                        if($servic->breed->idBreed == $companion->client->breed->idBreed){
+                                            if($servic->idServic == $companion->servic->idServic){
+                                                echo "<option value=".$servic->idServic." selected>".$servic->nameServic."</option>";
+                                            }else{
+                                                echo "<option value=".$servic->idServic.">".$servic->nameServic."</option>";
+                                            }
+                                        }
+                                    }
+                                    echo "</select>";
+                                }
+                                // 
+                                echo "</div>";
+
+                                echo "<div id='servicWithoutFieldEdit".$diary->idDiary."'>";
                                 echo $service;
+                                foreach ($companionList as $companion) {
+                                    echo '</br></br>'.$companion->servic->nameServic;
+                                }
+                                echo "</div>";
                                 echo "</td>";
 
                                 echo "<td>";
                                 echo $diary->price;
+                                foreach ($companionList as $companion) {
+                                    echo '</br></br>'.$companion->price;
+                                }
                                 echo "</td>";
 
                                 echo "<td id='tdDeliveryPrice_".$diary->idDiary."'>";
@@ -338,6 +378,7 @@
                             <div class="row"> <!--div line -->
                                 <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
                                     <div class="form-group">  <!--div name animal -->
+                                        <input type="hidden" id="idDiary-add">
                                         <label for="nameAnimal-add">Nome Animal</label>
                                         <div id='inputName'></div>
                                         
@@ -351,7 +392,7 @@
                             </div><!-- end div line -->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="activeFiedsForUpdate();" >Confirmar</button>                        
+                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="saveAnimalSameOwner();" >Confirmar</button>                        
                         </div>
                     </div>
                     

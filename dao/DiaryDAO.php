@@ -50,7 +50,9 @@ class DiaryDAO {
               $p_sql->bindValue(":totalPrice",       $diary->totalPrice);
               $p_sql->bindValue(":dateHour",         $diary->dateHour);
               $p_sql->bindValue(":package_idPackage",$diary->package);
-             return $p_sql->execute();
+
+              $p_sql->execute();
+              return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
@@ -66,6 +68,23 @@ class DiaryDAO {
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":status", $status);
+              $p_sql->bindValue(":idDiary", $idDiary);
+   
+              return $p_sql->execute();
+          } catch (Exception $e) {
+              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+          }
+      }
+
+      public function UpdateCompanion($idDiary,$companion) {
+          try {
+              $sql = "UPDATE diary set
+                        companion = :companion
+                    WHERE idDiary = :idDiary";
+   
+              $p_sql = Conexao::getInstance()->prepare($sql);
+   
+              $p_sql->bindValue(":companion", $companion);
               $p_sql->bindValue(":idDiary", $idDiary);
    
               return $p_sql->execute();

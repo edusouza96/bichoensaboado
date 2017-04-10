@@ -329,6 +329,11 @@ function processReqAnimalSameOwner() {
       var select = document.createElement("select");
       select.className = 'form-control';
       select.name = 'nameAnimal';
+      if(document.getElementById('idClient-idBreed') != null){
+          var sel = document.getElementById('idClient-idBreed');
+          sel.parentNode.removeChild(sel);
+      }
+      select.id = 'idClient-idBreed';
       select.addEventListener('change', function() { listServic(this.value) });
       var option = document.createElement("option");
       option.value = 0;
@@ -373,14 +378,24 @@ function processReqAnimalSameOwnerListServic() {
   if (req.readyState == 4) {
     if (req.status ==200) {
       var returnn = req.responseText.split("||");
-      var inpServic = document.getElementById('servicAdd');
-      inpServic.disabled = false;
-      for (i=0; i < returnn.length; i++){
-        opt = returnn[i].split('|');
-        var option = document.createElement("option");
-        option.value = opt[0];
-        option.label = opt[1];
-        inpServic.appendChild(option);
+      if(returnn.length == 1){
+        location.reload();
+      }else{
+        var inpServic = document.getElementById('servicAdd');
+        
+        if(!inpServic.disabled){
+          for(i=0; i<5; i++){
+            inpServic.removeChild(inpServic[0]);
+          }
+        }
+        inpServic.disabled = false;
+        for (i=0; i < returnn.length; i++){
+          opt = returnn[i].split('|');
+          var option = document.createElement("option");
+          option.value = opt[0];
+          option.label = opt[1];
+          inpServic.appendChild(option);
+        }
       }
       
     } else{
