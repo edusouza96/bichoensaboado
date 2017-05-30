@@ -14,6 +14,8 @@
                 <li><a href="/bichoensaboado/view/address/">Bairro</a></li>
                 <li><a href="/bichoensaboado/view/breed/">Raças</a></li>
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
+                <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
+                <li><a href="/bichoensaboado/view/financial/">Caixa</a></li>
             </ul>
         </nav>
     </body>

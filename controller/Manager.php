@@ -8,6 +8,10 @@
     include_once($path."/bichoensaboado/class/BreedClass.php");
     include_once($path."/bichoensaboado/dao/AddressDAO.php");
     include_once($path."/bichoensaboado/class/AddressClass.php");
+    include_once($path."/bichoensaboado/dao/FinancialDAO.php");
+    include_once($path."/bichoensaboado/class/FinancialClass.php");
+    include_once($path."/bichoensaboado/dao/ProductDAO.php");
+    include_once($path."/bichoensaboado/class/ProductClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -16,6 +20,8 @@
     $breedDao = new BreedDAO();
     $addressClass = new AddressClass();
     $addressDao = new AddressDAO();
+    $productClass = new ProductClass();
+    $productDao = new ProductDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -91,6 +97,34 @@
                 $addressDao->Update($addressClass);
             }else{
                 $addressDao->Insert($addressClass);
+            }
+            
+            break;
+
+        case 'financial':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $financialClass->${'fieldKey'} = $fieldValue;
+                }
+            }
+            if($financialClass->idFinancial != 0){
+                $financialDao->update($financialClass);
+            }else{
+                $financialDao->insert($financialClass);
+            }
+            
+            break;
+
+        case 'product':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $productClass->${'fieldKey'} = $fieldValue;
+                }
+            }
+            if($productClass->idProduct != 0){
+                $productDao->update($productClass);
+            }else{
+               $productDao->insert($productClass);
             }
             
             break;
