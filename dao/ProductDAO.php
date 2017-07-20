@@ -22,17 +22,20 @@ class ProductDAO {
               $sql = "INSERT INTO product (    
                 nameProduct,
                 valuationProduct,
-                quantityProduct
+                quantityProduct,
+                valuationBuyProduct
                 )VALUES (
                 :nameProduct,
                 :valuationProduct,
-                :quantityProduct)";
+                :quantityProduct,
+                :valuationBuyProduct)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":nameProduct",     $product->nameProduct);
               $p_sql->bindValue(":valuationProduct", $product->valuationProduct);
               $p_sql->bindValue(":quantityProduct", $product->quantityProduct);
+              $p_sql->bindValue(":valuationBuyProduct", $product->valuationBuyProduct);
               $p_sql->execute();
               $newIdProduct = Conexao::getInstance()->lastInsertId();
               while(strlen ($newIdProduct) < 4){
@@ -118,7 +121,7 @@ class ProductDAO {
       private function showObject($row) {
           
           $product = new ProductClass();
-          $product->ProductClass($row['idProduct'], $row['nameProduct'], $row['valuationProduct'], $row['quantityProduct']);
+          $product->ProductClass($row['idProduct'], $row['nameProduct'], $row['valuationProduct'], $row['quantityProduct'], $row['valuationBuyProduct']);
           return $product;
       }
    

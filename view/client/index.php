@@ -9,5 +9,5 @@ function Redirect($url, $permanent = false)
     exit();
 }
 
-Redirect('http://localhost:8080/bichoensaboado/view/client/ListClient.php', false);
+Redirect('http://localhost:7777/bichoensaboado/view/client/ListClient.php', false);
 ?>

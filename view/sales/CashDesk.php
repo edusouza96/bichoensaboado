@@ -1,9 +1,4 @@
 <?php
-    if(empty($_GET['idFinancial'])){
-        $idFinancial = '';
-    }else{
-        $idFinancial = $_GET['idFinancial'];
-    }
     $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
     $productDao = new ProductDAO();
@@ -58,11 +53,6 @@
                 var listProducts = <?php
                                         echo '['.$productJson.']';
                                     ?>;
-                // [
-                //                     {'nameProduct':'0001# coleira', 'valuationProduct':5.9},
-                //                     {'nameProduct':'0002# osso', 'valuationProduct':7},
-                //                     {'nameProduct':'0003# biscoito', 'valuationProduct':3.5}
-                //                    ];
                 for(cont in listProducts){
                     if(listProducts[cont].nameProduct == value){
                         $("#valueItems").val(int2decimal(parseFloat(listProducts[cont].valuationProduct)));   
@@ -83,6 +73,9 @@
                     div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueItems").val() +'</p>';
                     div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueTotalItems").val() +'</p>';
                     div +=    '</div>';
+                    div +=    '<input type="hidden" name="quantityProductSales[]" value="'+ $("#numberItems").val() +'">';
+                    div +=    '<input type="hidden" name="productSales[]" value="'+ productName[0] +'">';
+                    div +=    '<input type="hidden" name="valuationUnitSales[]" value="'+ $("#valueItems").val() +'">';
                     var divRegisterBuy = $("#listRegisterBuy").html();
                     divRegisterBuy += div;
                     $("#listRegisterBuy").html(divRegisterBuy);
@@ -104,9 +97,9 @@
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
         ?>
-        <form >
-            <input type="hidden" name="module" value="servic"> 
-            <input type="hidden" name="idFinancial" value="<?=$idFinancial?>" > 
+        <form action="../../controller/Manager.php" method="POST">
+            <input type="hidden" name="module" value="sales"> 
+            <input type="hidden" name="idSales" value="0" >
             
             <div class="container">
                 <div class="row"> 
@@ -151,6 +144,9 @@
                         <div class="form-group" style="background: #47d21e;height: 30px;">
                             <h4 style="float: left;">Sub-Total</h4>
                             <h4 id="subTotal" style="float: right;">R$ 00.00</h4>
+                        </div>
+                        <div class="form-group" style="height: 30px;">
+                            <input type="submit" value="Finalizar" class="form-control">
                         </div>
                     </div>
                 </div>

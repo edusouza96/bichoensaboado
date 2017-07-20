@@ -12,6 +12,8 @@
     include_once($path."/bichoensaboado/class/FinancialClass.php");
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
     include_once($path."/bichoensaboado/class/ProductClass.php");
+    include_once($path."/bichoensaboado/dao/SalesDAO.php");
+    include_once($path."/bichoensaboado/class/SalesClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -22,6 +24,10 @@
     $addressDao = new AddressDAO();
     $productClass = new ProductClass();
     $productDao = new ProductDAO();
+    $salesClass = new SalesClass();
+    $salesDao = new SalesDAO();
+    $financialClass = new FinancialClass();
+    $financialDao = new FinancialDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -107,12 +113,12 @@
                     $financialClass->${'fieldKey'} = $fieldValue;
                 }
             }
+        
             if($financialClass->idFinancial != 0){
                 $financialDao->update($financialClass);
             }else{
                 $financialDao->insert($financialClass);
             }
-            
             break;
 
         case 'product':
@@ -127,6 +133,37 @@
                $productDao->insert($productClass);
             }
             
+            break;
+        
+        case 'sales':
+            
+            if($_POST['idSales'] > 0){
+                // $salesDao->update($salesClass);
+            }else{
+                $quantityProductSales = $_POST['quantityProductSales'];
+                $productSales         = $_POST['productSales'];
+                $valuationUnitSales   = $_POST['valuationUnitSales'];
+                $saleIds = array();
+                for($i=0; $i<count($productSales); $i++){
+                    $salesClass = new SalesClass();
+                    $salesClass->quantityProductSales = $quantityProductSales[$i];
+                    $salesClass->valuationUnitSales   = $valuationUnitSales[$i];
+                    $salesClass->productSales         = $productSales[$i];
+                    $saleIds[] = $salesDao->insert($salesClass);
+                }
+
+                $registerBuy = date('YmdHis');
+                for($i=0; $i<count($saleIds); $i++){
+                    $financialClass = new FinancialClass();
+                    $financialClass->registerBuy = "".$registerBuy;
+                    $financialClass->sales = $saleIds[$i];
+                    $financialClass->valueProduct = $quantityProductSales[$i] * $valuationUnitSales[$i];
+                    $financialClass->description = "Entrada no caixa";
+                    $financialClass->dateDueFinancial = date('Y-m-d');
+                    $financialClass->datePayFinancial = date('Y-m-d');
+                    print_r($financialDao->insert($financialClass));
+                }
+            }
             break;
 
         default:

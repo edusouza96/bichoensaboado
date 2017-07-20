@@ -31,7 +31,7 @@
             <input type="hidden" name="idProduct" value="<?=$idProduct?>" > 
             <div class="container">
                 <div class="row"> <!--div line product-->
-                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div product-->
+                    <div class="col-xs-7 col-sm-7 col-lg-7 col-md-7"> <!--div product-->
                         <div class="form-group"> 
                             <label for="nameProduct">Nome do Produto</label>
                             <input type="text" id="nameProduct" name="nameProduct" class="form-control" value="<?=$product->nameProduct?>" required>
@@ -40,16 +40,23 @@
                 </div><!-- end div line product-->
 
                 <div class="row"> <!--div line Valuation AND quantity-->
-                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div Valuation-->
+                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div Valuation Buy-->
                         <div class="form-group"> 
-                            <label for="nameProduct">Valor Unidade</label>
+                            <label for="valuationBuyProduct">Valor Unidade de Compra</label>
+                            <input type="text" id="valuationBuyProduct" name="valuationBuyProduct" class="form-control" value="<?=$product->valuationBuyProduct?>" required>
+                        </div>
+                    </div> <!-- end div Valuation Buy-->
+
+                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div Valuation Sale-->
+                        <div class="form-group"> 
+                            <label for="valuationProduct">Valor Unidade de Venda</label>
                             <input type="text" id="valuationProduct" name="valuationProduct" class="form-control" value="<?=$product->valuationProduct?>" required>
                         </div>
-                    </div> <!-- end div Valuation-->
+                    </div> <!-- end div Valuation Sale-->
 
-                    <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div quantity-->
+                    <div class="col-xs-1 col-sm-1 col-lg-1 col-md-1"> <!--div quantity-->
                         <div class="form-group"> 
-                            <label for="nameProduct">Quantidade</label>
+                            <label for="quantityProduct">Quantidade</label>
                             <input type="text" id="quantityProduct" name="quantityProduct" class="form-control" value="<?=$product->quantityProduct?>">
                         </div>
                     </div> <!-- end div quantity-->

@@ -21,24 +21,27 @@ class FinancialDAO {
           try {
               $sql = "INSERT INTO financial (    
                 registerBuy,
-                userFinancial,
-                product,
-                valuePrduct,
-                description
+                sales_idSales,
+                valueProduct,
+                description,
+                dateDueFinancial,
+                datePayFinancial
                 )VALUES (
                 :registerBuy,
-                :userFinancial,
-                :product,
-                :valuePrduct,
-                :description)";
+                :sales,
+                :valueProduct,
+                :description,
+                :dateDueFinancial,
+                :datePayFinancial)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-              $p_sql->bindValue(":registerBuy",  $financial->registerBuy);
-              $p_sql->bindValue(":userFinancial",$financial->userFinancial);
-              $p_sql->bindValue(":product",      $financial->product);
-              $p_sql->bindValue(":valuePrduct",  $financial->valuePrduct);
-              $p_sql->bindValue(":description",  $financial->description);
+              $p_sql->bindValue(":registerBuy",      $financial->registerBuy);
+              $p_sql->bindValue(":sales",            $financial->sales);
+              $p_sql->bindValue(":valueProduct",      $financial->valueProduct);
+              $p_sql->bindValue(":description",      $financial->description);
+              $p_sql->bindValue(":dateDueFinancial", $financial->dateDueFinancial);
+              $p_sql->bindValue(":datePayFinancial", $financial->datePayFinancial);
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
@@ -49,13 +52,14 @@ class FinancialDAO {
       public function update(FinancialClass $financial) {
           try {
               $sql = "UPDATE financial set idFinancial = :idFinancial";
-              foreach($financial as $key => $value){
+              $financialList = $financial->iterateVisible();
+              foreach($financialList as $key => $value){
                 if($value != ""){
-                    $sql .= ", ".$key." = ".$value;
+                    $sql .= ", ".$key." = '".$value."'";
                 }
               }
               $sql .= " WHERE idFinancial = :idFinancial";
-   
+
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":idFinancial",  $financial->idFinancial);
@@ -66,11 +70,11 @@ class FinancialDAO {
           }
       }
       
-      public function delete($registerBuy) {
+      public function delete($idFinancial) {
           try {
-              $sql = "DELETE FROM financial WHERE registerBuy = :registerBuy";
+              $sql = "DELETE FROM financial WHERE idFinancial = :idFinancial";
               $p_sql = Conexao::getInstance()->prepare($sql);
-              $p_sql->bindValue(":registerBuy", $registerBuy);
+              $p_sql->bindValue(":idFinancial", $idFinancial);
    
               return $p_sql->execute();
           } catch (Exception $e) {
@@ -114,7 +118,13 @@ class FinancialDAO {
       private function showObject($row) {
           
           $financial = new FinancialClass();
-          $financial->FinancialClass($row['idFinancial'], $row['nameFinancial']);
+          $financial->idFinancial       = $row['idFinancial'];
+          $financial->description       = $row['description'];
+          $financial->dateDueFinancial  = $row['dateDueFinancial'];
+          $financial->datePayFinancial  = $row['datePayFinancial'];
+          $financial->valueProduct      = $row['valueProduct'];
+          $financial->registerBuy       = $row['registerBuy'];
+          $financial->sales             = $row['sales_idSales'];
           return $financial;
       }
    

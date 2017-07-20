@@ -2,24 +2,34 @@
 class FinancialClass{
     private $idFinancial;
     private $registerBuy;
-    private $userFinancial;
-    private $product;
+    private $sales;
     private $valueProduct;
     private $description;
+    private $dateDueFinancial;
+    private $datePayFinancial;
 
 
     function __construct(){
         //
     }
 
-    function FinancialClass($idFinancial, $registerBuy, $userFinancial, $product, $valueProduct, $description){
+    function iterateVisible() {
+       $list = array();
+       foreach ($this as $key => $value) {
+            $list[$key] = $value;
+       }
+       return $list;
+    }
+    
+    function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial,$datePayFinancial){
          $this->idFinancial = $idFinancial;
          $this->registerBuy = $registerBuy;
-         $this->userFinancial = $userFinancial;
+         $this->sales = $sales;
          $this->product = $product;
          $this->valueProduct = $valueProduct;
          $this->description = $description;
-         
+         $this->dateDueFinancial = $dateDueFinancial;
+         $this->datePayFinancial = $datePayFinancial;
     }
 
      public function __get($property) {

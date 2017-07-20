@@ -4,7 +4,7 @@ class ProductClass{
     private $nameProduct;
     private $valuationProduct;
     private $quantityProduct;
-
+    private $valuationBuyProduct;
 
     function __construct(){
         //
@@ -18,11 +18,12 @@ class ProductClass{
        return $list;
     }
 
-    function ProductClass($idProduct, $nameProduct, $valuationProduct, $quantityProduct){
+    function ProductClass($idProduct, $nameProduct, $valuationProduct, $quantityProduct, $valuationBuyProduct){
          $this->idProduct = $idProduct;
          $this->nameProduct = $nameProduct;
          $this->valuationProduct = $valuationProduct;
          $this->quantityProduct = $quantityProduct;
+         $this->valuationBuyProduct = $valuationBuyProduct;
          
     }
 

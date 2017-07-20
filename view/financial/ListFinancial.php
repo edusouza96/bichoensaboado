@@ -3,20 +3,20 @@
     error_reporting(0);    
     $path = $_SERVER['DOCUMENT_ROOT']; 
     $search = $_POST['search'];
-    include_once($path."/bichoensaboado/dao/ProductDAO.php");
-    $productDao = new ProductDAO();
+    include_once($path."/bichoensaboado/dao/FinancialDAO.php");
+    $financialDao = new FinancialDAO();
     if(empty($search)){
-        $productList = $productDao->searchAll();
+        $financialList = $financialDao->searchAll();
     }else{
-        $productDao->addWhere("nameProduct LIKE '%".$search."%' ");
-        $productList = $productDao->searchAll();
+        $financialDao->addWhere("description LIKE '%".$search."%' ");
+        $financialList = $financialDao->searchAll();
     }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="ISO 8895-1">
-        <title>Lista de Produtos</title>
+        <title>Financeiro</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <script language="javascript" src="../../js/ajax.js?v=2"></script>
         <script language="javascript" src="../../js/functionsModules.js?v=2"></script>
@@ -24,13 +24,13 @@
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Produtos</h2>
+            <h2>Financeiro</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
         ?>
-        <a href="SaveProduct.php" class='btn btn-success btn-sm'style="margin-top: -5.5%;float: right;">
-            <span class='glyphicon glyphicon-plus'></span> Adicionar
+        <a href="SaveOutlay.php" class='btn btn-success btn-sm'style="margin-top: -5.5%;float: right;">
+            <span class='glyphicon glyphicon-plus'></span> Registrar gastos
         </a>
         <form role="form" method="POST">
             <div class="form-group col-xs-4 col-sm-4 col-lg-4 col-md-4">
@@ -47,39 +47,40 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Produto</th>
-                    <th>Valor de Compra</th>
-                    <th>Valor de Venda</th>
-                    <th>Quantidade</th>
+                    <th>Titulo</th>
+                    <th>Valor</th>
+                    <th>Data do Vencimento</th>
+                    <th>Data do Pagamento</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                    foreach($productList as $product){
-                        $name = explode("#", $product->nameProduct);
+                    foreach($financialList as $financial){
                         echo "<td>";
-                        echo $name[1];
+                        echo $financial->description;
                         echo "</td>";
 
                         echo "<td>";
-                        echo $product->valuationBuyProduct;
+                        echo $financial->valueProduct;
                         echo "</td>";
 
                         echo "<td>";
-                        echo $product->valuationProduct;
+                        if(strtotime($financial->dateDueFinancial) > 0)
+                            echo date("d/m/Y", strtotime($financial->dateDueFinancial));
                         echo "</td>";
 
                         echo "<td>";
-                        echo $product->quantityProduct;
+                        if(strtotime($financial->datePayFinancial) > 0)
+                            echo date("d/m/Y", strtotime($financial->datePayFinancial));
                         echo "</td>";
 
                         echo "<td>";
-                        echo "<a href='SaveProduct.php?idProduct=".$product->idProduct."' class='btn btn-info btn-sm'>";
+                        echo "<a href='SaveOutlay.php?idFinancial=".$financial->idFinancial."' class='btn btn-info btn-sm'>";
                         echo "<span class='glyphicon glyphicon-pencil'></span>"; 
                         echo "</a>";
                         echo "&emsp;";
-                        echo "<a onClick='deleteRegister(".$product->idProduct.", &quot;Product&quot;);' class='btn btn-danger btn-sm'>";
+                        echo "<a onClick='deleteRegister(".$financial->idFinancial.", &quot;Financial&quot;);' class='btn btn-danger btn-sm'>";
                         echo "<span class='glyphicon glyphicon-trash'></span>";
                         echo "</a>";
                         echo "</td>";

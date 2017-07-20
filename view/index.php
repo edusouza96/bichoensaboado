@@ -10,7 +10,7 @@
             exit();
         }
 
-        Redirect('http://localhost:8080/bichoensaboado/Calendar/', false);
+        Redirect('http://localhost:7777/bichoensaboado/Calendar/', false);
 
     }
     $date = $_GET['date'];

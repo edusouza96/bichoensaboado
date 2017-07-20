@@ -10,7 +10,7 @@ function Redirect($url, $permanent = false)
 }
 $path = $_SERVER['SERVER_NAME']; 
 if($path=='localhost'){
-    $path .=':8080';
+    $path .=':7777';
 }
 Redirect('http://'.$path.'/bichoensaboado/Calendar/', false);
 ?>

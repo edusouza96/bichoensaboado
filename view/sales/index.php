@@ -9,5 +9,5 @@ function Redirect($url, $permanent = false)
     exit();
 }
 
-Redirect('http://localhost:7777/bichoensaboado/view/product/ListProduct.php', false);
+Redirect('http://localhost:7777/bichoensaboado/view/sales/CashDesk.php', false);
 ?>
