@@ -207,7 +207,7 @@ function processReqFinish() {
           alert('Serviço Finalizado!');
           document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Finalizado';
           document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
-          
+          location.href = "sales/CashDesk.php?diary="+returnn[1];
         }else if(parseInt(returnn[2]) == 1){
           alert('Check-in feito!');
           document.getElementById('status'+parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish("+returnn[1]+",2);' value='Finalizar'/><input type='button' onClick='dataToModal("+returnn[1]+",&quot;"+returnn[3]+"&quot; , &quot;"+returnn[4]+"&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc("+returnn[1]+");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";

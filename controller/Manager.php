@@ -14,6 +14,8 @@
     include_once($path."/bichoensaboado/class/ProductClass.php");
     include_once($path."/bichoensaboado/dao/SalesDAO.php");
     include_once($path."/bichoensaboado/class/SalesClass.php");
+    include_once($path."/bichoensaboado/dao/DiaryDAO.php");
+    include_once($path."/bichoensaboado/class/DiaryClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -28,6 +30,8 @@
     $salesDao = new SalesDAO();
     $financialClass = new FinancialClass();
     $financialDao = new FinancialDAO();
+    $diaryClass = new DiaryClass();
+    $diaryDao = new DiaryDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -136,19 +140,21 @@
             break;
         
         case 'sales':
-            
+
             if($_POST['idSales'] > 0){
                 // $salesDao->update($salesClass);
             }else{
                 $quantityProductSales = $_POST['quantityProductSales'];
                 $productSales         = $_POST['productSales'];
                 $valuationUnitSales   = $_POST['valuationUnitSales'];
+                @$diarySales           = $_POST['diarySales'];
                 $saleIds = array();
-                for($i=0; $i<count($productSales); $i++){
+                for($i=0; $i<count($valuationUnitSales); $i++){
                     $salesClass = new SalesClass();
                     $salesClass->quantityProductSales = $quantityProductSales[$i];
                     $salesClass->valuationUnitSales   = $valuationUnitSales[$i];
                     $salesClass->productSales         = $productSales[$i];
+                    @$salesClass->diarySales           = $diarySales[$i];
                     $saleIds[] = $salesDao->insert($salesClass);
                 }
 
@@ -161,8 +167,10 @@
                     $financialClass->description = "Entrada no caixa";
                     $financialClass->dateDueFinancial = date('Y-m-d');
                     $financialClass->datePayFinancial = date('Y-m-d');
-                    print_r($financialDao->insert($financialClass));
+                    ($financialDao->insert($financialClass));
                 }
+                // print invoice
+                include_once($path."/bichoensaboado/view/sales/invoice.php");                
             }
             break;
 

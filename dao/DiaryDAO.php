@@ -2,6 +2,7 @@
 class DiaryDAO {
    
       public static $instance;
+      private $sqlWhere = "";
    
       public function __construct() {
           $path = $_SERVER['DOCUMENT_ROOT']; 
@@ -19,6 +20,10 @@ class DiaryDAO {
           return self::$instance;
       }
    
+      public function addWhere($operator,$value){
+        $this->sqlWhere .= $operator.' '.$value;
+      }
+      
       public function Insert(DiaryClass $diary) {
           try {
               $sql = "INSERT INTO diary (    
@@ -29,8 +34,8 @@ class DiaryDAO {
                   deliveryPrice,
                   totalPrice,
                   dateHour,
-                  package_idPackage)
-                  VALUES (
+                  package_idPackage
+                  ) VALUES (
                   :client_idClient,
                   :servic_idServic,
                   :search,
@@ -54,7 +59,7 @@ class DiaryDAO {
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+              return $sql."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
    
@@ -210,7 +215,7 @@ class DiaryDAO {
 
       public function SearchCompanion($idDiary) {
           try {
-              $sql = "SELECT * FROM diary WHERE companion = :companion ";
+              $sql = "SELECT * FROM diary WHERE companion = :companion ".$this->sqlWhere;
               $p_sql = Conexao::getInstance()->prepare($sql);
               $p_sql->bindValue(":companion", $idDiary);
               $p_sql->execute();

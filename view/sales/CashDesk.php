@@ -1,5 +1,6 @@
 <?php
     $path = $_SERVER['DOCUMENT_ROOT']; 
+    include_once($path."/bichoensaboado/dao/DiaryDAO.php");
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
     $productDao = new ProductDAO();
     $productList = $productDao->searchAll();
@@ -8,6 +9,9 @@
         $f_list[] = array('label' => utf8_encode($product->nameProduct));
         $productJson .= ($product->serialize()).",";
     }
+    $subValue = 'R$ 00.00';
+    
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -138,12 +142,36 @@
                                 <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">Valor unitario</p>
                                 <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">Total do produto</p>
                             </div>
-                           
+                            <?php
+                            if(!empty($_GET['diary'])){
+                                $diaryId = $_GET['diary'];
+                                $diaryDao = new DiaryDAO();   
+                                $diaryDao->addWhere("OR","idDiary = ".$diaryId." ");   
+                                $diaryList = $diaryDao->SearchCompanion($diaryId);  
+                                $subValue = 0;
+                                foreach($diaryList as $diaryClass){   
+                            ?>
+                                <div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">
+                                    <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
+                                    <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$diaryClass->servic->nameServic?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
+                                </div>
+                                <input type="hidden" name="quantityProductSales[]" value="1">
+                                <input type="hidden" name="diarySales[]" value="<?=$diaryClass->idDiary?>">
+                                <input type="hidden" name="productSales[]" value="0">
+                                <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->totalPrice?>">
+                            <?php
+                                 $subValue += $diaryClass->totalPrice;
+                                }
+                                $subValue = 'R$ '.$subValue;
+                            }
+                            ?>
                             
                         </div>
                         <div class="form-group" style="background: #47d21e;height: 30px;">
                             <h4 style="float: left;">Sub-Total</h4>
-                            <h4 id="subTotal" style="float: right;">R$ 00.00</h4>
+                            <h4 id="subTotal" style="float: right;"><?=$subValue?></h4>
                         </div>
                         <div class="form-group" style="height: 30px;">
                             <input type="submit" value="Finalizar" class="form-control">

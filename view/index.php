@@ -9,8 +9,11 @@
 
             exit();
         }
-
-        Redirect('http://localhost:7777/bichoensaboado/Calendar/', false);
+        $path = $_SERVER['SERVER_NAME']; 
+        if($path=='localhost'){
+            $path .=':7777';
+        }
+        Redirect('http://'.$path.'/bichoensaboado/Calendar/', false);
 
     }
     $date = $_GET['date'];
@@ -28,6 +31,10 @@
     $addressArray = array();
     foreach ($addressList as $address) {
         $addressArray[$address->idAddress] = $address->valuation;
+    }
+
+    foreach ($clientList as $cli){
+        $f_list[] = array('label' => utf8_encode($cli->nameAnimal));
     }
    
 ?>
@@ -47,6 +54,16 @@
         <script language="javascript" src="../js/ajax.js?v=<?=rand(100, 500)?>"></script>
         <script language="javascript" src="../js/functionsDiary.js?v=<?=rand(100, 500)?>"></script>
         <link rel="stylesheet" href="../css/stylePages.css?v=<?=rand(100, 500)?>">
+        <script>
+            function completeNameAnimal(){
+                $(".nameAnimal").autocomplete({
+                    source: <?php 
+                                echo json_encode($f_list);
+                            ?>
+                });
+            }    
+            
+        </script>
     </head>
     <body>
         <div class="jumbotron"> 
@@ -402,16 +419,7 @@
         </table>
     </body>
 </html>
-<script>
-    function completeNameAnimal(){
-        $(".nameAnimal").autocomplete({
-            source: <?php 
-                        echo json_encode($clientDao->SearchName());
-                    ?>
-        });
-    }    
-    
-</script>
+
 <!--
 ***Status Banhos***
     Cancelado = -1

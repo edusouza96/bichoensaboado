@@ -8,6 +8,9 @@ function Redirect($url, $permanent = false)
 
     exit();
 }
-
-Redirect('http://localhost:7777/bichoensaboado/view/servic/ListServic.php', false);
+$path = $_SERVER['SERVER_NAME']; 
+if($path=='localhost'){
+    $path .=':7777';
+}
+Redirect('http://'.$path.'/bichoensaboado/view/servic/ListServic.php', false);
 ?>
