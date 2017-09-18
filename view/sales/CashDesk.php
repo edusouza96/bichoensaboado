@@ -65,6 +65,33 @@
                 }
             }
 
+            function applyRebate(valueRebate){
+                var gross = $("#subTotal").text();
+                gross = gross.substring(3);
+                gross = parseFloat(gross)
+                valueRebate = parseFloat(valueRebate);
+                $("#totalBuy").val(int2decimal(gross-valueRebate));
+                methodPaymentAction($("#methodPayment").val());
+            }
+
+            function calculateValueReceive(valueReceive){
+                var totalBuy = $("#totalBuy").val();
+                totalBuy = parseFloat(totalBuy)
+                valueReceive = parseFloat(valueReceive);
+                $("#change").val(int2decimal(valueReceive-totalBuy));
+            }
+
+            function methodPaymentAction(idMethodPayment){
+                if(idMethodPayment == 1){
+                    $("#valueReceive").removeAttr("readonly");
+                }else{
+                    $("#change").val("0.0");
+                    var totalBuy = $("#totalBuy").val();
+                    $("#valueReceive").val(totalBuy);
+                    $("#valueReceive").attr("readonly", "readonly");
+                }
+            }
+
             function sendRegisterBuy(){
                 var productName = $("#searchProduct").val().split("#");
                 if(productName[1] != undefined){
@@ -88,6 +115,14 @@
                     var grossProduct = $("#valueTotalItems").val();
                     gross = parseFloat(gross)+parseFloat(grossProduct);
                     $("#subTotal").text("R$ "+int2decimal(gross));
+                    $("#totalBuy").val(int2decimal(gross));
+
+                    // reset fields
+                    $("#searchProduct").val(null);
+                    $("#valueItems").val(null);
+                    $("#numberItems").val(null);
+                    $("#valueTotalItems").val(null);
+                    $("#rebate").val("0.0");
                 }
             }
             
@@ -96,7 +131,7 @@
     </head>
     <body>
         <div class="jumbotron">
-            <h2>Caixa</h2>
+            <h2>PDV</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -128,7 +163,7 @@
                             </div>
 
                             <div class="form-group" style="background: #fff;height: 50px;display:-webkit-box;font-size: 24px;"> 
-                                <input  onclick="sendRegisterBuy();" type="reset" value="Registrar" class="form-control">
+                                <input onclick="sendRegisterBuy();" type="button" value="Registrar" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -173,8 +208,44 @@
                             <h4 style="float: left;">Sub-Total</h4>
                             <h4 id="subTotal" style="float: right;"><?=$subValue?></h4>
                         </div>
-                        <div class="form-group" style="height: 30px;">
-                            <input type="submit" value="Finalizar" class="form-control">
+                        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label for="methodPayment">Forma de pagamento</label> 
+                                <select id="methodPayment" name="methodPayment" class="form-control" onchange="methodPaymentAction(this.value);" required>
+                                    <option value="1">À vista</option>
+                                    <option value="2">Cartão - Débito</option>
+                                    <option value="3">Cartão - Crédito</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label for="rebate">Desconto</label> 
+                                <input type="text" id="rebate" name="rebate" value="0.0" class="form-control" onblur="applyRebate(this.value);">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label for="totalBuy">Total</label> 
+                                <input type="text" id="totalBuy" name="totalBuy" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label for="valueReceive">Valor Recebido</label> 
+                                <input type="text" id="valueReceive" name="valueReceive" class="form-control" onblur="calculateValueReceive(this.value);">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <div class="form-group">
+                                <label for="change">Troco</label> 
+                                <input type="text" id="change" name="change" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                            <div class="form-group" style="height: 30px;">
+                                <input type="submit" value="Finalizar" class="form-control">
+                            </div>
                         </div>
                     </div>
                 </div>

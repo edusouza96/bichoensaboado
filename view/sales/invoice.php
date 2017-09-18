@@ -62,9 +62,13 @@
             </div>";
         $total += ($quantityProductSales[$i] * $valuationUnitSales[$i]);
     }
+    $methodsPayment = array('','À vista','Cartão - Débito','Cartão - Crédito');  
     echo "<div class='div-separator'></div>";
-    echo "<div>Valor Total R$ ".$total."</div>";
-    // echo "<div>Forma de pagamento</div>";
+    echo "<div>Forma de pagamento: ".$methodsPayment[$methodPayment]."</div>";
+    echo "<div>Valor Total R$ ".$totalBuy."</div>";
+    echo "<div>Desconto R$ ".$rebate."</div>";
+    echo "<div>Valor Recebido R$ ".$valueReceive."</div>";
+    echo "<div>Troco R$ ".$change."</div>";
     if($diarySalesId>0){
         echo "<div class='div-separator'></div>";
         echo "<div>Consumidor</div>";

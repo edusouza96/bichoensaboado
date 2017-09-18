@@ -66,14 +66,24 @@ class DiaryDAO {
 
       public function UpdateStatus($idDiary,$status) {
           try {
-              $sql = "UPDATE diary set
-                        status = :status
-                    WHERE idDiary = :idDiary";
+              $sqlFieldUpdate = '';
+              if($status == 1){
+                $sqlFieldUpdate = ', checkinHourDiary = :checkinHourDiary';
+              }else if($status == 2){
+                $sqlFieldUpdate = ', checkoutHourDiary = :checkoutHourDiary';
+              }
+
+              $sql = "UPDATE diary set status = :status ".$sqlFieldUpdate." WHERE idDiary = :idDiary";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":status", $status);
               $p_sql->bindValue(":idDiary", $idDiary);
+              if($status == 1){
+                $p_sql->bindValue(":checkinHourDiary", date('H:i:s'));
+              }else if($status == 2){
+                $p_sql->bindValue(":checkoutHourDiary", date('H:i:s'));
+              }
    
               return $p_sql->execute();
           } catch (Exception $e) {

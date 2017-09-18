@@ -16,7 +16,7 @@
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
                 <li><a href="/bichoensaboado/view/financial/">Financeiro</a></li>
-                <li><a href="/bichoensaboado/view/sales/">Caixa</a></li>
+                <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
             </ul>
         </nav>
     </body>

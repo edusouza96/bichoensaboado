@@ -16,6 +16,8 @@
     include_once($path."/bichoensaboado/class/SalesClass.php");
     include_once($path."/bichoensaboado/dao/DiaryDAO.php");
     include_once($path."/bichoensaboado/class/DiaryClass.php");
+    include_once($path."/bichoensaboado/dao/CategoryExpenseFinancialDAO.php");
+    include_once($path."/bichoensaboado/class/CategoryExpenseFinancialClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -32,6 +34,8 @@
     $financialDao = new FinancialDAO();
     $diaryClass = new DiaryClass();
     $diaryDao = new DiaryDAO();
+    $categoryExpenseFinancialClass = new CategoryExpenseFinancialClass();
+    $categoryExpenseFinancialDAO = new CategoryExpenseFinancialDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -134,7 +138,20 @@
             if($productClass->idProduct != 0){
                 $productDao->update($productClass);
             }else{
-               $productDao->insert($productClass);
+                $idProductSucess = $productDao->insert($productClass);
+                if($idProductSucess){
+                    $quantity = $productClass->quantityProduct;
+                    $valueUnit = $productClass->valuationBuyProduct;
+                    $description = $productClass->nameProduct;
+                    $financialClass = new FinancialClass();
+                    $financialClass->description              = 'Compra de produtos: '.$quantity. 'unidades de '.$description;
+                    $financialClass->dateDueFinancial         = date('Y-m-d');
+                    $financialClass->datePayFinancial         = date('Y-m-d');
+                    $financialClass->valueProduct             = $quantity * $valueUnit;
+                    $financialClass->categoryExpenseFinancial = 4;
+                    $financialDao = new FinancialDao();
+                    $financialDao->insert($financialClass);
+                }
             }
             
             break;
@@ -147,7 +164,14 @@
                 $quantityProductSales = $_POST['quantityProductSales'];
                 $productSales         = $_POST['productSales'];
                 $valuationUnitSales   = $_POST['valuationUnitSales'];
-                @$diarySales           = $_POST['diarySales'];
+                @$diarySales          = $_POST['diarySales'];
+                $methodPayment        = $_POST['methodPayment'];
+                $totalBuy             = $_POST['totalBuy'];
+                $valueReceive         = $_POST['valueReceive'];
+                $rebate               = $_POST['rebate'];
+                $change               = $_POST['change'];
+                
+                
                 $saleIds = array();
                 for($i=0; $i<count($valuationUnitSales); $i++){
                     $salesClass = new SalesClass();

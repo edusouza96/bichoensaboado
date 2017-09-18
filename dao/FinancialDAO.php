@@ -25,14 +25,16 @@ class FinancialDAO {
                 valueProduct,
                 description,
                 dateDueFinancial,
-                datePayFinancial
+                datePayFinancial,
+                categoryExpenseFinancial
                 )VALUES (
                 :registerBuy,
                 :sales,
                 :valueProduct,
                 :description,
                 :dateDueFinancial,
-                :datePayFinancial)";
+                :datePayFinancial,
+                :categoryExpenseFinancial)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -42,6 +44,7 @@ class FinancialDAO {
               $p_sql->bindValue(":description",      $financial->description);
               $p_sql->bindValue(":dateDueFinancial", $financial->dateDueFinancial);
               $p_sql->bindValue(":datePayFinancial", $financial->datePayFinancial);
+              $p_sql->bindValue(":categoryExpenseFinancial", $financial->categoryExpenseFinancial);
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
@@ -50,7 +53,7 @@ class FinancialDAO {
       }
      
       public function update(FinancialClass $financial) {
-          try {
+         try {
               $sql = "UPDATE financial set idFinancial = :idFinancial";
               $financialList = $financial->iterateVisible();
               foreach($financialList as $key => $value){
@@ -59,7 +62,7 @@ class FinancialDAO {
                 }
               }
               $sql .= " WHERE idFinancial = :idFinancial";
-
+              
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":idFinancial",  $financial->idFinancial);
@@ -118,13 +121,14 @@ class FinancialDAO {
       private function showObject($row) {
           
           $financial = new FinancialClass();
-          $financial->idFinancial       = $row['idFinancial'];
-          $financial->description       = $row['description'];
-          $financial->dateDueFinancial  = $row['dateDueFinancial'];
-          $financial->datePayFinancial  = $row['datePayFinancial'];
-          $financial->valueProduct      = $row['valueProduct'];
-          $financial->registerBuy       = $row['registerBuy'];
-          $financial->sales             = $row['sales_idSales'];
+          $financial->idFinancial              = $row['idFinancial'];
+          $financial->description              = $row['description'];
+          $financial->dateDueFinancial         = $row['dateDueFinancial'];
+          $financial->datePayFinancial         = $row['datePayFinancial'];
+          $financial->valueProduct             = $row['valueProduct'];
+          $financial->registerBuy              = $row['registerBuy'];
+          $financial->sales                    = $row['sales_idSales'];
+          $financial->categoryExpenseFinancial = $row['categoryExpenseFinancial'];
           return $financial;
       }
    

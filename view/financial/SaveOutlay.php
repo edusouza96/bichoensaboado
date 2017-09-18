@@ -7,8 +7,12 @@
     }
     $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/dao/FinancialDAO.php");
+    include_once($path."/bichoensaboado/dao/CategoryExpenseFinancialDAO.php");
+    include_once($path."/bichoensaboado/class/CategoryExpenseFinancialClass.php");
     $financialDao = new FinancialDAO();
     $financial = $financialDao->SearchId($idFinancial);
+    $categoryExpenseDao = new CategoryExpenseFinancialDAO();
+    $categoryExpenseList = $categoryExpenseDao->searchAll();
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,6 +53,27 @@
 
                 </div><!-- end div line Valuation -->
 
+                <div class="row"> <!--div line category expense -->
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div category expense-->
+                        <div class="form-group"> 
+                            <label for="categoryExpenseFinancial">Categoria da despesa:</label> 
+                            <select id="categoryExpenseFinancial" name="categoryExpenseFinancial" class="form-control" required>
+                                <option value="">-- Selecione --</option>
+                                <?php
+                                    $idCategoryExpenseFinancial = $financial->categoryExpenseFinancial;
+                                    foreach($categoryExpenseList as $categoryExpense){
+                                        $idOption = $categoryExpense->idCategoryExpenseFinancial;
+                                        $descOption = $categoryExpense->descCategoryExpenseFinancial;
+                                        $selected = ($idCategoryExpenseFinancial == $idOption ? 'selected':''); 
+                                        echo '<option value="'.$idOption.'" '.$selected.'>'.$descOption.'</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div> <!-- end div category expense-->
+
+                </div><!-- end div line category expense -->
+
                 <div class="row"> <!--div line Dates -->
                     <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div due-->
                         <div class="form-group"> 
@@ -59,7 +84,7 @@
 
                     <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div pay-->
                         <div class="form-group"> 
-                            <label for="datePayFinancial">Data de Vencimento</label> 
+                            <label for="datePayFinancial">Data de Pagamento</label> 
                             <input type="date" id="datePayFinancial" name="datePayFinancial" class="form-control" value="<?=$financial->datePayFinancial?>">
                         </div>
                     </div> <!-- end div due-->

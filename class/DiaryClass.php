@@ -11,6 +11,8 @@ class DiaryClass{
     private $status;
     private $package;
     private $companion;
+    private $checkinHourDiary;
+    private $checkoutHourDiary;    
 
     function __construct(){
         //

@@ -7,6 +7,7 @@ class FinancialClass{
     private $description;
     private $dateDueFinancial;
     private $datePayFinancial;
+    private $categoryExpenseFinancial;
 
 
     function __construct(){
