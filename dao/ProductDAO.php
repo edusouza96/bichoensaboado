@@ -23,12 +23,14 @@ class ProductDAO {
                 nameProduct,
                 valuationProduct,
                 quantityProduct,
-                valuationBuyProduct
+                valuationBuyProduct,
+                barcodeProduct
                 )VALUES (
                 :nameProduct,
                 :valuationProduct,
                 :quantityProduct,
-                :valuationBuyProduct)";
+                :valuationBuyProduct,
+                :barcodeProduct)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -36,16 +38,11 @@ class ProductDAO {
               $p_sql->bindValue(":valuationProduct", $product->valuationProduct);
               $p_sql->bindValue(":quantityProduct", $product->quantityProduct);
               $p_sql->bindValue(":valuationBuyProduct", $product->valuationBuyProduct);
+              $p_sql->bindValue(":barcodeProduct", $product->barcodeProduct);
               $p_sql->execute();
               $newIdProduct = Conexao::getInstance()->lastInsertId();
-              while(strlen ($newIdProduct) < 4){
-                $newIdProduct = "0".$newIdProduct;
-              }
-              $newNameProduct = $newIdProduct."# ".$product->nameProduct;
-              $prod = new ProductClass();
-              $prod->idProduct = $newIdProduct;
-              $prod->nameProduct = $newNameProduct;
-              return $this->update($prod);
+              
+              return $newIdProduct;
           } catch (Exception $e) {
               print $e."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
@@ -72,6 +69,22 @@ class ProductDAO {
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
+
+      public function updateQuantity($barcodeProduct, $quantityProduct) {
+        try {
+            
+            $sql = "UPDATE product set quantityProduct = (quantityProduct - :quantityProduct) WHERE barcodeProduct = :barcodeProduct";
+           
+            $p_sql = Conexao::getInstance()->prepare($sql);
+ 
+            $p_sql->bindValue(":quantityProduct",  $quantityProduct);
+            $p_sql->bindValue(":barcodeProduct",  $barcodeProduct);
+ 
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
       
       public function delete($idProduct) {
           try {
@@ -100,6 +113,18 @@ class ProductDAO {
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
+
+      public function searchBarcode($barcodeProduct) {
+        try {
+            $sql = "SELECT * FROM product WHERE barcodeProduct = :barcodeProduct";
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->bindValue(":barcodeProduct", $barcodeProduct);
+            $p_sql->execute();
+            return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
      
       public function searchAll() {
           try {
@@ -121,7 +146,14 @@ class ProductDAO {
       private function showObject($row) {
           
           $product = new ProductClass();
-          $product->ProductClass($row['idProduct'], $row['nameProduct'], $row['valuationProduct'], $row['quantityProduct'], $row['valuationBuyProduct']);
+          $product->ProductClass(
+              $row['idProduct'], 
+              $row['nameProduct'], 
+              $row['valuationProduct'], 
+              $row['quantityProduct'], 
+              $row['valuationBuyProduct'], 
+              $row['barcodeProduct']
+            );
           return $product;
       }
    

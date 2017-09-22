@@ -5,10 +5,12 @@
     $productDao = new ProductDAO();
     $productList = $productDao->searchAll();
     $productJson = "";
+    $productArray = array();
     foreach ($productList as $product){
-        $f_list[] = array('label' => utf8_encode($product->nameProduct));
-        $productJson .= ($product->serialize()).",";
+        $f_list[] = array('label' => $product->barcodeProduct.'# '.utf8_encode($product->nameProduct));
+        $productArray[] = array('barcodeProduct'=> $product->barcodeProduct, 'valuationProduct' => $product->valuationProduct);
     }
+    $productJson = json_encode($productArray);
     $subValue = 'R$ 00.00';
     
     
@@ -54,12 +56,13 @@
             }
 
             function completeFieldValueCashDesk(value){
+                var barcode_nameProduct = value.split('#');
                 var listProducts = <?php
-                                        echo '['.$productJson.']';
+                                        echo $productJson;
                                     ?>;
                 for(cont in listProducts){
-                    if(listProducts[cont].nameProduct == value){
-                        $("#valueItems").val(int2decimal(parseFloat(listProducts[cont].valuationProduct)));   
+                    if(listProducts[cont]['barcodeProduct'] == barcode_nameProduct[0]){
+                        $("#valueItems").val(int2decimal(parseFloat(listProducts[cont]['valuationProduct'])));   
                         completeFieldValueTotalCashDesk();
                     }
                 }

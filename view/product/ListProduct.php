@@ -6,6 +6,7 @@
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
     $productDao = new ProductDAO();
     if(empty($search)){
+        $productDao->addWhere("quantityProduct > 0 ");
         $productList = $productDao->searchAll();
     }else{
         $productDao->addWhere("nameProduct LIKE '%".$search."%' ");
@@ -57,9 +58,8 @@
             <tbody>
                 <?php
                     foreach($productList as $product){
-                        $name = explode("#", $product->nameProduct);
                         echo "<td>";
-                        echo $name[1];
+                        echo $product->nameProduct;
                         echo "</td>";
 
                         echo "<td>";

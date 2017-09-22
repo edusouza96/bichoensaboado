@@ -43,9 +43,8 @@
         $productAuxDao = new ProductDAO();
         $diaryAuxDao = new DiaryDAO();
         if($productSalesId>0){
-            $productAuxClass = $productAuxDao->searchId((int) $productSalesId);
-            $productSalesName = explode('#', $productAuxClass->nameProduct);
-            $productSalesName = $productSalesName[1];
+            $productAuxClass = $productAuxDao->searchBarcode($productSalesId);
+            $productSalesName = $productAuxClass->nameProduct;
         }else{
             $diarySalesId = $diarySales[$i];
             $diaryAuxClass = $diaryAuxDao->searchId((int) $diarySalesId);

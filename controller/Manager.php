@@ -130,27 +130,68 @@
             break;
 
         case 'product':
+            $valuationUnitNew = 0;
             foreach($_POST as $fieldKey=>$fieldValue){
                 if(${'fieldKey'} != 'module'){
                     $productClass->${'fieldKey'} = $fieldValue;
                 }
             }
-            if($productClass->idProduct != 0){
-                $productDao->update($productClass);
-            }else{
-                $idProductSucess = $productDao->insert($productClass);
+
+            if($_POST['optionActionProduct'] > 0){
+                $productAuxDao = new ProductDAO();
+                $productAuxDao->addWhere('barcodeProduct = '.$_POST['barcodeProduct']);
+                $productAuxList = $productAuxDao->searchAll();
+                if(count($productAuxList) > 0){
+                    $productAuxClass = $productAuxList[0];
+                    $quantityOld = $productAuxClass->quantityProduct; 
+                    $valuationOld = $productAuxClass->valuationProduct; 
+                    $valuationExpectedOld = $quantityOld * $valuationOld;
+                    $quantityNew = $_POST['quantityProduct']; 
+                    $valuationNew = $_POST['valuationProduct']; 
+                    $valuationExpectedNew = $quantityNew * $valuationNew;
+                    $valuationUnitNew = ($valuationExpectedOld + $valuationExpectedNew) / ($quantityOld + $quantityNew);
+
+                    $productClass->idProduct = $productAuxClass->idProduct;
+                    $productClass->quantityProduct = ($quantityNew + $quantityOld);
+                }
+                
+                // caso esteja cadastrando um produto existente, o sistema faz um calculo para do valor de venda de acordo com o valor inserido e o valor anterior
+                if($_POST['optionActionProduct'] == 2){
+                    $productClass->valuationProduct = $valuationUnitNew;
+                }
+                $idProductSucess = $productDao->update($productClass);
                 if($idProductSucess){
-                    $quantity = $productClass->quantityProduct;
+                    $quantity = $quantityNew;
                     $valueUnit = $productClass->valuationBuyProduct;
                     $description = $productClass->nameProduct;
                     $financialClass = new FinancialClass();
-                    $financialClass->description              = 'Compra de produtos: '.$quantity. 'unidades de '.$description;
+                    $financialClass->description              = 'Compra de produtos: '.$quantity. ' unidades de '.$description;
                     $financialClass->dateDueFinancial         = date('Y-m-d');
                     $financialClass->datePayFinancial         = date('Y-m-d');
                     $financialClass->valueProduct             = $quantity * $valueUnit;
                     $financialClass->categoryExpenseFinancial = 4;
                     $financialDao = new FinancialDao();
                     $financialDao->insert($financialClass);
+                }
+            }else{
+                // caso seja um update ou insert, segue o fluxo padrão
+                if($productClass->idProduct != 0){
+                    $productDao->update($productClass);
+                }else{
+                    $idProductSucess = $productDao->insert($productClass);
+                    if($idProductSucess){
+                        $quantity = $productClass->quantityProduct;
+                        $valueUnit = $productClass->valuationBuyProduct;
+                        $description = $productClass->nameProduct;
+                        $financialClass = new FinancialClass();
+                        $financialClass->description              = 'Compra de produtos: '.$quantity. 'unidades de '.$description;
+                        $financialClass->dateDueFinancial         = date('Y-m-d');
+                        $financialClass->datePayFinancial         = date('Y-m-d');
+                        $financialClass->valueProduct             = $quantity * $valueUnit;
+                        $financialClass->categoryExpenseFinancial = 4;
+                        $financialDao = new FinancialDao();
+                        $financialDao->insert($financialClass);
+                    }
                 }
             }
             
@@ -180,6 +221,10 @@
                     $salesClass->productSales         = $productSales[$i];
                     @$salesClass->diarySales           = $diarySales[$i];
                     $saleIds[] = $salesDao->insert($salesClass);
+                    if($productSales[$i] > 0){
+                        $productUpDao = new ProductDAO();
+                        $productUpDao->updateQuantity($productSales[$i], $quantityProductSales[$i]);
+                    }
                 }
 
                 $registerBuy = date('YmdHis');

@@ -404,3 +404,38 @@ function processReqAnimalSameOwnerListServic() {
   }
 }
 
+/**
+*
+*/
+function ajaxAlertValuationExpected(url) {
+  req = null;
+  if (window.XMLHttpRequest) {
+    req = new XMLHttpRequest();
+    req.onreadystatechange = processReqAjaxAlertValuationExpected;
+    req.open("GET", url, true);
+    req.send(null);
+  } else if (window.ActiveXObject) {
+    req = new ActiveXObject("Microsoft.XMLHTTP");
+    if (req) {
+      req.onreadystatechange = processReqAjaxAlertValuationExpected;
+      req.open("GET", url, true);
+      req.send(null);
+    }
+  }
+}
+
+function processReqAjaxAlertValuationExpected() {
+  if (req.readyState == 4) {
+    if (req.status == 200) {
+      var returnn = req.responseText;
+      if(returnn != 0){
+        $("#modal-alert").modal();
+        $("#alertValuationExpected").html(returnn);
+      }else{
+        $('form').submit();
+      }
+    } else{
+      alert("Houve um problema ao obter os dados: " + req.statusText);
+    }
+  }
+}
