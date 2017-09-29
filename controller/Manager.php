@@ -243,6 +243,20 @@
             }
             break;
 
+        case 'treasurer':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $financialClass->${'fieldKey'} = $fieldValue;
+                }
+            }
+        
+            if($treasurerClass->idTreasurer != 0){
+                $treasurerDao->update($treasurerClass);
+            }else{
+                $treasurerDao->insert($treasurerClass);
+            }
+            break;    
+ 
         default:
             echo "ERROU!";
             break;
