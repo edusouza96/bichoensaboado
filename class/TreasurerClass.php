@@ -8,6 +8,11 @@ class TreasurerClass{
     private $moneyBankTreasurer;
     private $dateRegistryTreasurer;
 
+    function __construct(){
+            //
+
+    }
+
     function TreasurerClass($idTreasurer, $startingMoneyDayTreasurer, $closingMoneyDayTreasurer, $moneyDrawerTreasurer, $moneySavingsTreasurer, $moneyBankTreasurer, $dateRegistryTreasurer){
         $this->idTreasurer = $idTreasurer;
         $this->startingMoneyDayTreasurer = $startingMoneyDayTreasurer;
@@ -16,11 +21,7 @@ class TreasurerClass{
         $this->moneySavingsTreasurer = $moneySavingsTreasurer;
         $this->moneyBankTreasurer = $moneyBankTreasurer;
         $this->dateRegistryTreasurer = $dateRegistryTreasurer;
-    }
-
-    function __construct(){
-        //
-    }
+    }   
 
     function iterateVisible() {
        $list = array();

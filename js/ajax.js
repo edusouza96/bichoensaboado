@@ -405,7 +405,7 @@ function processReqAnimalSameOwnerListServic() {
 }
 
 /**
-*
+* Alerta de valor para produtos adicionados em estoque
 */
 function ajaxAlertValuationExpected(url) {
   req = null;
@@ -438,4 +438,38 @@ function processReqAjaxAlertValuationExpected() {
       alert("Houve um problema ao obter os dados: " + req.statusText);
     }
   }
+}
+
+
+/**
+* Abri ou fecha o caixa
+*/
+function ajaxOpenCloseTreasurer(url) {
+  req = null;
+  if (window.XMLHttpRequest) {
+    req = new XMLHttpRequest();
+    req.onreadystatechange = processReqAjaxOpenCloseTreasurer;
+    req.open("GET", url, true);
+    req.send(null);
+  } else if (window.ActiveXObject) {
+    req = new ActiveXObject("Microsoft.XMLHTTP");
+    if (req) {
+      req.onreadystatechange = processReqAjaxOpenCloseTreasurer;
+      req.open("GET", url, true);
+      req.send(null);
+    }
+  }
+}
+
+function processReqAjaxOpenCloseTreasurer() {
+  if (req.readyState == 4) {
+    if (req.status == 200) {
+        document.getElementById('alert').style.display = 'block';
+        document.getElementById('msg-alert').innerHTML = req.responseText;
+        document.getElementById('link-treasurer').style.display = 'none';
+    } else{
+      alert("Houve um problema ao obter os dados: " + req.statusText);
+    }
+  }
+  
 }

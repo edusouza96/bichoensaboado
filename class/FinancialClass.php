@@ -8,6 +8,7 @@ class FinancialClass{
     private $dateDueFinancial;
     private $datePayFinancial;
     private $categoryExpenseFinancial;
+    private $methodPayment;
 
 
     function __construct(){
@@ -22,7 +23,7 @@ class FinancialClass{
        return $list;
     }
     
-    function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial,$datePayFinancial){
+    function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial,$datePayFinancial, $methodPayment = null){
          $this->idFinancial = $idFinancial;
          $this->registerBuy = $registerBuy;
          $this->sales = $sales;
@@ -31,6 +32,7 @@ class FinancialClass{
          $this->description = $description;
          $this->dateDueFinancial = $dateDueFinancial;
          $this->datePayFinancial = $datePayFinancial;
+         $this->methodPayment = $methodPayment;
     }
 
      public function __get($property) {

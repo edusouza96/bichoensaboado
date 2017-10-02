@@ -236,6 +236,7 @@
                     $financialClass->description = "Entrada no caixa";
                     $financialClass->dateDueFinancial = date('Y-m-d');
                     $financialClass->datePayFinancial = date('Y-m-d');
+                    $financialClass->methodPayment = $methodPayment;
                     ($financialDao->insert($financialClass));
                 }
                 // print invoice

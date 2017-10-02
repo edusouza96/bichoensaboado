@@ -82,24 +82,29 @@
 //     }
 //     fclose($handle);
 // }
-//Script para popular tabela animal_owner
-    include_once($path."/bichoensaboado/dao/ClientDAO.php");
-    $clientDao = new ClientDAO();
-    $listDB = $clientDao->ScriptAnimalsSameOwner();
-    $listFormat = array();
-    foreach($listDB as $listVal){
-        foreach($listVal as $val){
-            $listFormat[] = explode('|', $val);
-        }        
-    }
-    $owner = 0;
-    foreach($listFormat as $list){
-        $owner++;
-        foreach($list as $l){
-            $clientDao->UpdateIdOwner($owner, $l);
-        }
+// //Script para popular tabela animal_owner
+//     include_once($path."/bichoensaboado/dao/ClientDAO.php");
+//     $clientDao = new ClientDAO();
+//     $listDB = $clientDao->ScriptAnimalsSameOwner();
+//     $listFormat = array();
+//     foreach($listDB as $listVal){
+//         foreach($listVal as $val){
+//             $listFormat[] = explode('|', $val);
+//         }        
+//     }
+//     $owner = 0;
+//     foreach($listFormat as $list){
+//         $owner++;
+//         foreach($list as $l){
+//             $clientDao->UpdateIdOwner($owner, $l);
+//         }
 
-    }
-    print_r('ok');
+//     }
+//     print_r('ok');
+
+    
+    include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
+    $treasurerDao = new TreasurerDAO();
+    print_r($treasurerDao->closeTreasurer());
 
 ?>

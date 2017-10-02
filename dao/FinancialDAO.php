@@ -26,7 +26,8 @@ class FinancialDAO {
                 description,
                 dateDueFinancial,
                 datePayFinancial,
-                categoryExpenseFinancial
+                categoryExpenseFinancial,
+                methodPayment
                 )VALUES (
                 :registerBuy,
                 :sales,
@@ -34,7 +35,8 @@ class FinancialDAO {
                 :description,
                 :dateDueFinancial,
                 :datePayFinancial,
-                :categoryExpenseFinancial)";
+                :categoryExpenseFinancial,
+                :methodPayment)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -45,6 +47,7 @@ class FinancialDAO {
               $p_sql->bindValue(":dateDueFinancial", $financial->dateDueFinancial);
               $p_sql->bindValue(":datePayFinancial", $financial->datePayFinancial);
               $p_sql->bindValue(":categoryExpenseFinancial", $financial->categoryExpenseFinancial);
+              $p_sql->bindValue(":methodPayment",    $financial->methodPayment);
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
@@ -129,6 +132,7 @@ class FinancialDAO {
           $financial->registerBuy              = $row['registerBuy'];
           $financial->sales                    = $row['sales_idSales'];
           $financial->categoryExpenseFinancial = $row['categoryExpenseFinancial'];
+          $financial->methodPayment            = $row['methodPayment'];
           return $financial;
       }
    
