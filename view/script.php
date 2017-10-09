@@ -103,8 +103,11 @@
 //     print_r('ok');
 
     
-    include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
-    $treasurerDao = new TreasurerDAO();
-    print_r($treasurerDao->closeTreasurer());
-
+// include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
+// $treasurerDao = new TreasurerDAO();
+    // print_r($treasurerDao->closeTreasurer());
+    include_once($path."/bichoensaboado/dao/ReportDAO.php");
+    $reportDao  = new ReportDAO();
+    var_dump($reportDao->reportSearchDone());
+    
 ?>

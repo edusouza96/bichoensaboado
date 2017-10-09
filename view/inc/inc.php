@@ -31,7 +31,9 @@
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
                 <li><a href="/bichoensaboado/view/financial/">Financeiro</a></li>
+                <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
                 <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
+                <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
                 <?php
                 if(!$disabledLink){
                 ?>

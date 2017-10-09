@@ -22,3 +22,8 @@ function alertValuationExpected(){
         $('form').submit();
     }
 }
+
+function reportShowFilters(){
+    $("#filters").removeClass('hidden');
+    $("#showFilters").addClass('hidden');
+}

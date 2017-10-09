@@ -101,6 +101,17 @@ class TreasurerDAO{
         }    
     }
 
+    public function searchLastId() {
+        try {
+            $sql = "SELECT * FROM treasurer ORDER BY idTreasurer DESC LIMIT 1";
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->execute();
+            return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }    
+    }
+
     public function searchDate($dateRegistryTreasurer) {
         try {
             $sql = "SELECT * FROM treasurer WHERE SUBSTRING(dateRegistryTreasurer, 1, 10) = :dateRegistryTreasurer";

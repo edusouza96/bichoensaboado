@@ -18,6 +18,8 @@
     include_once($path."/bichoensaboado/class/DiaryClass.php");
     include_once($path."/bichoensaboado/dao/CategoryExpenseFinancialDAO.php");
     include_once($path."/bichoensaboado/class/CategoryExpenseFinancialClass.php");
+    include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
+    include_once($path."/bichoensaboado/class/TreasurerClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -36,6 +38,8 @@
     $diaryDao = new DiaryDAO();
     $categoryExpenseFinancialClass = new CategoryExpenseFinancialClass();
     $categoryExpenseFinancialDAO = new CategoryExpenseFinancialDAO();
+    $treasurerClass = new TreasurerClass();
+    $treasurerDao = new TreasurerDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -71,7 +75,7 @@
                 }
             }
             
-            break;
+        break;
 
         case 'servic':
             foreach($_POST as $fieldKey=>$fieldValue){
@@ -85,7 +89,7 @@
                 $servicDao->Insert($servicClass);
             }
             
-            break;
+        break;
 
         case 'breed':
             foreach($_POST as $fieldKey=>$fieldValue){
@@ -99,7 +103,7 @@
                 $idBreed = $breedDao->Insert($breedClass);
                 $servicDao->InsertDefaultBreed($idBreed);
             }
-            break;
+        break;
 
         case 'address':
             foreach($_POST as $fieldKey=>$fieldValue){
@@ -113,7 +117,7 @@
                 $addressDao->Insert($addressClass);
             }
             
-            break;
+        break;
 
         case 'financial':
             foreach($_POST as $fieldKey=>$fieldValue){
@@ -127,7 +131,7 @@
             }else{
                 $financialDao->insert($financialClass);
             }
-            break;
+        break;
 
         case 'product':
             $valuationUnitNew = 0;
@@ -195,7 +199,7 @@
                 }
             }
             
-            break;
+        break;
         
         case 'sales':
 
@@ -242,8 +246,43 @@
                 // print invoice
                 include_once($path."/bichoensaboado/view/sales/invoice.php");                
             }
-            break;
+        break;
+        
+        case 'treasurer-transfer':
+            $optionTransferFrom = $_POST['optionTransferFrom'];
+            $optionTransferTo   = $_POST['optionTransferTo'];
+            $valueTranfer       = $_POST['valueTranfer'];
 
+            $treasurerDao = new TreasurerDAO();
+            $treasurerClass = $treasurerDao->searchLastId();
+
+            if($optionTransferFrom == 1){
+                $treasurerClass->moneyDrawerTreasurer -= $valueTranfer;     
+                if($treasurerClass->closingMoneyDayTreasurer == null){
+                    $treasurerClass->startingMoneyDayTreasurer -= $valueTranfer;
+                }          
+            }else if($optionTransferFrom == 2){
+                $treasurerClass->moneySavingsTreasurer -= $valueTranfer;                
+            }else{
+                $treasurerClass->moneyBankTreasurer -= $valueTranfer;
+            } 
+
+            if($optionTransferTo == 1){
+                $treasurerClass->moneyDrawerTreasurer += $valueTranfer;
+                if($treasurerClass->closingMoneyDayTreasurer == null){
+                    $treasurerClass->startingMoneyDayTreasurer += $valueTranfer;
+                }
+            }else if($optionTransferTo == 2){
+                $treasurerClass->moneySavingsTreasurer += $valueTranfer;                
+            }else{
+                $treasurerClass->moneyBankTreasurer += $valueTranfer;
+            } 
+            $treasurerDao = new TreasurerDAO();
+            $treasurerDao->update($treasurerClass);
+            header("location:../view/financial/TransferTreasury.php");
+            exit;
+        break;
+        
         case 'treasurer':
             foreach($_POST as $fieldKey=>$fieldValue){
                 if(${'fieldKey'} != 'module'){
@@ -256,11 +295,11 @@
             }else{
                 $treasurerDao->insert($treasurerClass);
             }
-            break;    
- 
+        break;    
+        
         default:
             echo "ERROU!";
-            break;
+        break;
     }
     header("location:../view/".$module."/index.php");
 ?>
