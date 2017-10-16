@@ -1,5 +1,6 @@
 <?php
     error_reporting(0);    
+    $versionFiles = rand(100, 500);
     $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/view/inc/util.php");
     include_once($path."/bichoensaboado/dao/ReportDAO.php");
@@ -7,13 +8,13 @@
     
     if(!empty($_POST['dateStart'])){
         $dateStart = $_POST['dateStart'];
-        $reportDao->addWhere(" dateHour >= '".$dateStart." 00:00:00'");
+        $reportDao->addWhere(" day >= '".$dateStart."'");
     }
     if(!empty($_POST['dateEnd'])){
         $dateEnd = $_POST['dateEnd'];
-        $reportDao->addWhere(" dateHour <= '".$dateEnd." 23:59:59'");
+        $reportDao->addWhere(" day <= '".$dateEnd."'");
     }
-    $reportList = $reportDao->reportSearchDoneByDistrict();    
+    $reportList = $reportDao->reportFinancialByInOut();    
     $namesDistrict = array();
 ?>
 <!DOCTYPE html>
@@ -23,11 +24,11 @@
         <title>Relatório</title>
         <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
-        <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
+        <link rel="stylesheet" href="../../css/stylePages.css?v=<?=$versionFiles?>">
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Busca realizadas por bairro</h2>
+            <h2>Movimentação financeira</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -75,22 +76,28 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <td colspan="3" class="text-right">
-                        <i title="Exportar para Excel" class="fa fa-table fa-2x" aria-hidden="true" onclick="exportReportToExcel(sheetSearchDoneByDistrict);"></i>
+                    <td colspan="5" class="text-right">
+                        <i title="Exportar para Excel" class="fa fa-table fa-2x" aria-hidden="true" onclick="exportReportToExcel('sheetFinancialByInOut');"></i>
                         <i title="Mostrar/Ocultar Gráfico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
                     </td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
-                    <th>Bairro</th>
-                    <th>Valor gerado</th>
+                    <th>Periodo</th>
+                    <th>Vendas em Dinheiro</th>
+                    <th>Vendas em Cartão</th>
+                    <th>Despesas</th>
+                    <th>Lucro no Periodo</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $chartData = array();
                     foreach($reportList as $item){
-                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>";
+                        echo $item->column5Report;
+                        echo "</td>";
+
                         echo "<td>";
                         echo $item->column1Report;
                         echo "</td>";
@@ -102,13 +109,18 @@
                         echo "<td>";
                         echo $item->column3Report;
                         echo "</td>";
+
+                        echo "<td>";
+                        echo $item->column4Report;
+                        echo "</td>";
                         echo "</tr>";
+
                         $chartData[] = array(
-                            "label" => utf8_encode($item->column2Report), 
+                            "label" => utf8_encode($item->column5Report), 
                             "backgroundColor" => generationColorRGB(),
                             "borderColor" => "#fff", 
                             "borderWidth" => 1, 
-                            "data" => array($item->column1Report)
+                            "data" => array($item->column4Report)
                         );
                     }
                        
@@ -120,7 +132,7 @@
     </body>
 </html>
 
-<script language="javascript" src="../../js/functionsModules.js?v=2"></script>
+<script language="javascript" src="../../js/functionsModules.js?v=<?=$versionFiles?>"></script>
 <script language="javascript" src="../../js/jquery.js"></script>
 <script language="javascript" src="../../js/chart.min.js"></script>
 <script type="text/javascript">
@@ -131,9 +143,18 @@
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Bairros'],
+                labels: ['Periodo'],
                 datasets:obj
                
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
             }
 
         });

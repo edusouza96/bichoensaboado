@@ -12,13 +12,13 @@
     
     if(!empty($_GET['dateStart'])){
         $dateStart = $_GET['dateStart'];
-        $reportDao->addWhere(" dateHour >= '".$dateStart." 00:00:00'");
+        $reportDao->addWhere(" day >= '".$dateStart."'");
     }
     if(!empty($_GET['dateEnd'])){
         $dateEnd = $_GET['dateEnd'];
-        $reportDao->addWhere(" dateHour <= '".$dateEnd." 23:59:59'");
+        $reportDao->addWhere(" day <= '".$dateEnd."'");
     }
-    $reportList = $reportDao->reportSearchDoneByDistrict();    
+    $reportList = $reportDao->reportFinancialByInOut();    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,15 +26,17 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <td colspan="3" class="text-right">
+                    <td colspan="4" class="text-right">
                         <i class="fa fa-table fa-2x" aria-hidden="true"></i>
                         <i class="fa fa-pie-chart fa-2x" aria-hidden="true"></i>
                     </td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
-                    <th>Bairro</th>
-                    <th>Valor gerado</th>
+                    <th>Periodo</th>
+                    <th>Vendas em Dinheiro</th>
+                    <th>Vendas em Cartão</th>
+                    <th>Despesas</th>
+                    <th>Lucro no Periodo</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,9 +44,11 @@
                     foreach($reportList as $item){
                 ?>
                        <tr>
+                            <td><?=$item->column5Report?></td>
                            <td><?=$item->column1Report?></td>
                            <td><?=$item->column2Report?></td>
                            <td><?=$item->column3Report?></td>
+                           <td><?=$item->column4Report?></td>
                        </tr>
                 <?php   
                     }

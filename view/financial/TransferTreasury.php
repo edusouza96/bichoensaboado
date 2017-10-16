@@ -13,6 +13,7 @@
         <title>Transferencia entre caixas</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
+        <link rel="icon" type="image/png" href="../../img/logo.jpg" />
     </head>
     <body>
         <div class="jumbotron">

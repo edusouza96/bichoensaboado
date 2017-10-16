@@ -27,3 +27,18 @@ function reportShowFilters(){
     $("#filters").removeClass('hidden');
     $("#showFilters").addClass('hidden');
 }
+
+function showChart(){
+    if( $('#reportChart').hasClass('hidden') ){
+        $("#reportChart").removeClass('hidden');
+    }else{
+        $("#reportChart").addClass('hidden');
+    }
+}
+
+function exportReportToExcel(nameFileExcel){
+    var dateStart = $('#dateStart').val();
+    var dateEnd = $('#dateEnd').val();
+    window.open(nameFileExcel+'.php?dateStart='+dateStart+'&dateEnd='+dateEnd);
+
+}

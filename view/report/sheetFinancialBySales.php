@@ -12,13 +12,13 @@
     
     if(!empty($_GET['dateStart'])){
         $dateStart = $_GET['dateStart'];
-        $reportDao->addWhere(" dateHour >= '".$dateStart." 00:00:00'");
+        $reportDao->addWhere(" datePayFinancial >= '".$dateStart."'");
     }
     if(!empty($_GET['dateEnd'])){
         $dateEnd = $_GET['dateEnd'];
-        $reportDao->addWhere(" dateHour <= '".$dateEnd." 23:59:59'");
+        $reportDao->addWhere(" datePayFinancial <= '".$dateEnd."'");
     }
-    $reportList = $reportDao->reportSearchDoneByDistrict();    
+    $reportList = $reportDao->reportFinancialBySales();    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -32,9 +32,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
-                    <th>Bairro</th>
-                    <th>Valor gerado</th>
+                    <th>Unidades</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Data</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,9 +43,10 @@
                     foreach($reportList as $item){
                 ?>
                        <tr>
-                           <td><?=$item->column1Report?></td>
+                           <td><?=$item->column5Report?></td>
+                           <td><?=$item->column4Report?></td>
                            <td><?=$item->column2Report?></td>
-                           <td><?=$item->column3Report?></td>
+                           <td><?=date("d/m/Y", strtotime($item->column3Report))?></td>
                        </tr>
                 <?php   
                     }

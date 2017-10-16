@@ -197,7 +197,7 @@ class TreasurerDAO{
             $dateNow = date('Y-m-d H:i:s');
             $treasurerClass = null;
             $error = false;
-            // Seta os valores para update caso $day não for vazio, se for significa que o caixa nçao foi aberto
+            // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
             if(!empty($day)){
                 $treasurerClass = $this->searchDate($day);
                 $treasurerClass->closingMoneyDayTreasurer = $valueDay;

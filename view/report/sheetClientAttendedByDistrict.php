@@ -18,7 +18,7 @@
         $dateEnd = $_GET['dateEnd'];
         $reportDao->addWhere(" dateHour <= '".$dateEnd." 23:59:59'");
     }
-    $reportList = $reportDao->reportSearchDoneByDistrict();    
+    $reportList = $reportDao->reportClientAttendedByDistrict();    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,7 +26,7 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <td colspan="3" class="text-right">
+                    <td colspan="2" class="text-right">
                         <i class="fa fa-table fa-2x" aria-hidden="true"></i>
                         <i class="fa fa-pie-chart fa-2x" aria-hidden="true"></i>
                     </td>
@@ -34,7 +34,6 @@
                 <tr>
                     <th>Quantidade</th>
                     <th>Bairro</th>
-                    <th>Valor gerado</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +43,6 @@
                        <tr>
                            <td><?=$item->column1Report?></td>
                            <td><?=$item->column2Report?></td>
-                           <td><?=$item->column3Report?></td>
                        </tr>
                 <?php   
                     }
