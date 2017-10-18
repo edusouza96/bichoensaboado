@@ -127,3 +127,4 @@
         </form>
     </body>
 </html>
+<script language="javascript" src="../../js/ajax.js?v=2"></script>

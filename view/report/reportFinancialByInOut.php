@@ -143,7 +143,7 @@
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Periodo'],
+                labels: ['Lucro por Periodo'],
                 datasets:obj
                
             },

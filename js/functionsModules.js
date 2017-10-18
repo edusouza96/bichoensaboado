@@ -42,3 +42,6 @@ function exportReportToExcel(nameFileExcel){
     window.open(nameFileExcel+'.php?dateStart='+dateStart+'&dateEnd='+dateEnd);
 
 }
+function redirectReport(file){
+    location.assign(file);
+}

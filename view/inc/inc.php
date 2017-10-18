@@ -87,7 +87,13 @@
  * 2 = close
  */
  function openCloseTreasurer(option){
-    var url = "ajax/treasurer.php?option="+option; 
+    var pageNow = window.location.pathname;
+    var pathPageNow = pageNow.split('/');
+    if(pathPageNow.length == 4 && pathPageNow[3] == 'index.php'){
+        var url = "ajax/treasurer.php?option="+option; 
+    }else{
+        var url = "../ajax/treasurer.php?option="+option; 
+    }
     ajaxOpenCloseTreasurer(url);
 }
 </script>
