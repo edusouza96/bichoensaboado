@@ -2,6 +2,7 @@
     $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/dao/DiaryDAO.php");
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
+    include_once($path."/bichoensaboado/dao/SalesDAO.php");
     $productDao = new ProductDAO();
     $productList = $productDao->searchAll();
     $productJson = "";
@@ -20,117 +21,14 @@
     <head>
         <meta charset="ISO 8895-1">
         <title>Caixa</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" /> 
-        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+        <!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" />  -->
         
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/jquery-ui.min.css" type="text/css" /> 
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
-        <script>
-
-            function completeProduct(){
-                $(".searchProduct").autocomplete({
-                    source: <?php
-                                echo json_encode($f_list);
-                            ?>
-                });
-            }    
-
-            function completeFieldValueTotalCashDesk(){
-                $valueUnit = $("#valueItems").val();
-                $numberItens = $("#numberItems").val();
-                if($numberItens == 0 || $numberItens == '' || $numberItens == undefined){
-                    $numberItens = 1;
-                }
-                if($valueUnit == 0 || $valueUnit == '' || $numberItens == 'valueUnit'){
-                    $valueUnit = 0;
-                }
-                $("#valueTotalItems").val(int2decimal(parseFloat($valueUnit) * parseInt($numberItens)));
-            } 
-
-            function int2decimal(value){
-                return value.toFixed(2);
-            }
-
-            function completeFieldValueCashDesk(value){
-                var barcode_nameProduct = value.split('#');
-                var listProducts = <?php
-                                        echo $productJson;
-                                    ?>;
-                for(cont in listProducts){
-                    if(listProducts[cont]['barcodeProduct'] == barcode_nameProduct[0]){
-                        $("#valueItems").val(int2decimal(parseFloat(listProducts[cont]['valuationProduct'])));   
-                        completeFieldValueTotalCashDesk();
-                    }
-                }
-            }
-
-            function applyRebate(valueRebate){
-                var gross = $("#subTotal").text();
-                gross = gross.substring(3);
-                gross = parseFloat(gross)
-                valueRebate = parseFloat(valueRebate);
-                $("#totalBuy").val(int2decimal(gross-valueRebate));
-                methodPaymentAction($("#methodPayment").val());
-            }
-
-            function calculateValueReceive(valueReceive){
-                var totalBuy = $("#totalBuy").val();
-                totalBuy = parseFloat(totalBuy)
-                valueReceive = parseFloat(valueReceive);
-                $("#change").val(int2decimal(valueReceive-totalBuy));
-            }
-
-            function methodPaymentAction(idMethodPayment){
-                if(idMethodPayment == 1){
-                    $("#valueReceive").removeAttr("readonly");
-                }else{
-                    $("#change").val("0.0");
-                    var totalBuy = $("#totalBuy").val();
-                    $("#valueReceive").val(totalBuy);
-                    $("#valueReceive").attr("readonly", "readonly");
-                }
-            }
-
-            function sendRegisterBuy(){
-                var productName = $("#searchProduct").val().split("#");
-                if(productName[1] != undefined){
-                    if($("#numberItems").val() <2){
-                        $("#numberItems").val(1);
-                    }
-                    var div = '<div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">'; 
-                    div +=    '     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">'+ $("#numberItems").val() +'</p>';
-                    div +=    '     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">'+ productName[1] +'</p>';
-                    div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueItems").val() +'</p>';
-                    div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueTotalItems").val() +'</p>';
-                    div +=    '</div>';
-                    div +=    '<input type="hidden" name="quantityProductSales[]" value="'+ $("#numberItems").val() +'">';
-                    div +=    '<input type="hidden" name="productSales[]" value="'+ productName[0] +'">';
-                    div +=    '<input type="hidden" name="valuationUnitSales[]" value="'+ $("#valueItems").val() +'">';
-                    var divRegisterBuy = $("#listRegisterBuy").html();
-                    divRegisterBuy += div;
-                    $("#listRegisterBuy").html(divRegisterBuy);
-                    var gross = $("#subTotal").text();
-                    gross = gross.substring(3);
-                    var grossProduct = $("#valueTotalItems").val();
-                    gross = parseFloat(gross)+parseFloat(grossProduct);
-                    $("#subTotal").text("R$ "+int2decimal(gross));
-                    $("#totalBuy").val(int2decimal(gross));
-
-                    // reset fields
-                    $("#searchProduct").val(null);
-                    $("#valueItems").val(null);
-                    $("#numberItems").val(null);
-                    $("#valueTotalItems").val(null);
-                    $("#rebate").val("0.0");
-                }
-            }
-            
-            
-        </script>
+        
     </head>
     <body>
         <div class="jumbotron">
@@ -139,6 +37,7 @@
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
         ?>
+
         <form action="../../controller/Manager.php" method="POST">
             <input type="hidden" name="module" value="sales"> 
             <input type="hidden" name="idSales" value="0" >
@@ -183,11 +82,16 @@
                             <?php
                             if(!empty($_GET['diary'])){
                                 $diaryId = $_GET['diary'];
-                                $diaryDao = new DiaryDAO();   
-                                $diaryDao->addWhere("OR","idDiary = ".$diaryId." ");   
-                                $diaryList = $diaryDao->SearchCompanion($diaryId);  
-                                $subValue = 0;
-                                foreach($diaryList as $diaryClass){   
+
+                                $salesDao = new SalesDAO();
+                                $salesDao->addWhere(' diary_idDiary = '.$diaryId);
+                                $salesList = $salesDao->searchAll();
+                                if(count($salesList) < 1){
+                                    $diaryDao = new DiaryDAO();   
+                                    $diaryDao->addWhere("OR","idDiary = ".$diaryId." ");   
+                                    $diaryList = $diaryDao->SearchCompanion($diaryId);  
+                                    $subValue = 0;
+                                    foreach($diaryList as $diaryClass){   
                             ?>
                                 <div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
@@ -200,9 +104,19 @@
                                 <input type="hidden" name="productSales[]" value="0">
                                 <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->totalPrice?>">
                             <?php
-                                 $subValue += $diaryClass->totalPrice;
+                                        $subValue += $diaryClass->totalPrice;
+                                    }
+                                    $subValue = 'R$ '.$subValue;
+                                }else{
+                                    ?>
+                                    <script>
+                                        window.onload = function() {
+                                            document.getElementById('alert').style.display = 'block';
+                                            document.getElementById('msg-alert').innerHTML = 'Pagamento já realizado';
+                                        };
+                                    </script>
+                                    <?php
                                 }
-                                $subValue = 'R$ '.$subValue;
                             }
                             ?>
                             
@@ -257,3 +171,113 @@
     </body>
 </html>
 <script language="javascript" src="../../js/ajax.js?v=2"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
+<!-- <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script> -->
+<script language="javascript" src="../../js/jquery.min.js"></script>
+<script language="javascript" src="../../js/bootstrap.min.js"></script>
+<script language="javascript" src="../../js/jquery-1.10.2.js"></script>
+<script language="javascript" src="../../js/jquery-ui.js"></script>
+<script>
+
+    function completeProduct(){
+        $(".searchProduct").autocomplete({
+            source: <?php
+                        echo json_encode($f_list);
+                    ?>
+        });
+    }    
+
+    function completeFieldValueTotalCashDesk(){
+        $valueUnit = $("#valueItems").val();
+        $numberItens = $("#numberItems").val();
+        if($numberItens == 0 || $numberItens == '' || $numberItens == undefined){
+            $numberItens = 1;
+        }
+        if($valueUnit == 0 || $valueUnit == '' || $numberItens == 'valueUnit'){
+            $valueUnit = 0;
+        }
+        $("#valueTotalItems").val(int2decimal(parseFloat($valueUnit) * parseInt($numberItens)));
+    } 
+
+    function int2decimal(value){
+        return value.toFixed(2);
+    }
+
+    function completeFieldValueCashDesk(value){
+        var barcode_nameProduct = value.split('#');
+        var listProducts = <?php
+                                echo $productJson;
+                            ?>;
+        for(cont in listProducts){
+            if(listProducts[cont]['barcodeProduct'] == barcode_nameProduct[0]){
+                $("#valueItems").val(int2decimal(parseFloat(listProducts[cont]['valuationProduct'])));   
+                completeFieldValueTotalCashDesk();
+            }
+        }
+    }
+
+    function applyRebate(valueRebate){
+        var gross = $("#subTotal").text();
+        gross = gross.substring(3);
+        gross = parseFloat(gross)
+        valueRebate = parseFloat(valueRebate);
+        $("#totalBuy").val(int2decimal(gross-valueRebate));
+        methodPaymentAction($("#methodPayment").val());
+    }
+
+    function calculateValueReceive(valueReceive){
+        var totalBuy = $("#totalBuy").val();
+        totalBuy = parseFloat(totalBuy)
+        valueReceive = parseFloat(valueReceive);
+        $("#change").val(int2decimal(valueReceive-totalBuy));
+    }
+
+    function methodPaymentAction(idMethodPayment){
+        if(idMethodPayment == 1){
+            $("#valueReceive").removeAttr("readonly");
+        }else{
+            $("#change").val("0.0");
+            var totalBuy = $("#totalBuy").val();
+            $("#valueReceive").val(totalBuy);
+            $("#valueReceive").attr("readonly", "readonly");
+        }
+    }
+
+    function sendRegisterBuy(){
+        var productName = $("#searchProduct").val().split("#");
+        if(productName[1] != undefined){
+            if($("#numberItems").val() <2){
+                $("#numberItems").val(1);
+            }
+            var div = '<div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">'; 
+            div +=    '     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">'+ $("#numberItems").val() +'</p>';
+            div +=    '     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">'+ productName[1] +'</p>';
+            div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueItems").val() +'</p>';
+            div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueTotalItems").val() +'</p>';
+            div +=    '</div>';
+            div +=    '<input type="hidden" name="quantityProductSales[]" value="'+ $("#numberItems").val() +'">';
+            div +=    '<input type="hidden" name="productSales[]" value="'+ productName[0] +'">';
+            div +=    '<input type="hidden" name="valuationUnitSales[]" value="'+ $("#valueItems").val() +'">';
+            var divRegisterBuy = $("#listRegisterBuy").html();
+            divRegisterBuy += div;
+            $("#listRegisterBuy").html(divRegisterBuy);
+            var gross = $("#subTotal").text();
+            gross = gross.substring(3);
+            var grossProduct = $("#valueTotalItems").val();
+            gross = parseFloat(gross)+parseFloat(grossProduct);
+            $("#subTotal").text("R$ "+int2decimal(gross));
+            $("#totalBuy").val(int2decimal(gross));
+
+            // reset fields
+            $("#searchProduct").val(null);
+            $("#valueItems").val(null);
+            $("#numberItems").val(null);
+            $("#valueTotalItems").val(null);
+            $("#rebate").val("0.0");
+        }
+    }
+    
+    
+</script>

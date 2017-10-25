@@ -76,7 +76,7 @@
             <thead>
                 <tr>
                     <td colspan="3" class="text-right">
-                        <i title="Exportar para Excel" class="fa fa-table fa-2x" aria-hidden="true" onclick="exportReportToExcel(sheetSearchDoneByDistrict);"></i>
+                        <i title="Exportar para Excel" class="fa fa-table fa-2x  cursor" aria-hidden="true" onclick="exportReportToExcel('sheetSearchDoneByDistrict');"></i>
                         <i title="Mostrar/Ocultar Gráfico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
                     </td>
                 </tr>

@@ -18,6 +18,7 @@
     }
     $date = $_GET['date'];
     $path = $_SERVER['DOCUMENT_ROOT']; 
+    $version = rand(100, 500);
     date_default_timezone_set('America/Sao_Paulo');
     include_once("../dao/DiaryDAO.php");
     include_once("../dao/ServicDAO.php");
@@ -44,26 +45,10 @@
         <meta charset="ISO 8895-1">
         <title>Agenda Pet</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/bootstrap-3.3.7-dist/css/bootstrap.css">
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" /> 
-        <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-        <script language="javascript" src="../js/ajax.js?v=<?=rand(100, 500)?>"></script>
-        <script language="javascript" src="../js/functionsDiary.js?v=<?=rand(100, 500)?>"></script>
-        <link rel="stylesheet" href="../css/stylePages.css?v=<?=rand(100, 500)?>">
-        <script>
-            function completeNameAnimal(){
-                $(".nameAnimal").autocomplete({
-                    source: <?php 
-                                echo json_encode($f_list);
-                            ?>
-                });
-            }    
-            
-        </script>
+        <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css" /> 
+        <link rel="stylesheet" href="../css/stylePages.css?v=<?=$version?>">
     </head>
     <body>
         <div class="jumbotron"> 
@@ -308,8 +293,9 @@
                                     echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
                                 }else if($diary->status == 0){
                                     echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
-                                    echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
+                                    echo "<input type='button' onClick='payAnticipate(".$diary->idDiary.");' value='Pagar'/>";
                                     echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+                                    echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
                                 }
                                 echo "</td>";
 
@@ -419,6 +405,22 @@
         </table>
     </body>
 </html>
+<script language="javascript" src="../js/jquery.min.js"></script>
+<script language="javascript" src="../js/bootstrap.min.js"></script>
+<script language="javascript" src="../js/jquery-1.10.2.js"></script>
+<script language="javascript" src="../js/jquery-ui.js"></script>
+<script language="javascript" src="../js/ajax.js?v=<?=$version?>"></script>
+<script language="javascript" src="../js/functionsDiary.js?v=<?=$version?>"></script>
+<script>
+    function completeNameAnimal(){
+        $(".nameAnimal").autocomplete({
+            source: <?php 
+                        echo json_encode($f_list);
+                    ?>
+        });
+    }    
+    
+</script>
 
 <!--
 ***Status Banhos***

@@ -1,0 +1,37 @@
+*Agenda
+- Trocar alerts por mensagens 
+
+*Criar Modulo de centro de custos
+
+*Registro de  gastos
+- trocar titulo editavel por select de titulos posiveis
+
+*Financeiro
+- especificar para qual caixa será retirado
+- permitir que seja movimentado de mais de um caixa para um requisição
+- trocar ordem de registro de gastos. 1 - categoria; 2 - titulo;
+
+*Relatorios
+- adicionar linha total
+- Busca realizadas por bairro, alterar para Busca realizadas por periodo = Campos() nome, data, bairro, valor)
+- Criar relatorio de buscas
+
+*Caixas 
+- fechar caixa, exibir resumo da movimentação do dia
+- Trocar nomenclatura (banco => pagseguro , poupança => cofre)
+- criar categoria banco 
+
+*PDV
+- adicionar campo de numero de parcelas
+- verificar pq não esta colocando total depois de finalizar serviço na agenda
+
+
+
+
+-------CONCLUIDO-------------------------
+
+*Cupom
+- redirecionar para agenda, mas para o dia atual da agenda
+
+*Agenda
+- permitir no fluxo pagamento adiantado

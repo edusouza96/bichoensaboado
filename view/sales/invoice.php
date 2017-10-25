@@ -78,7 +78,7 @@
 <div id="noprint" class="footer"> <!--div button-->
     <div class="col-xs-8 col-sm-8 col-lg-8 col-md-82">
         <div class="form-group">
-            <button class="btn btn-primary glyphicon glyphicon-calendar" onclick="location.href = '/bichoensaboado/Calendar/';"> Agenda</button>
+            <button class="btn btn-primary glyphicon glyphicon-calendar" onclick="location.href = '/bichoensaboado/view/index.php?date=<?=date("Y-m-d")?>';"> Agenda</button>
             <button class="btn btn-primary glyphicon glyphicon-usd" onclick="location.href = '/bichoensaboado/view/sales/';"> Caixa</button>
             <button class="btn btn-primary glyphicon glyphicon-print" onclick="window.print();"> Imprimir</button>
         </div>

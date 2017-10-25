@@ -77,7 +77,7 @@
             <thead>
                 <tr>
                     <td colspan="4" class="text-right">
-                        <i title="Exportar para Excel" class="fa fa-table fa-2x" aria-hidden="true" onclick="exportReportToExcel('sheetFinancialBySales');"></i>
+                        <i title="Exportar para Excel" class="fa fa-table fa-2x  cursor" aria-hidden="true" onclick="exportReportToExcel('sheetFinancialBySales');"></i>
                         <i title="Mostrar/Ocultar Gráfico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
                     </td>
                 </tr>

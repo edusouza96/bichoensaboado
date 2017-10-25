@@ -27,15 +27,14 @@ function finish(idDiary,status){
         }else{
             alert('Senha Incorreta!');
         }
-
-        // if(prompt("Senha") == '4518'){
-        //     var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
-        //     ajaxFinish(url);
-        // }
     }else{
         var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
         ajaxFinish(url);
     }
+}
+
+function payAnticipate(idDiary){
+    location.assign("sales/CashDesk.php?diary="+idDiary);
 }
 
 function save(idField, date){
