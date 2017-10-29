@@ -24,3 +24,10 @@ h2{
     font-size: 14px;
     font-weight:bolder;
 }
+.row-total{
+    font-weight: bold;
+    color: #ff0000;
+}
+.font-weight-bold{
+    font-weight: bold;
+}

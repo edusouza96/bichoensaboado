@@ -32,26 +32,35 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Unidades</th>
                     <th>Descrição</th>
+                    <th>Unidades</th>
                     <th>Valor</th>
                     <th>Data</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
+                    $totalUnit = 0;
+                    $totalValue = 0;
                     foreach($reportList as $item){
                 ?>
                        <tr>
-                           <td><?=$item->column5Report?></td>
                            <td><?=$item->column4Report?></td>
+                           <td><?=$item->column5Report?></td>
                            <td><?=$item->column2Report?></td>
                            <td><?=date("d/m/Y", strtotime($item->column3Report))?></td>
                        </tr>
                 <?php   
+                        $totalUnit += $item->column5Report;
+                        $totalValue += $item->column2Report;
                     }
                 ?>
-                
+                 <tr class="row-total">
+                    <td>TOTAL</td>
+                    <td><?=number_format($totalUnit, 2, '.','')?></td>
+                    <td><?=number_format($totalValue, 2, '.','')?></td>
+                    <td>-</td>
+                </tr>
             </tbody>
         </table>
        

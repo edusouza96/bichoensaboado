@@ -13,7 +13,7 @@
         $dateEnd = $_POST['dateEnd'];
         $reportDao->addWhere(" dateHour <= '".$dateEnd." 23:59:59'");
     }
-    $reportList = $reportDao->reportSearchDoneByDistrict();    
+    $reportList = $reportDao->reportSearchDoneByPeriod();    
     $namesDistrict = array();
 ?>
 <!DOCTYPE html>
@@ -27,7 +27,7 @@
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Busca realizadas por bairro</h2>
+            <h2>Busca realizadas por Periodo</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -75,44 +75,64 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <td colspan="3" class="text-right">
-                        <i title="Exportar para Excel" class="fa fa-table fa-2x  cursor" aria-hidden="true" onclick="exportReportToExcel('sheetSearchDoneByDistrict');"></i>
+                    <td colspan="4" class="text-right">
+                        <i title="Exportar para Excel" class="fa fa-table fa-2x  cursor" aria-hidden="true" onclick="exportReportToExcel('sheetSearchDoneByPeriod');"></i>
                         <i title="Mostrar/Ocultar Gráfico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
                     </td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
+                    <th>Nome</th>
                     <th>Bairro</th>
-                    <th>Valor gerado</th>
+                    <th>Data</th>
+                    <th>Valor</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $chartData = array();
+                    $totalQuantity = 0;
+                    $totalValue = 0;
                     foreach($reportList as $item){
-                        echo "</tr>";
+                        echo "<tr>";
                         echo "<td>";
-                        echo $item->column1Report;
+                        echo $item->column1Report." (".$item->column2Report.")";
                         echo "</td>";
-
-                        echo "<td>";
-                        echo $item->column2Report;
-                        echo "</td>";
-
+                        
                         echo "<td>";
                         echo $item->column3Report;
                         echo "</td>";
+
+                        echo "<td>";
+                        echo date("d/m/Y", strtotime($item->column4Report));
+                        echo "</td>";
+
+                        echo "<td>";
+                        echo $item->column5Report;
+                        echo "</td>";
                         echo "</tr>";
+
+                        $totalQuantity ++;
+                        $totalValue += $item->column5Report;
+                        $districts[$item->column3Report] += 1;
+                        
+                    }
+
+                    foreach($districts as $districtName => $districtTotal){
                         $chartData[] = array(
-                            "label" => utf8_encode($item->column2Report), 
+                            "label" => utf8_encode($districtName), 
                             "backgroundColor" => generationColorRGB(),
                             "borderColor" => "#fff", 
                             "borderWidth" => 1, 
-                            "data" => array($item->column1Report)
+                            "data" => array($districtTotal)
                         );
                     }
-                       
                 ?>
+                <tr class="row-total">
+                    <td>TOTAL</td>
+                    <td><?=$totalQuantity?></td>
+                    <td>-</td>                    
+                    <td><?=number_format($totalValue, 2, '.','')?></td>
+                </tr>
             </tbody>
         </table>
         <canvas class="hidden" id="reportChart"></canvas>            
@@ -131,9 +151,18 @@
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Bairros'],
+                labels: ['Bairro'],
                 datasets:obj
                
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
             }
 
         });

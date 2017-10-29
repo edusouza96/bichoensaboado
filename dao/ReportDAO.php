@@ -20,16 +20,37 @@ class ReportDAO{
         $this->sqlWhere .= 'AND '.$value;
     }
 
-    public function reportSearchDoneByDistrict(){
+    public function reportSearchDoneByPeriod(){
         try {
             $sql = "
-                SELECT COUNT(*) as column1Report, a.district as column2Report, SUM(a.valuation) as column3Report 
+                SELECT c.nameAnimal as column1Report,c.owner as column2Report, a.district as column3Report, d.dateHour as column4Report, (a.valuation) as column5Report, a.idAddress as column6Report
                 FROM diary d 
                 INNER JOIN client c ON (c.idClient = d.client_idClient) 
                 INNER JOIN address a ON (a.idAddress = c.address_idAddress) 
                 WHERE search = 1 ".$this->sqlWhere."
-                GROUP BY a.idAddress
-                ORDER BY a.district;
+                ORDER BY a.district, d.dateHour;
+            ";
+            $result = Conexao::getInstance()->query($sql);
+            $list = $result->fetchAll(PDO::FETCH_ASSOC);
+            $f_list = array();
+            foreach ($list as $row)
+                $f_list[] = $this->showObject($row);
+
+            return $f_list;
+            
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+        
+    }
+
+    public function reportExpenseWithSearch(){
+        try {
+            $sql = "
+                SELECT f.description as column1Report, f.valueProduct as column2Report, f.datePayFinancial as column3Report
+                FROM financial f 
+                WHERE f.categoryExpenseFinancial = 7 ".$this->sqlWhere."
+                ORDER BY f.datePayFinancial;
             ";
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);

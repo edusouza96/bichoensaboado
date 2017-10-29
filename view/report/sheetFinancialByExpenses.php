@@ -40,6 +40,7 @@
             </thead>
             <tbody>
                 <?php
+                    $totalValue = 0;
                     foreach($reportList as $item){
                 ?>
                        <tr>
@@ -49,9 +50,13 @@
                            <td><?=date("d/m/Y", strtotime($item->column4Report))?></td>
                        </tr>
                 <?php   
+                        $totalQuantity += $item->column2Report;
                     }
                 ?>
-                
+                <tr class="row-total">
+                    <td>TOTAL</td>
+                    <td><?=$totalQuantity?></td>
+                </tr>
             </tbody>
         </table>
        

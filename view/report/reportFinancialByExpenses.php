@@ -91,6 +91,7 @@
             <tbody>
                 <?php
                     $chartData = array();
+                    $totalValue = 0;
                     foreach($reportList as $item){
                         echo "<tr>";
                         echo "<td>";
@@ -110,6 +111,7 @@
                         echo "</td>";
                         echo "</tr>";
 
+                        $totalQuantity += $item->column2Report;
                         $chartCategory[utf8_encode($item->column3Report)] += 1;
                         
                     }
@@ -124,6 +126,12 @@
                     }
                        
                 ?>
+                <tr class="row-total">
+                    <td>TOTAL</td>
+                    <td><?=number_format($totalQuantity,2, '.','')?></td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
             </tbody>
         </table>
         <canvas class="hidden" id="reportChart"></canvas>            

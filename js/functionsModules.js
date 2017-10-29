@@ -45,3 +45,12 @@ function exportReportToExcel(nameFileExcel){
 function redirectReport(file){
     location.assign(file);
 }
+
+function moreDetails(idDiv){
+    if($(idDiv).hasClass('hidden')){
+        $(idDiv).removeClass('hidden');
+    }else{
+        $(idDiv).addClass('hidden');
+    }
+    
+}

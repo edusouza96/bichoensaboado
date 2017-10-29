@@ -32,22 +32,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
                     <th>Bairro</th>
+                    <th>Quantidade</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
+                    $totalQuantity = 0;
                     foreach($reportList as $item){
                 ?>
                        <tr>
-                           <td><?=$item->column1Report?></td>
                            <td><?=$item->column2Report?></td>
+                           <td><?=$item->column1Report?></td>
                        </tr>
                 <?php   
+                        $totalQuantity += $item->column1Report;
                     }
                 ?>
-                
+                <tr class="row-total">
+                    <td>TOTAL</td>
+                    <td><?=$totalQuantity?></td>
+                </tr>
             </tbody>
         </table>
        

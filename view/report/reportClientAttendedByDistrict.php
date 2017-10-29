@@ -82,23 +82,26 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Quantidade</th>
                     <th>Bairro</th>
+                    <th>Quantidade</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                     $chartData = array();
+                    $totalQuantity = 0;
                     foreach($reportList as $item){
-                        echo "</tr>";
-                        echo "<td>";
-                        echo $item->column1Report;
-                        echo "</td>";
-
+                        echo "<tr>";
                         echo "<td>";
                         echo $item->column2Report;
                         echo "</td>";
 
+                        echo "<td>";
+                        echo $item->column1Report;
+                        echo "</td>";
+                        echo "</tr>";
+                        
+                        $totalQuantity += $item->column1Report;
                         $chartData[] = array(
                             "label" => utf8_encode($item->column2Report), 
                             "backgroundColor" => generationColorRGB(),
@@ -106,9 +109,12 @@
                             "borderWidth" => 1, 
                             "data" => array($item->column1Report)
                         );
-                    }
-                       
+                    } 
                 ?>
+                <tr class="row-total">
+                    <td>TOTAL</td>
+                    <td><?=$totalQuantity?></td>
+                </tr>
             </tbody>
         </table>
         <canvas class="hidden" id="reportChart"></canvas>            
@@ -130,6 +136,15 @@
                 labels: ['Bairros'],
                 datasets:obj
                
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
             }
 
         });

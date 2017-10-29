@@ -34,25 +34,6 @@
             <input type="hidden" name="module" value="financial"> 
             <input type="hidden" name="idFinancial" value="<?=$idFinancial?>" > 
             <div class="container">
-                <div class="row"> <!--div line financial-->
-                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div financial-->
-                        <div class="form-group"> 
-                            <label for="description">Titulo</label>
-                            <input type="text" id="description" name="description" class="form-control" value="<?=$financial->description?>" required>
-                        </div>
-                    </div> <!-- end div financial-->
-                </div><!-- end div line financial-->
-
-                <div class="row"> <!--div line Valuation -->
-                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div Valuation-->
-                        <div class="form-group"> 
-                            <label for="valueProduct">Custo do gasto</label> 
-                            <input type="text" id="valueProduct" name="valueProduct" class="form-control" value="<?=$financial->valueProduct?>" required>
-                        </div>
-                    </div> <!-- end div Valuation-->
-
-                </div><!-- end div line Valuation -->
-
                 <div class="row"> <!--div line category expense -->
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div category expense-->
                         <div class="form-group"> 
@@ -71,8 +52,26 @@
                             </select>
                         </div>
                     </div> <!-- end div category expense-->
-
                 </div><!-- end div line category expense -->
+
+                <div class="row"> <!--div line financial-->
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div financial-->
+                        <div class="form-group"> 
+                            <label for="description">Titulo</label>
+                            <input type="text" id="description" name="description" class="form-control" value="<?=$financial->description?>" required>
+                        </div>
+                    </div> <!-- end div financial-->
+                </div><!-- end div line financial-->
+
+                <div class="row"> <!--div line Valuation -->
+                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div Valuation-->
+                        <div class="form-group"> 
+                            <label for="valueProduct">Custo do gasto</label> 
+                            <input type="text" id="valueProduct" name="valueProduct" class="form-control" value="<?=$financial->valueProduct?>" required>
+                        </div>
+                    </div> <!-- end div Valuation-->
+
+                </div><!-- end div line Valuation -->
 
                 <div class="row"> <!--div line Dates -->
                     <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div due-->

@@ -9,12 +9,6 @@
 *Financeiro
 - especificar para qual caixa será retirado
 - permitir que seja movimentado de mais de um caixa para um requisição
-- trocar ordem de registro de gastos. 1 - categoria; 2 - titulo;
-
-*Relatorios
-- adicionar linha total
-- Busca realizadas por bairro, alterar para Busca realizadas por periodo = Campos() nome, data, bairro, valor)
-- Criar relatorio de buscas
 
 *Caixas 
 - fechar caixa, exibir resumo da movimentação do dia
@@ -35,3 +29,11 @@
 
 *Agenda
 - permitir no fluxo pagamento adiantado
+
+*Financeiro
+- trocar ordem de registro de gastos. 1 - categoria; 2 - titulo;
+
+*Relatorios
+- adicionar linha total
+- Busca realizadas por bairro, alterar para Busca realizadas por periodo = Campos() nome, data, bairro, valor)
+- Criar relatorio de buscas

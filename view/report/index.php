@@ -20,7 +20,7 @@
             <div class="row"> 
                 <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
                     <div class="form-group">
-                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportSearchDoneByDistrict.php');">Buscas realizadas por Bairro</button>
+                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportSearchDoneByPeriod.php');">Buscas realizadas por Periodo</button>
                     </div>
                 </div>
 
@@ -53,6 +53,24 @@
                 <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
                     <div class="form-group">
                         <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportFinancialBySales.php');">Vendas por periodo</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row"> 
+                <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportSearchDone.php');">Buscas Realizadas</button>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
+                    <div class="form-group">
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
+                    <div class="form-group">
                     </div>
                 </div>
             </div>
