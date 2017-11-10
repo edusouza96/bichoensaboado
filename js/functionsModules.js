@@ -54,3 +54,23 @@ function moreDetails(idDiv){
     }
     
 }
+
+function showMessage(message){
+    document.getElementById('alert').style.display = 'block';
+    document.getElementById('msg-alert').innerHTML = message;
+    document.getElementById('link-treasurer').style.display = 'none';
+}
+
+function selectTitleExpense(idCategory){
+    $.get( "../ajax/selectTitleExpense.php", { 
+        idCategory: idCategory 
+    }).done(function( data ) {
+        data = JSON.parse(data);
+        var html = '';        
+        for(var obj in data){
+            html = html.concat('<option value="'+ data[obj].idCenterCost +'">'+ data[obj].nameCenterCost +'</option>');
+        }
+        $('#centerCost').html(html);
+    
+    });
+}

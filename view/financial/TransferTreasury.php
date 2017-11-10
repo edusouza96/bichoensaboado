@@ -11,9 +11,9 @@
     <head>
         <meta charset="ISO 8895-1">
         <title>Transferencia entre caixas</title>
-        <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
-        <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
-        <link rel="icon" type="image/png" href="../../img/logo.jpg" />
+        <?php
+            include_once($path."/bichoensaboado/view/inc/cssHeader.php");
+        ?>
     </head>
     <body>
         <div class="jumbotron">
@@ -31,7 +31,7 @@
                     <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2 text-center">
                         <div class="panel panel-default">
                             <div class="panel-heading ">
-                                <h3 class="panel-title">Caixa inicial<br> do dia</h3>
+                                <h3 class="panel-title">Caixa<br>Inicial do dia</h3>
                             </div>
                             <div class="panel-body">
                                 <strong>R$ <?=$treasurerClass->startingMoneyDayTreasurer?></strong>
@@ -41,7 +41,7 @@
                     <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2 text-center">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Caixa final<br> do dia</h3>
+                                <h3 class="panel-title">Caixa<br>Final do dia</h3>
                             </div>
                             <div class="panel-body">
                                 <strong>R$ <?=$treasurerClass->closingMoneyDayTreasurer?></strong>
@@ -51,7 +51,7 @@
                     <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2 text-center">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Total do caixa<br> principal</h3>
+                                <h3 class="panel-title">Total<br>Caixa (Gaveta)</h3>
                             </div>
                             <div class="panel-body">
                                 <strong>R$ <?=$treasurerClass->moneyDrawerTreasurer?></strong>
@@ -61,7 +61,7 @@
                     <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2 text-center">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Total do caixa<br> poupança</h3>
+                                <h3 class="panel-title">Total<br>Cofre</h3>
                             </div>
                             <div class="panel-body">
                                 <strong>R$ <?=$treasurerClass->moneySavingsTreasurer?></strong>
@@ -71,7 +71,17 @@
                     <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2  text-center">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Total do caixa<br> banco</h3>
+                                <h3 class="panel-title">Total<br>PagSeguro</h3>
+                            </div>
+                            <div class="panel-body">
+                                <strong>R$ <?=$treasurerClass->moneyBankOnlineTreasurer?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2  text-center">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Total<br>Banco</h3>
                             </div>
                             <div class="panel-body">
                                 <strong>R$ <?=$treasurerClass->moneyBankTreasurer?></strong>
@@ -87,9 +97,10 @@
                         <div class="form-group">
                             <label for="optionTransferFrom">Tranferir de:</label> 
                             <br>
-                            <label class="radio-inline"><input type="radio" value='1' name="optionTransferFrom" required>Caixa Principal</label>
-                            <label class="radio-inline"><input type="radio" value='2' name="optionTransferFrom" required>Caixa Poupança</label>
-                            <label class="radio-inline"><input type="radio" value='3' name="optionTransferFrom" required>Caixa Banco</label>
+                            <label class="radio-inline"><input type="radio" value='1' name="optionTransferFrom" required>Caixa (Gaveta)</label>
+                            <label class="radio-inline"><input type="radio" value='2' name="optionTransferFrom" required>Cofre</label>
+                            <label class="radio-inline"><input type="radio" value='3' name="optionTransferFrom" required>PagSeguro</label>
+                            <label class="radio-inline"><input type="radio" value='4' name="optionTransferFrom" required>Banco</label>
                         </div>
                     </div> 
                 </div><!-- end div line tranfer from-->
@@ -99,9 +110,10 @@
                         <div class="form-group">
                             <label for="optionTransferTo">Tranferir para:</label> 
                             <br>
-                            <label class="radio-inline"><input type="radio" value='1' name="optionTransferTo" required>Caixa Principal</label>
-                            <label class="radio-inline"><input type="radio" value='2' name="optionTransferTo" required>Caixa Poupança</label>
-                            <label class="radio-inline"><input type="radio" value='3' name="optionTransferTo" required>Caixa Banco</label>
+                            <label class="radio-inline"><input type="radio" value='1' name="optionTransferTo" required>Caixa (Gaveta)</label>
+                            <label class="radio-inline"><input type="radio" value='2' name="optionTransferTo" required>Cofre</label>
+                            <label class="radio-inline"><input type="radio" value='3' name="optionTransferTo" required>PagSeguro</label>
+                            <label class="radio-inline"><input type="radio" value='4' name="optionTransferTo" required>Banco</label>
                         </div>
                     </div> 
                 </div><!-- end div line  tranfer to-->
@@ -127,4 +139,6 @@
         </form>
     </body>
 </html>
-<script language="javascript" src="../../js/ajax.js?v=2"></script>
+<?php
+    include_once($path."/bichoensaboado/view/inc/jsHeader.php");
+?>

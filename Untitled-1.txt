@@ -1,25 +1,6 @@
-*Agenda
-- Trocar alerts por mensagens 
-
-*Criar Modulo de centro de custos
-
-*Registro de  gastos
-- trocar titulo editavel por select de titulos posiveis
-
 *Financeiro
 - especificar para qual caixa será retirado
 - permitir que seja movimentado de mais de um caixa para um requisição
-
-*Caixas 
-- fechar caixa, exibir resumo da movimentação do dia
-- Trocar nomenclatura (banco => pagseguro , poupança => cofre)
-- criar categoria banco 
-
-*PDV
-- adicionar campo de numero de parcelas
-- verificar pq não esta colocando total depois de finalizar serviço na agenda
-
-
 
 
 -------CONCLUIDO-------------------------
@@ -28,6 +9,7 @@
 - redirecionar para agenda, mas para o dia atual da agenda
 
 *Agenda
+- Trocar alerts por mensagens 
 - permitir no fluxo pagamento adiantado
 
 *Financeiro
@@ -37,3 +19,17 @@
 - adicionar linha total
 - Busca realizadas por bairro, alterar para Busca realizadas por periodo = Campos() nome, data, bairro, valor)
 - Criar relatorio de buscas
+
+*PDV
+- verificar pq não esta colocando total depois de finalizar serviço na agenda
+- adicionar campo de numero de parcelas
+
+*Criar Modulo de centro de custos
+
+*Registro de  gastos
+- trocar titulo editavel por select de titulos posiveis
+
+*Caixas 
+- Trocar nomenclatura (banco => pagseguro , poupança => cofre)
+- criar categoria banco 
+- fechar caixa, exibir resumo da movimentação do dia

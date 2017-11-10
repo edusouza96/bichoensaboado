@@ -45,10 +45,9 @@
         <meta charset="ISO 8895-1">
         <title>Agenda Pet</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/bootstrap-3.3.7-dist/css/bootstrap.css">
-        <link rel="stylesheet" href="../css/jquery-ui.min.css" type="text/css" /> 
-        <link rel="stylesheet" href="../css/stylePages.css?v=<?=$version?>">
+        <?php
+            include_once($path."/bichoensaboado/view/inc/cssHeader.php");
+        ?>
     </head>
     <body>
         <div class="jumbotron"> 
@@ -405,12 +404,11 @@
         </table>
     </body>
 </html>
-<script language="javascript" src="../js/jquery.min.js"></script>
-<script language="javascript" src="../js/bootstrap.min.js"></script>
-<script language="javascript" src="../js/jquery-1.10.2.js"></script>
-<script language="javascript" src="../js/jquery-ui.js"></script>
-<script language="javascript" src="../js/ajax.js?v=<?=$version?>"></script>
-<script language="javascript" src="../js/functionsDiary.js?v=<?=$version?>"></script>
+<!-- <script language="javascript" src="../js/jquery-1.10.2.js"></script> -->
+<?php
+    include_once($path."/bichoensaboado/view/inc/jsHeader.php");
+?>
+
 <script>
     function completeNameAnimal(){
         $(".nameAnimal").autocomplete({

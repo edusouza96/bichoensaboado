@@ -165,10 +165,10 @@ function processReqSave() {
   if (req.readyState == 4) {
     if (req.status ==200) {
       if(req.responseText){
-        alert('Horario Marcado!');
+        showMessage('Horario Marcado!');
         location.reload();
       }else{
-        alert('Falha no agendamento, tente novamente');
+        showMessage('Falha no agendamento, tente novamente');
       }
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -204,24 +204,24 @@ function processReqFinish() {
       var returnn = req.responseText.split("|");
       if(parseInt(returnn[0])){
         if(parseInt(returnn[2]) == 2){
-          alert('Serviço Finalizado!');
+          showMessage('Serviço Finalizado!');
           document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Finalizado';
           document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
           if(returnn[3] == 0)
             location.href = "sales/CashDesk.php?diary="+returnn[1];
         }else if(parseInt(returnn[2]) == 1){
-          alert('Check-in feito!');
+          showMessage('Check-in feito!');
           document.getElementById('status'+parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish("+returnn[1]+",2);' value='Finalizar'/><input type='button' onClick='dataToModal("+returnn[1]+",&quot;"+returnn[3]+"&quot; , &quot;"+returnn[4]+"&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc("+returnn[1]+");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
           document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
         }else if(parseInt(returnn[2]) == - 1){
-         alert('Serviço Cancelado!');
+         showMessage('Serviço Cancelado!');
          location.reload();
         //  document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
         //  document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
         }
         
       }else{
-        alert('Falha, tente novamente');
+        showMessage('Falha, tente novamente');
       }
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -255,10 +255,12 @@ function processReqDeleteRegister() {
     if (req.status == 200) {
       var returnn = req.responseText;
       if(returnn){
-        alert('Registro Excluido!');
-        location.reload();
+        showMessage('Registro Excluido!');
+        setTimeout(function(){
+          location.reload();          
+        }, 2000);
       }else{
-        alert('Falha ao Excluir Registro, Tente Novamente');
+        showMessage('Falha ao Excluir Registro, Tente Novamente');
       }
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -292,10 +294,10 @@ function processReqUpdate() {
     if (req.status == 200) {
       var returnn = req.responseText;
       if(returnn){
-        alert('Registro Atualizado!');
+        showMessage('Registro Atualizado!');
         location.reload();
       }else{
-        alert('Falha ao Atualizar Registro, Tente Novamente');
+        showMessage('Falha ao Atualizar Registro, Tente Novamente');
       }
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -468,6 +470,9 @@ function processReqAjaxOpenCloseTreasurer() {
         document.getElementById('alert').style.display = 'block';
         document.getElementById('msg-alert').innerHTML = req.responseText;
         document.getElementById('link-treasurer').style.display = 'none';
+        if(req.responseText == " Caixa Fechado!"){
+          $('#dayMovement').modal('show');
+        }
     } else{
       alert("Houve um problema ao obter os dados: " + req.statusText);
     }

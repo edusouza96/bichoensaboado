@@ -49,7 +49,7 @@ class ReportDAO{
             $sql = "
                 SELECT f.description as column1Report, f.valueProduct as column2Report, f.datePayFinancial as column3Report
                 FROM financial f 
-                WHERE f.categoryExpenseFinancial = 7 ".$this->sqlWhere."
+                WHERE f.center_cost_idCenterCost = 7 ".$this->sqlWhere."
                 ORDER BY f.datePayFinancial;
             ";
             $result = Conexao::getInstance()->query($sql);
@@ -154,7 +154,8 @@ class ReportDAO{
             $sql = "
                 SELECT f.description AS column1Report, f.valueProduct AS column2Report, cef.descCategoryExpenseFinancial AS column3Report, f.datePayFinancial AS column4Report, cef.idCategoryExpenseFinancial AS column5Report
                 FROM financial f
-                INNER JOIN category_expense_financial cef ON (cef.idCategoryExpenseFinancial = f.categoryExpenseFinancial)
+                INNER JOIN center_cost ct ON (ct.idCenterCost = f.center_cost_idCenterCost)
+                INNER JOIN category_expense_financial cef ON (cef.idCategoryExpenseFinancial = ct.category_expense_financial_idCategoryExpenseFinancial)
                 WHERE f.sales_idSales IS NULL ".$this->sqlWhere."
                 ORDER BY f.datePayFinancial;
             ";
@@ -167,7 +168,7 @@ class ReportDAO{
             return $f_list;
             
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print $e."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
         
     }
@@ -202,6 +203,30 @@ class ReportDAO{
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
         
+    }
+
+    public function reportDayMovement(){
+        try {
+            $sql = "
+                SELECT 
+                    SUM(f.valueProduct) AS column1Report, 
+                    f.datePayFinancial AS column2Report,
+                    f.methodPayment AS column3Report
+                FROM financial f 
+                GROUP BY f.methodPayment, f.datePayFinancial
+                HAVING f.datePayFinancial = CURDATE()
+            ";
+            $result = Conexao::getInstance()->query($sql);
+            $list = $result->fetchAll(PDO::FETCH_ASSOC);
+            $f_list = array();
+            foreach ($list as $row)
+                $f_list[] = $this->showObject($row);
+
+            return $f_list;
+            
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
     }
 
     

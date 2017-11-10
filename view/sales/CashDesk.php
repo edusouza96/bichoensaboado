@@ -21,9 +21,6 @@
     <head>
         <meta charset="ISO 8895-1">
         <title>Caixa</title>
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-        <!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/minified/jquery-ui.min.css" type="text/css" />  -->
-        
         <link rel="stylesheet" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" href="../../css/jquery-ui.min.css" type="text/css" /> 
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
@@ -103,6 +100,11 @@
                                 <input type="hidden" name="diarySales[]" value="<?=$diaryClass->idDiary?>">
                                 <input type="hidden" name="productSales[]" value="0">
                                 <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->totalPrice?>">
+                                <script>
+                                    window.onload = function() {
+                                        diaryRegisterBuy(<?=$diaryClass->totalPrice?>);
+                                    };
+                                </script>
                             <?php
                                         $subValue += $diaryClass->totalPrice;
                                     }
@@ -125,7 +127,7 @@
                             <h4 style="float: left;">Sub-Total</h4>
                             <h4 id="subTotal" style="float: right;"><?=$subValue?></h4>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                        <div class="col-xs-9 col-sm-9 col-lg-9 col-md-9">
                             <div class="form-group">
                                 <label for="methodPayment">Forma de pagamento</label> 
                                 <select id="methodPayment" name="methodPayment" class="form-control" onchange="methodPaymentAction(this.value);" required>
@@ -133,6 +135,12 @@
                                     <option value="2">Cartão - Débito</option>
                                     <option value="3">Cartão - Crédito</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3">
+                            <div class="form-group">
+                                <label for="numberPlotsFinancial">Nº Parcelas</label> 
+                                <input type="number" id="numberPlotsFinancial" name="numberPlotsFinancial" class="form-control" min="0" max="9" readonly>
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
@@ -171,10 +179,6 @@
     </body>
 </html>
 <script language="javascript" src="../../js/ajax.js?v=2"></script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<!-- <script src="http://code.jquery.com/jquery-1.10.2.js"></script> -->
-<!-- <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script> -->
 <script language="javascript" src="../../js/jquery.min.js"></script>
 <script language="javascript" src="../../js/bootstrap.min.js"></script>
 <script language="javascript" src="../../js/jquery-1.10.2.js"></script>
@@ -237,14 +241,25 @@
     function methodPaymentAction(idMethodPayment){
         if(idMethodPayment == 1){
             $("#valueReceive").removeAttr("readonly");
+            $("#numberPlotsFinancial").attr("readonly", "readonly");
+        }else if(idMethodPayment == 2){
+            $("#change").val("0.0");
+            var totalBuy = $("#totalBuy").val();
+            $("#valueReceive").val(totalBuy);
+            $("#valueReceive").attr("readonly", "readonly");
+            $("#numberPlotsFinancial").attr("readonly", "readonly");
         }else{
             $("#change").val("0.0");
             var totalBuy = $("#totalBuy").val();
             $("#valueReceive").val(totalBuy);
             $("#valueReceive").attr("readonly", "readonly");
+            $("#numberPlotsFinancial").removeAttr("readonly");
         }
     }
 
+    function diaryRegisterBuy(grossProduct){
+        $("#totalBuy").val(int2decimal(parseFloat(grossProduct)));
+    }
     function sendRegisterBuy(){
         var productName = $("#searchProduct").val().split("#");
         if(productName[1] != undefined){

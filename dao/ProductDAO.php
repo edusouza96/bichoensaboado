@@ -131,7 +131,7 @@ class ProductDAO
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "zOcorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
      

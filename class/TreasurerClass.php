@@ -5,6 +5,7 @@ class TreasurerClass{
     private $closingMoneyDayTreasurer;
     private $moneyDrawerTreasurer;
     private $moneySavingsTreasurer;
+    private $moneyBankOnlineTreasurer;
     private $moneyBankTreasurer;
     private $dateRegistryTreasurer;
 
@@ -13,12 +14,13 @@ class TreasurerClass{
 
     }
 
-    function TreasurerClass($idTreasurer, $startingMoneyDayTreasurer, $closingMoneyDayTreasurer, $moneyDrawerTreasurer, $moneySavingsTreasurer, $moneyBankTreasurer, $dateRegistryTreasurer){
+    function TreasurerClass($idTreasurer, $startingMoneyDayTreasurer, $closingMoneyDayTreasurer, $moneyDrawerTreasurer, $moneySavingsTreasurer, $moneyBankTreasurer, $moneyBankOnlineTreasurer, $dateRegistryTreasurer){
         $this->idTreasurer = $idTreasurer;
         $this->startingMoneyDayTreasurer = $startingMoneyDayTreasurer;
         $this->closingMoneyDayTreasurer = $closingMoneyDayTreasurer;
         $this->moneyDrawerTreasurer = $moneyDrawerTreasurer;
         $this->moneySavingsTreasurer = $moneySavingsTreasurer;
+        $this->moneyBankOnlineTreasurer = $moneyBankOnlineTreasurer;
         $this->moneyBankTreasurer = $moneyBankTreasurer;
         $this->dateRegistryTreasurer = $dateRegistryTreasurer;
     }   

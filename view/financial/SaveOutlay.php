@@ -19,8 +19,9 @@
     <head>
         <meta charset="ISO 8895-1">
         <title>Registrar Gastos</title>
-        <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
-        <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
+        <?php
+            include_once($path."/bichoensaboado/view/inc/cssHeader.php");
+        ?>
     </head>
     <body>
         <div class="jumbotron">
@@ -32,16 +33,16 @@
         
         <form action="../../controller/Manager.php" method="POST">
             <input type="hidden" name="module" value="financial"> 
-            <input type="hidden" name="idFinancial" value="<?=$idFinancial?>" > 
+            <input type="hidden" name="idFinancial" id="idFinancial" value="<?=$idFinancial?>" > 
             <div class="container">
                 <div class="row"> <!--div line category expense -->
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div category expense-->
                         <div class="form-group"> 
                             <label for="categoryExpenseFinancial">Categoria da despesa:</label> 
-                            <select id="categoryExpenseFinancial" name="categoryExpenseFinancial" class="form-control" required>
+                            <select id="categoryExpenseFinancial" name="categoryExpenseFinancial" class="form-control" onChange="selectTitleExpense(this.value);" required>
                                 <option value="">-- Selecione --</option>
                                 <?php
-                                    $idCategoryExpenseFinancial = $financial->categoryExpenseFinancial;
+                                    $idCategoryExpenseFinancial = $financial->centerCost->categoryExpenseFinancial->idCategoryExpenseFinancial;
                                     foreach($categoryExpenseList as $categoryExpense){
                                         $idOption = $categoryExpense->idCategoryExpenseFinancial;
                                         $descOption = $categoryExpense->descCategoryExpenseFinancial;
@@ -57,8 +58,8 @@
                 <div class="row"> <!--div line financial-->
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div financial-->
                         <div class="form-group"> 
-                            <label for="description">Titulo</label>
-                            <input type="text" id="description" name="description" class="form-control" value="<?=$financial->description?>" required>
+                            <label for="centerCost">Titulo</label>
+                            <select id="centerCost" name="centerCost" class="form-control" required> </select>
                         </div>
                     </div> <!-- end div financial-->
                 </div><!-- end div line financial-->
@@ -103,3 +104,13 @@
         </form>
     </body>
 </html>
+<?php
+    include_once($path."/bichoensaboado/view/inc/jsHeader.php");
+?>
+<script>
+    window.onload = function(){
+        if($('#idFinancial').val() > 0){
+            selectTitleExpense(<?=$idCategoryExpenseFinancial?>);
+        }
+    };
+</script>

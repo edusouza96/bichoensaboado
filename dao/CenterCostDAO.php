@@ -1,5 +1,5 @@
 <?php
-class CategoryExpenseFinancialDAO
+class CenterCostDAO
 {
    
     public static $instance;
@@ -9,64 +9,71 @@ class CategoryExpenseFinancialDAO
     {
         $path = $_SERVER['DOCUMENT_ROOT'];
         include_once($path."/bichoensaboado/class/Conexao.php");
-        include_once($path."/bichoensaboado/class/CategoryExpenseFinancialClass.php");
+        include_once($path."/bichoensaboado/class/CenterCostClass.php");
+        include_once($path."/bichoensaboado/dao/CategoryExpenseFinancialDAO.php");
     }
    
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
-            self::$instance = new CategoryExpenseFinancialDAO();
+            self::$instance = new CenterCostDAO();
         }
    
         return self::$instance;
     }
    
-    public function insert(CategoryExpenseFinancialClass $categoryExpenseFinancial)
+    public function insert(CenterCostClass $centerCost)
     {
         try {
-            $sql = "INSERT INTO category_expense_financial (    
-                descCategoryExpenseFinancial
+            $sql = "INSERT INTO center_cost (    
+                category_expense_financial_idCategoryExpenseFinancial,
+                nameCenterCost
                 )VALUES (
-                :descCategoryExpenseFinancial)";
+                :categoryExpenseFinancial,
+                :nameCenterCost
+                )";
    
             $p_sql = Conexao::getInstance()->prepare($sql);
    
-            $p_sql->bindValue(":descCategoryExpenseFinancial", $categoryExpenseFinancial->descCategoryExpenseFinancial);
+            $p_sql->bindValue(":categoryExpenseFinancial",  $centerCost->categoryExpenseFinancial);
+            $p_sql->bindValue(":nameCenterCost",            $centerCost->nameCenterCost);
             $p_sql->execute();
-            return Conexao::getInstance()->lastInsertId();
+            $newIdCenterCost = Conexao::getInstance()->lastInsertId();
+              
+            return $newIdCenterCost;
         } catch (Exception $e) {
             print $e."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
      
-    public function update(CategoryExpenseFinancialClass $categoryExpenseFinancial)
+    public function update(CenterCostClass $centerCost)
     {
         try {
-            $sql = "UPDATE category_expense_financial set idCategoryExpenseFinancial = :idCategoryExpenseFinancial";
-            $CategoryExpenseFinancialList = $CategoryExpenseFinancial->iterateVisible();
-            foreach ($CategoryExpenseFinancialList as $key => $value) {
+            $sql = "UPDATE center_cost set idCenterCost = :idCenterCost";
+            $centerCostList = $centerCost->iterateVisible();
+            foreach ($centerCostList as $key => $value) {
                 if ($value != "") {
                     $sql .= ", ".$key." = '".$value."'";
                 }
             }
-            $sql .= " WHERE idCategoryExpenseFinancial = :idCategoryExpenseFinancial";
-             
+            $sql .= " WHERE idCenterCost = :idCenterCost ORDER BY category_expense_financial_idCategoryExpenseFinancial, nameCenterCost";
             $p_sql = Conexao::getInstance()->prepare($sql);
    
-            $p_sql->bindValue(":idCategoryExpenseFinancial", $categoryExpenseFinancial->idCategoryExpenseFinancial);
+            $p_sql->bindValue(":idCenterCost", $centerCost->idCenterCost);
    
             return $p_sql->execute();
         } catch (Exception $e) {
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
-      
-    public function delete($idCategoryExpenseFinancial)
+
+   
+    public function delete($idCenterCost)
     {
         try {
-            $sql = "DELETE FROM category_expense_financial WHERE idCategoryExpenseFinancial = :idCategoryExpenseFinancial";
+            $sql = "DELETE FROM center_cost WHERE idCenterCost = :idCenterCost";
             $p_sql = Conexao::getInstance()->prepare($sql);
-            $p_sql->bindValue(":idCategoryExpenseFinancial", $idCategoryExpenseFinancial);
+            $p_sql->bindValue(":idCenterCost", $idCenterCost);
    
             return $p_sql->execute();
         } catch (Exception $e) {
@@ -79,12 +86,12 @@ class CategoryExpenseFinancialDAO
         $this->sqlWhere .= 'AND '.$value;
     }
 
-    public function searchId($idCategoryExpenseFinancial)
+    public function searchId($idCenterCost)
     {
         try {
-            $sql = "SELECT * FROM category_expense_financial WHERE idCategoryExpenseFinancial = :idCategoryExpenseFinancial";
+            $sql = "SELECT * FROM center_cost WHERE idCenterCost = :idCenterCost";
             $p_sql = Conexao::getInstance()->prepare($sql);
-            $p_sql->bindValue(":idCategoryExpenseFinancial", $idCategoryExpenseFinancial);
+            $p_sql->bindValue(":idCenterCost", $idCenterCost);
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
@@ -95,11 +102,11 @@ class CategoryExpenseFinancialDAO
     public function searchAll()
     {
         try {
-            $sql = "SELECT * FROM category_expense_financial WHERE 1=1 ".$this->sqlWhere;
+            $sql = "SELECT * FROM center_cost WHERE 1=1 ".$this->sqlWhere;
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
-   
+            
             foreach ($list as $row) {
                 $f_list[] = $this->showObject($row);
             }
@@ -113,12 +120,10 @@ class CategoryExpenseFinancialDAO
      
     private function showObject($row)
     {
-          
-        $categoryExpenseFinancial = new CategoryExpenseFinancialClass();
-        $categoryExpenseFinancial->CategoryExpenseFinancialClass(
-            $row['idCategoryExpenseFinancial'], 
-            $row['descCategoryExpenseFinancial']
-        );
-        return $categoryExpenseFinancial;
+        $centerCost = new CenterCostClass();
+        $centerCost->idCenterCost = $row['idCenterCost'];
+        $centerCost->nameCenterCost = $row['nameCenterCost'];
+        $centerCost->categoryExpenseFinancial = CategoryExpenseFinancialDAO::getInstance()->searchId($row['category_expense_financial_idCategoryExpenseFinancial']);
+        return $centerCost;
     }
 }

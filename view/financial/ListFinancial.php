@@ -6,6 +6,7 @@
     include_once($path."/bichoensaboado/dao/FinancialDAO.php");
     $financialDao = new FinancialDAO();
     if(empty($search)){
+        $financialDao->addWhere("registerBuy IS NULL ");
         $financialList = $financialDao->searchAll();
     }else{
         $financialDao->addWhere("description LIKE '%".$search."%' ");
@@ -64,7 +65,7 @@
                         if($financial->sales != null)
                             continue;
                         echo "<td>";
-                        echo $financial->description;
+                        echo $financial->centerCost->nameCenterCost;
                         echo "</td>";
 
                         echo "<td>";

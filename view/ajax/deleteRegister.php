@@ -9,7 +9,7 @@
   
   $module .= "DAO";
   $moduleDao = new ${'module'}();
-  $response = $moduleDao->Delete($id);
+  $response = $moduleDao->delete($id);
   echo $response;    
 ?>
 

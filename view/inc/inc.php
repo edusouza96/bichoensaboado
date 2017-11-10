@@ -30,7 +30,8 @@
                 <li><a href="/bichoensaboado/view/breed/">Raças</a></li>
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
-                <li><a href="/bichoensaboado/view/financial/">Financeiro</a></li>
+                <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
+                <li><a href="/bichoensaboado/view/center-cost/">Centro de Custo</a></li>
                 <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
                 <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
                 <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
@@ -43,6 +44,9 @@
                 ?>
             </ul>
         </nav>
+        <?php
+            include_once($path."/bichoensaboado/view/financial/dayMovement.php");
+        ?>
     </body>
 </html>
 <div id="alert" class="alert info">

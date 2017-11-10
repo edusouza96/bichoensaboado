@@ -20,6 +20,8 @@
     include_once($path."/bichoensaboado/class/CategoryExpenseFinancialClass.php");
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
     include_once($path."/bichoensaboado/class/TreasurerClass.php");
+    include_once($path."/bichoensaboado/dao/CenterCostDAO.php");
+    include_once($path."/bichoensaboado/class/CenterCostClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -40,6 +42,8 @@
     $categoryExpenseFinancialDAO = new CategoryExpenseFinancialDAO();
     $treasurerClass = new TreasurerClass();
     $treasurerDao = new TreasurerDAO();
+    $centerCostClass = new CenterCostClass();
+    $centerCostDao = new CenterCostDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -173,7 +177,7 @@
                     $financialClass->dateDueFinancial         = date('Y-m-d');
                     $financialClass->datePayFinancial         = date('Y-m-d');
                     $financialClass->valueProduct             = $quantity * $valueUnit;
-                    $financialClass->categoryExpenseFinancial = 4;
+                    $financialClass->centerCost = 4;
                     $financialDao = new FinancialDao();
                     $financialDao->insert($financialClass);
                 }
@@ -192,7 +196,7 @@
                         $financialClass->dateDueFinancial         = date('Y-m-d');
                         $financialClass->datePayFinancial         = date('Y-m-d');
                         $financialClass->valueProduct             = $quantity * $valueUnit;
-                        $financialClass->categoryExpenseFinancial = 4;
+                        $financialClass->centerCost->categoryExpenseFinancial->idCategoryExpenseFinancial = 4;
                         $financialDao = new FinancialDao();
                         $financialDao->insert($financialClass);
                     }
@@ -211,12 +215,15 @@
                 $valuationUnitSales   = $_POST['valuationUnitSales'];
                 @$diarySales          = $_POST['diarySales'];
                 $methodPayment        = $_POST['methodPayment'];
+                @$numberPlotsFinancial= $_POST['numberPlotsFinancial'];
                 $totalBuy             = $_POST['totalBuy'];
                 $valueReceive         = $_POST['valueReceive'];
                 $rebate               = $_POST['rebate'];
                 $change               = $_POST['change'];
-                
-                
+
+                if($numberPlotsFinancial < 1){
+                    $numberPlotsFinancial = 1;
+                }
                 $saleIds = array();
                 for($i=0; $i<count($valuationUnitSales); $i++){
                     $salesClass = new SalesClass();
@@ -241,6 +248,7 @@
                     $financialClass->dateDueFinancial = date('Y-m-d');
                     $financialClass->datePayFinancial = date('Y-m-d');
                     $financialClass->methodPayment = $methodPayment;
+                    $financialClass->numberPlotsFinancial = $numberPlotsFinancial;
                     ($financialDao->insert($financialClass));
                 }
                 // print invoice
@@ -263,9 +271,11 @@
                 }          
             }else if($optionTransferFrom == 2){
                 $treasurerClass->moneySavingsTreasurer -= $valueTranfer;                
-            }else{
+            }else if($optionTransferFrom == 3){
+                $treasurerClass->moneyBankOnlineTreasurer -= $valueTranfer;
+            }else if($optionTransferFrom == 4){
                 $treasurerClass->moneyBankTreasurer -= $valueTranfer;
-            } 
+            }  
 
             if($optionTransferTo == 1){
                 $treasurerClass->moneyDrawerTreasurer += $valueTranfer;
@@ -274,7 +284,9 @@
                 }
             }else if($optionTransferTo == 2){
                 $treasurerClass->moneySavingsTreasurer += $valueTranfer;                
-            }else{
+            }else if($optionTransferTo == 3){
+                $treasurerClass->moneyBankOnlineTreasurer += $valueTranfer;
+            }else if($optionTransferTo == 4){
                 $treasurerClass->moneyBankTreasurer += $valueTranfer;
             } 
             $treasurerDao = new TreasurerDAO();
@@ -295,7 +307,21 @@
             }else{
                 $treasurerDao->insert($treasurerClass);
             }
-        break;    
+        break;  
+        
+        case 'center-cost':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $centerCostClass->${'fieldKey'} = $fieldValue;
+                }
+            }
+            if($centerCostClass->idCenterCost != 0){
+                $centerCostDao->update($centerCostClass);
+            }else{
+                $centerCostDao->insert($centerCostClass);
+            }
+            
+        break;
         
         default:
             echo "ERROU!";

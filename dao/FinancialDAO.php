@@ -8,6 +8,7 @@ class FinancialDAO {
           $path = $_SERVER['DOCUMENT_ROOT']; 
           include_once($path."/bichoensaboado/class/Conexao.php");  
           include_once($path."/bichoensaboado/class/FinancialClass.php");
+          include_once($path."/bichoensaboado/dao/CenterCostDAO.php");
       }
    
       public static function getInstance() {
@@ -26,8 +27,9 @@ class FinancialDAO {
                 description,
                 dateDueFinancial,
                 datePayFinancial,
-                categoryExpenseFinancial,
-                methodPayment
+                center_cost_idCenterCost,
+                methodPayment,
+                numberPlotsFinancial
                 )VALUES (
                 :registerBuy,
                 :sales,
@@ -35,8 +37,9 @@ class FinancialDAO {
                 :description,
                 :dateDueFinancial,
                 :datePayFinancial,
-                :categoryExpenseFinancial,
-                :methodPayment)";
+                :centerCost,
+                :methodPayment,
+                :numberPlotsFinancial)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -46,8 +49,9 @@ class FinancialDAO {
               $p_sql->bindValue(":description",      $financial->description);
               $p_sql->bindValue(":dateDueFinancial", $financial->dateDueFinancial);
               $p_sql->bindValue(":datePayFinancial", $financial->datePayFinancial);
-              $p_sql->bindValue(":categoryExpenseFinancial", $financial->categoryExpenseFinancial);
+              $p_sql->bindValue(":centerCost",       $financial->centerCost);
               $p_sql->bindValue(":methodPayment",    $financial->methodPayment);
+              $p_sql->bindValue(":numberPlotsFinancial", $financial->numberPlotsFinancial);
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
@@ -131,8 +135,9 @@ class FinancialDAO {
           $financial->valueProduct             = $row['valueProduct'];
           $financial->registerBuy              = $row['registerBuy'];
           $financial->sales                    = $row['sales_idSales'];
-          $financial->categoryExpenseFinancial = $row['categoryExpenseFinancial'];
+          $financial->centerCost               =  CenterCostDAO::getInstance()->searchId($row['center_cost_idCenterCost']);
           $financial->methodPayment            = $row['methodPayment'];
+          $financial->numberPlotsFinancial     = $row['numberPlotsFinancial'];
           return $financial;
       }
    

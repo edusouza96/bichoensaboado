@@ -270,3 +270,9 @@ function saveAnimalSameOwner(){
     var url = "ajax/animalSameOwner.php?id=" + idDiary + "&idServic="+ idServic + "&idClient="+ idClient + "&idBreed="+ idBreed + "&field=save"; 
     ajaxAnimalSameOwnerListServic(url);
 }
+
+function showMessage(message){
+    document.getElementById('alert').style.display = 'block';
+    document.getElementById('msg-alert').innerHTML = message;
+    document.getElementById('link-treasurer').style.display = 'none';
+}

@@ -24,6 +24,7 @@ class TreasurerDAO{
                 closingMoneyDayTreasurer,
                 moneyDrawerTreasurer,
                 moneySavingsTreasurer,   
+                moneyBankOnlineTreasurer,
                 moneyBankTreasurer,
                 dateRegistryTreasurer
               )VALUES (
@@ -31,6 +32,7 @@ class TreasurerDAO{
                 :closingMoneyDayTreasurer,
                 :moneyDrawerTreasurer,
                 :moneySavingsTreasurer,   
+                :moneyBankOnlineTreasurer,
                 :moneyBankTreasurer,
                 :dateRegistryTreasurer
               )";
@@ -41,6 +43,7 @@ class TreasurerDAO{
             $p_sql->bindValue(":moneyDrawerTreasurer",      $treasurer->moneyDrawerTreasurer);
             $p_sql->bindValue(":moneySavingsTreasurer",     $treasurer->moneySavingsTreasurer);
             $p_sql->bindValue(":moneyBankTreasurer",        $treasurer->moneyBankTreasurer);
+            $p_sql->bindValue(":moneyBankOnlineTreasurer",        $treasurer->moneyBankOnlineTreasurer);
             $p_sql->bindValue(":dateRegistryTreasurer",     $treasurer->dateRegistryTreasurer);
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
@@ -146,12 +149,14 @@ class TreasurerDAO{
                 startingMoneyDayTreasurer, 
                 moneyDrawerTreasurer, 
                 moneySavingsTreasurer, 
+                moneyBankOnlineTreasurer, 
                 moneyBankTreasurer, 
                 dateRegistryTreasurer
               )SELECT 
                 moneyDrawerTreasurer, 
                 moneyDrawerTreasurer, 
                 moneySavingsTreasurer, 
+                moneyBankOnlineTreasurer,
                 moneyBankTreasurer, 
                 NOW() 
               FROM treasurer 
@@ -202,7 +207,7 @@ class TreasurerDAO{
                 $treasurerClass = $this->searchDate($day);
                 $treasurerClass->closingMoneyDayTreasurer = $valueDay;
                 $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOut);
-                $treasurerClass->moneyBankTreasurer += $valueInCredit;
+                $treasurerClass->moneyBankOnlineTreasurer += $valueInCredit;
                 $treasurerClass->dateRegistryTreasurer = $dateNow;
             }
             //Se $treasurerClass não for null é pq não deu erro no processo
