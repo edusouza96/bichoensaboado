@@ -61,16 +61,45 @@ function showMessage(message){
     document.getElementById('link-treasurer').style.display = 'none';
 }
 
-function selectTitleExpense(idCategory){
+function selectTitleExpense(idCategory, idCenterCost = 0){
     $.get( "../ajax/selectTitleExpense.php", { 
-        idCategory: idCategory 
+        idCategory: idCategory
     }).done(function( data ) {
         data = JSON.parse(data);
         var html = '';        
+        var optionSelected = '';
         for(var obj in data){
-            html = html.concat('<option value="'+ data[obj].idCenterCost +'">'+ data[obj].nameCenterCost +'</option>');
+            optionSelected = (data[obj].idCenterCost == idCenterCost ? 'selected' : '');
+            html = html.concat('<option value="'+ data[obj].idCenterCost +'" '+optionSelected+'>'+ data[obj].nameCenterCost +'</option>');
         }
         $('#centerCost').html(html);
     
     });
+}
+
+function addRowFinancial(){
+    var divNew = `
+        <div class="row"> 
+            <div class="col-xs-12 col-sm-12 col-lg-3 col-md-3"> 
+                <div class="form-group"> 
+                    <label for="valueProduct">Custo do gasto</label> 
+                    <input type="text" id="valueProduct" name="valueProduct[]" class="form-control" >
+                </div>
+            </div> 
+
+            <div class="col-xs-10 col-sm-10 col-lg-3 col-md-3"> 
+                <div class="form-group"> 
+                    <label for="typeTreasurerFinancial">Retirar de:</label> 
+                    <select id="typeTreasurerFinancial" name="typeTreasurerFinancial[]" class="form-control">
+                            <option value="">-- Selecione --</option>
+                            <option value="1">Caixa(gaveta)</option>
+                            <option value="2">Cofre</option>
+                            <option value="4">Banco</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    `;
+    var divRow = $('#rowMulti').html();
+    $('#rowMulti').html(divRow+divNew);
 }

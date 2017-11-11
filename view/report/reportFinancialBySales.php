@@ -14,7 +14,7 @@
         $dateEnd = $_POST['dateEnd'];
         $reportDao->addWhere(" datePayFinancial <= '".$dateEnd."'");
     }
-    $reportList = $reportDao->reportFinancialBySales();    
+    $reportList = $reportDao->reportFinancialBySales(); 
     $chartCategory = array();
 ?>
 <!DOCTYPE html>
@@ -30,7 +30,7 @@
         <div class="jumbotron"> 
             <h2>Vendas</h2>
         </div>
-        <?php
+        <?php                                
             include_once($path."/bichoensaboado/view/inc/inc.php");
         ?>
         <form role="form" method="POST">
@@ -93,6 +93,7 @@
                     $chartData = array();
                     $totalUnit = 0;
                     $totalValue = 0;
+                    
                     foreach($reportList as $item){
                         echo "<tr>";
                         echo "<td>";

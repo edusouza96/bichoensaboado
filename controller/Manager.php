@@ -124,16 +124,25 @@
         break;
 
         case 'financial':
+
+            
             foreach($_POST as $fieldKey=>$fieldValue){
                 if(${'fieldKey'} != 'module'){
                     $financialClass->${'fieldKey'} = $fieldValue;
                 }
             }
-        
-            if($financialClass->idFinancial != 0){
-                $financialDao->update($financialClass);
-            }else{
-                $financialDao->insert($financialClass);
+
+            $value = $financialClass->valueProduct;
+            $typeTreasurer = $financialClass->typeTreasurerFinancial;
+            for($i = 0; $i < count($value); $i++){
+                $financialClass->valueProduct = $value[$i];
+                $financialClass->typeTreasurerFinancial = $typeTreasurer[$i];
+                
+                if($financialClass->idFinancial != 0){
+                    $financialDao->update($financialClass);
+                }else{
+                    $financialDao->insert($financialClass);
+                }
             }
         break;
 
@@ -172,12 +181,14 @@
                     $quantity = $quantityNew;
                     $valueUnit = $productClass->valuationBuyProduct;
                     $description = $productClass->nameProduct;
+                    $typeTreasurer = $productClass->typeTreasurerFinancial;
                     $financialClass = new FinancialClass();
                     $financialClass->description              = 'Compra de produtos: '.$quantity. ' unidades de '.$description;
                     $financialClass->dateDueFinancial         = date('Y-m-d');
                     $financialClass->datePayFinancial         = date('Y-m-d');
                     $financialClass->valueProduct             = $quantity * $valueUnit;
-                    $financialClass->centerCost = 4;
+                    $financialClass->centerCost               = 4;
+                    $financialClass->typeTreasurerFinancial   = $typeTreasurer;
                     $financialDao = new FinancialDao();
                     $financialDao->insert($financialClass);
                 }
@@ -191,12 +202,14 @@
                         $quantity = $productClass->quantityProduct;
                         $valueUnit = $productClass->valuationBuyProduct;
                         $description = $productClass->nameProduct;
+                        $typeTreasurer = $productClass->typeTreasurerFinancial;
                         $financialClass = new FinancialClass();
                         $financialClass->description              = 'Compra de produtos: '.$quantity. 'unidades de '.$description;
                         $financialClass->dateDueFinancial         = date('Y-m-d');
                         $financialClass->datePayFinancial         = date('Y-m-d');
                         $financialClass->valueProduct             = $quantity * $valueUnit;
-                        $financialClass->centerCost->categoryExpenseFinancial->idCategoryExpenseFinancial = 4;
+                        $financialClass->centerCost               = 4;
+                        $financialClass->typeTreasurerFinancial   = $typeTreasurer;
                         $financialDao = new FinancialDao();
                         $financialDao->insert($financialClass);
                     }

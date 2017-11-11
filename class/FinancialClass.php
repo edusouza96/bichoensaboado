@@ -10,7 +10,7 @@ class FinancialClass{
     private $centerCost;
     private $methodPayment;
     private $numberPlotsFinancial;
-
+    private $typeTreasurerFinancial;
 
     function __construct(){
         //
@@ -19,12 +19,14 @@ class FinancialClass{
     function iterateVisible() {
        $list = array();
        foreach ($this as $key => $value) {
-            $list[$key] = $value;
+        if($key == 'centerCost')  
+            $key = 'center_cost_idCenterCost';  
+        $list[$key] = $value;
        }
        return $list;
     }
     
-    function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial,$datePayFinancial, $methodPayment = null, $numberPlotsFinancial = null){
+    function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial,$datePayFinancial, $methodPayment = null, $numberPlotsFinancial = null, $typeTreasurerFinancial = null){
          $this->idFinancial = $idFinancial;
          $this->registerBuy = $registerBuy;
          $this->sales = $sales;
@@ -35,6 +37,7 @@ class FinancialClass{
          $this->datePayFinancial = $datePayFinancial;
          $this->methodPayment = $methodPayment;
          $this->numberPlotsFinancial = $numberPlotsFinancial;
+         $this->typeTreasurerFinancial = $typeTreasurerFinancial;
     }
 
      public function __get($property) {

@@ -1,10 +1,3 @@
-*Financeiro
-- especificar para qual caixa será retirado
-- permitir que seja movimentado de mais de um caixa para um requisição
-
-
--------CONCLUIDO-------------------------
-
 *Cupom
 - redirecionar para agenda, mas para o dia atual da agenda
 
@@ -33,3 +26,7 @@
 - Trocar nomenclatura (banco => pagseguro , poupança => cofre)
 - criar categoria banco 
 - fechar caixa, exibir resumo da movimentação do dia
+
+*Financeiro
+- especificar para qual caixa será retirado
+- permitir que seja movimentado de mais de um caixa para um requisição

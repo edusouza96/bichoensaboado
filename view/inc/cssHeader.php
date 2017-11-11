@@ -7,4 +7,5 @@
 <link rel="stylesheet" href="<?=$pathCss?>stylePages.css?v=<?=$version?>">
 <link rel="stylesheet" href="<?=$pathCss?>bootstrap.min.css">
 <link rel="stylesheet" href="<?=$pathCss?>jquery-ui.min.css">        
+<link rel="stylesheet" href="<?=$pathCss?>font-awesome/css/font-awesome.min.css">
 <link rel="icon" type="image/png" href="<?=$pathImg?>logo.jpg" />

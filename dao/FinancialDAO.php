@@ -29,7 +29,8 @@ class FinancialDAO {
                 datePayFinancial,
                 center_cost_idCenterCost,
                 methodPayment,
-                numberPlotsFinancial
+                numberPlotsFinancial,
+                typeTreasurerFinancial
                 )VALUES (
                 :registerBuy,
                 :sales,
@@ -39,7 +40,8 @@ class FinancialDAO {
                 :datePayFinancial,
                 :centerCost,
                 :methodPayment,
-                :numberPlotsFinancial)";
+                :numberPlotsFinancial,
+                :typeTreasurerFinancial)";
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -51,7 +53,8 @@ class FinancialDAO {
               $p_sql->bindValue(":datePayFinancial", $financial->datePayFinancial);
               $p_sql->bindValue(":centerCost",       $financial->centerCost);
               $p_sql->bindValue(":methodPayment",    $financial->methodPayment);
-              $p_sql->bindValue(":numberPlotsFinancial", $financial->numberPlotsFinancial);
+              $p_sql->bindValue(":numberPlotsFinancial",    $financial->numberPlotsFinancial);
+              $p_sql->bindValue(":typeTreasurerFinancial",  $financial->typeTreasurerFinancial);
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
@@ -76,7 +79,7 @@ class FinancialDAO {
    
               return $p_sql->execute();
           } catch (Exception $e) {
-              print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+              print $e."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }
       
@@ -138,6 +141,7 @@ class FinancialDAO {
           $financial->centerCost               =  CenterCostDAO::getInstance()->searchId($row['center_cost_idCenterCost']);
           $financial->methodPayment            = $row['methodPayment'];
           $financial->numberPlotsFinancial     = $row['numberPlotsFinancial'];
+          $financial->typeTreasurerFinancial   = $row['typeTreasurerFinancial'];
           return $financial;
       }
    

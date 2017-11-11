@@ -2,12 +2,12 @@
     $path = $_SERVER['DOCUMENT_ROOT'];
     include_once($path."/bichoensaboado/dao/ReportDAO.php");
     $reportDao = new ReportDAO();
-    $reportList = $reportDao->reportDayMovement();
+    $reportDayMovementList = $reportDao->reportDayMovement();
     $inCash = 0;
     $debit = 0;
     $credit = 0;
     $expense = 0;
-    foreach($reportList as $report){
+    foreach($reportDayMovementList as $report){
         if($report->column3Report == 1){
             $inCash = $report->column1Report;
         }else if($report->column3Report == 2){

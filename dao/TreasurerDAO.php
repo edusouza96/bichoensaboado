@@ -175,17 +175,30 @@ class TreasurerDAO{
         try{
             // busca os valores do dia 
             $sql = "SELECT 
-                        day, 
-                        sum(valueInCash) as valueInCash, 
-                        sum(valueInCredit) as valueInCredit, 
-                        sum(valueOut) as valueOut,
-                        ((sum(valueInCredit)+sum(valueInCash)) - sum(valueOut)) as valueDay 
-                FROM ( 
-                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
-                    UNION 
-                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL) 
+                    day, 
+                    SUM(valueInCash) as valueInCash, 
+                    SUM(valueInCredit) as valueInCredit, 
+                    SUM(valueOutDrawer) as valueOutDrawer,
+                    SUM(valueOutSavings) as valueOutSavings,
+                    SUM(valueOutBankOnline) as valueOutBankOnline,
+                    SUM(valueOutBank) as valueOutBank,
+                    (
+                        (SUM(valueInCredit)+SUM(valueInCash)) 
+                        - 
+                        (SUM(valueOutDrawer)+SUM(valueOutSavings)+SUM(valueOutBankOnline)+SUM(valueOutBank))
+                    ) as valueDay 
+                FROM (
+                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
+                        UNION 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 1) 
                         UNION
-                        (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 2) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueProduct) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 4) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
                 ) AS tbl 
                 WHERE SUBSTRING(day, 1, 10) = curdate()
                 GROUP BY day
@@ -197,7 +210,10 @@ class TreasurerDAO{
             $day = $resultInfosAux['day'];
             $valueInCash = $resultInfosAux['valueInCash'];
             $valueInCredit = $resultInfosAux['valueInCredit'];
-            $valueOut = $resultInfosAux['valueOut'];
+            $valueOutDrawer = $resultInfosAux['valueOutDrawer'];
+            $valueOutSavings = $resultInfosAux['valueOutSavings'];
+            $valueOutBankOnline = $resultInfosAux['valueOutBankOnline'];
+            $valueOutBank = $resultInfosAux['valueOutBank'];
             $valueDay = $resultInfosAux['valueDay'];
             $dateNow = date('Y-m-d H:i:s');
             $treasurerClass = null;
@@ -206,8 +222,10 @@ class TreasurerDAO{
             if(!empty($day)){
                 $treasurerClass = $this->searchDate($day);
                 $treasurerClass->closingMoneyDayTreasurer = $valueDay;
-                $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOut);
-                $treasurerClass->moneyBankOnlineTreasurer += $valueInCredit;
+                $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
+                $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
+                $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
+                $treasurerClass->moneyBankTreasurer -= $valueOutBank;
                 $treasurerClass->dateRegistryTreasurer = $dateNow;
             }
             //Se $treasurerClass não for null é pq não deu erro no processo
