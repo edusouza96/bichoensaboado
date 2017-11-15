@@ -211,9 +211,10 @@ class ReportDAO{
                 SELECT 
                     SUM(f.valueProduct) AS column1Report, 
                     f.datePayFinancial AS column2Report,
-                    f.methodPayment AS column3Report
+                    f.methodPayment AS column3Report,
+                    f.typeTreasurerFinancial AS column4Report
                 FROM financial f 
-                GROUP BY f.methodPayment, f.datePayFinancial
+                GROUP BY f.methodPayment, f.datePayFinancial, f.typeTreasurerFinancial
                 HAVING f.datePayFinancial = CURDATE()
             ";
             $result = Conexao::getInstance()->query($sql);

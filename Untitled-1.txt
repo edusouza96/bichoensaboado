@@ -30,3 +30,8 @@
 *Financeiro
 - especificar para qual caixa será retirado
 - permitir que seja movimentado de mais de um caixa para um requisição
+
+
+------------------------------------------------------------------------------------------
+Melhorar query para movimento do dia
+agendamento de pacotes(abrir modal para inserir os dias)

@@ -404,7 +404,7 @@
         </table>
     </body>
 </html>
-<!-- <script language="javascript" src="../js/jquery-1.10.2.js"></script> -->
+
 <?php
     include_once($path."/bichoensaboado/view/inc/jsHeader.php");
 ?>
