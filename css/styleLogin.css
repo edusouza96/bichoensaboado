@@ -1,0 +1,26 @@
+body {
+    background-image: linear-gradient(to right, #2d3194 0%, #5fc9df 100%);
+}
+
+.container{
+    background: #fff;
+    height: 450px;
+    margin-top: 10%;
+    border: 1px solid rgb(177, 173, 173);
+}
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin #icon{
+    width: 100px;
+}

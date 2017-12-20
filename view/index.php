@@ -22,6 +22,7 @@
     date_default_timezone_set('America/Sao_Paulo');
     include_once("../dao/DiaryDAO.php");
     include_once("../dao/ServicDAO.php");
+    include_once($path."/bichoensaboado/view/inc/util.php");
     $servicDao = new ServicDAO();
     $servicList = $servicDao->SearchAll();
     $diaryDao = new DiaryDAO();
@@ -51,7 +52,7 @@
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Horários</h2>
+            <h2>Horários - Dia <?=dateUs2Br($date)?></h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");

@@ -100,14 +100,17 @@
                                 <input type="hidden" name="diarySales[]" value="<?=$diaryClass->idDiary?>">
                                 <input type="hidden" name="productSales[]" value="0">
                                 <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->totalPrice?>">
-                                <script>
-                                    window.onload = function() {
-                                        diaryRegisterBuy(<?=$diaryClass->totalPrice?>);
-                                    };
-                                </script>
+                               
                             <?php
                                         $subValue += $diaryClass->totalPrice;
                                     }
+                            ?> 
+                                    <script>
+                                        window.onload = function() {
+                                            diaryRegisterBuy(<?=$subValue?>);
+                                        };
+                                    </script>
+                            <?php
                                     $subValue = 'R$ '.$subValue;
                                 }else{
                                     ?>

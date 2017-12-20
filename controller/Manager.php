@@ -336,6 +336,24 @@
             
         break;
         
+        case 'login':
+            $nameUser = $_POST['nameUser'];
+            $passwordUser = $_POST['passwordUser'];
+            if($nameUser != 'admin'){
+                header("location:../view/login/index.php");
+                die;
+            }
+
+            if($passwordUser != 'admin'){
+                header("location:../view/login/index.php");
+                die;
+            }
+
+            header("location:../view/index.php");
+            die;
+            
+        break;
+
         default:
             echo "ERROU!";
         break;

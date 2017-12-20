@@ -7,4 +7,8 @@ function generationColorRGB(){
     $color3 = mt_rand(16, 255);
     return "#".dechex($color1).dechex($color2).dechex($color3);
 }
+
+function dateUs2Br($dateUs){
+    return date("d/m/Y", strtotime($dateUs));
+}
 ?>
