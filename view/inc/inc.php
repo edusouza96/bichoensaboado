@@ -1,5 +1,11 @@
 <?php
     $path = $_SERVER['DOCUMENT_ROOT']; 
+
+    session_start();
+    if(empty($_SESSION["userOnline"])){
+        header("location:$path/bichoensaboado/view/login/index.php?code=401-l");    
+    }
+
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
     $disabledLink = false;
     $treasurerDao = new TreasurerDAO();

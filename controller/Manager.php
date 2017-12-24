@@ -22,6 +22,8 @@
     include_once($path."/bichoensaboado/class/TreasurerClass.php");
     include_once($path."/bichoensaboado/dao/CenterCostDAO.php");
     include_once($path."/bichoensaboado/class/CenterCostClass.php");
+    include_once($path."/bichoensaboado/dao/LoginDAO.php");
+    include_once($path."/bichoensaboado/class/LoginClass.php");
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -44,6 +46,8 @@
     $treasurerDao = new TreasurerDAO();
     $centerCostClass = new CenterCostClass();
     $centerCostDao = new CenterCostDAO();
+    $loginClass = new LoginClass();
+    $loginDao = new LoginDAO();
     $module = $_POST['module'];
 
     switch ($module) {
@@ -337,21 +341,19 @@
         break;
         
         case 'login':
-            $nameUser = $_POST['nameUser'];
-            $passwordUser = $_POST['passwordUser'];
-            if($nameUser != 'admin'){
-                header("location:../view/login/index.php");
-                die;
-            }
+            $loginClass->nameLogin = $_POST['nameLogin'];
+            $loginClass->passwordLogin = md5($_POST['passwordLogin']);
 
-            if($passwordUser != 'admin'){
-                header("location:../view/login/index.php");
-                die;
+            $result = $loginDao->doLogin($loginClass);
+            if($result == false){
+                session_start();
+                header("location:../view/login/index.php?code=400-l");
+            }else{
+                session_start();
+                $_SESSION["userOnline"] = $result->idLogin;
+                header("location:../view/index.php");
             }
-
-            header("location:../view/index.php");
-            die;
-            
+            exit;
         break;
 
         default:

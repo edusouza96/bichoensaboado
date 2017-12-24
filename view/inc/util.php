@@ -11,4 +11,5 @@ function generationColorRGB(){
 function dateUs2Br($dateUs){
     return date("d/m/Y", strtotime($dateUs));
 }
+
 ?>
