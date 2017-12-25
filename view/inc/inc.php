@@ -1,11 +1,12 @@
 <?php
-    $path = $_SERVER['DOCUMENT_ROOT']; 
-
+    $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
     session_start();
     if(empty($_SESSION["userOnline"])){
-        header("location:$path/bichoensaboado/view/login/index.php?code=401-l");    
+        
+        header("location:$urlBase/bichoensaboado/view/login/index.php?code=401-l");  
     }
 
+    $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
     $disabledLink = false;
     $treasurerDao = new TreasurerDAO();
