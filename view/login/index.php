@@ -10,6 +10,9 @@
 
   <body>
     <?php
+      session_start();
+      session_destroy();
+      
       if(!empty($_GET['code'])){
         $path = $_SERVER['DOCUMENT_ROOT'];
         include_once($path."/bichoensaboado/view/inc/message.php");

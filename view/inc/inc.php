@@ -1,12 +1,24 @@
 <?php
-    $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
+    if($_SERVER['SERVER_NAME'] == 'localhost'){
+        $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
+    }else{
+        $urlBase = "https://".$_SERVER['SERVER_NAME'];
+    }
+    
+    $path = $_SERVER['DOCUMENT_ROOT']; 
+    $pathFile = $_SERVER['SCRIPT_NAME'];
+
     session_start();
     if(empty($_SESSION["userOnline"])){
-        
         header("location:$urlBase/bichoensaboado/view/login/index.php?code=401-l");  
     }
 
-    $path = $_SERVER['DOCUMENT_ROOT']; 
+    include_once($path."/bichoensaboado/class/LoginClass.php");
+    $dataLogin = unserialize($_SESSION['userOnline']);
+    if($dataLogin->role == 3){
+        // TODO : crete in the data base a relations of path with role
+    }
+
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
     $disabledLink = false;
     $treasurerDao = new TreasurerDAO();
@@ -37,11 +49,17 @@
                 <li><a href="/bichoensaboado/view/breed/">Raças</a></li>
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
-                <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
-                <li><a href="/bichoensaboado/view/center-cost/">Centro de Custo</a></li>
-                <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
+                <?php
+                if($dataLogin->role != 3){
+                ?>
+                    <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
+                    <li><a href="/bichoensaboado/view/center-cost/">Centro de Custo</a></li>
+                    <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
+                    <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
+                <?php
+                }
+                ?>
                 <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
-                <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
                 <?php
                 if(!$disabledLink){
                 ?>

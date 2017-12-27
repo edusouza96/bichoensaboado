@@ -140,6 +140,7 @@ class LoginDAO
         $login->idLogin = $row['idLogin'];
         $login->nameLogin = $row['nameLogin'];
         $login->passwordLogin = $row['passwordLogin'];
+        $login->role = $row['role_idRole'];
         // $login->role = RoleDAO::getInstance()->searchId($row['role_idRole']);
         return $login;
     }

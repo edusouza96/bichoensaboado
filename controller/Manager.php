@@ -345,12 +345,12 @@
             $loginClass->passwordLogin = md5($_POST['passwordLogin']);
 
             $result = $loginDao->doLogin($loginClass);
+            session_start();
+
             if($result == false){
-                session_start();
                 header("location:../view/login/index.php?code=400-l");
             }else{
-                session_start();
-                $_SESSION["userOnline"] = $result->idLogin;
+                $_SESSION["userOnline"] = serialize($result);
                 header("location:../view/index.php");
             }
             exit;
