@@ -90,8 +90,13 @@ function processReqValuation() {
         price.innerHTML = returnn[1];
         totalPrice.innerHTML = parseFloat(returnn[1]); 
       }
-    
 
+      //  checar se é um serviço de pacote 
+      var package = returnn[2];
+      if(package > 0){
+        showFormSelectDaysPackage(package);
+      }
+    
     } else{
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
@@ -142,7 +147,7 @@ function processReqSelectOwner() {
 
 
 /**
- *Salva os dados e modifica a visualização da linha
+ *Salva os dados e modifica a visualização da linha(deprecated)
  */
 function ajaxSave(url) {
   req = null;

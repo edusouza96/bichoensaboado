@@ -57,13 +57,30 @@ function save(idField, date){
         if(isNaN(deliveryPrice)){
             deliveryPrice = 0;
         }
+        var dateHourPackage = JSON.parse($('#dateHourPackage').val());
         var totalPrice = parseFloat(price) + parseFloat(deliveryPrice);
         var hour = document.getElementById('hour'+idField).innerHTML;
         var dateHour = date+' '+hour;
         var paramSave = owner + '|' + service + '|' + search + '|' + price + '|' + deliveryPrice + '|' + totalPrice + '|' + dateHour;
-        var url = "ajax/save.php?paramSave=" + paramSave + "&idField=" + idField; 
-        // console.log(url);
-        ajaxSave(url);
+        // var url = "ajax/save.php?paramSave=" + paramSave + "&idField=" + idField; 
+        // // console.log(url);
+        // ajaxSave(url);
+        $.get( "ajax/save.php", { 
+            idField: idField, 
+            owner: owner,
+            service: service, 
+            search: search,
+            price: price, 
+            deliveryPrice: deliveryPrice,
+            totalPrice: totalPrice, 
+            dateHour: dateHour,
+            dateHourPackage: dateHourPackage 
+        }).done(function() {
+            showMessage('Horario Marcado!');
+            location.reload();
+        }).fail(function() {
+            showMessage('Falha no agendamento, tente novamente');
+        });
     }
 }
 
@@ -275,4 +292,64 @@ function showMessage(message){
     document.getElementById('alert').style.display = 'block';
     document.getElementById('msg-alert').innerHTML = message;
     document.getElementById('link-treasurer').style.display = 'none';
+}
+
+function showFormSelectDaysPackage(package){
+    var buildDiv = '';
+    var dateCurrent = $('#dateCurrent').val();
+    var pRow = window.sessionStorage.getItem('pRow');
+    var table = document.getElementById('tableDiary');
+    var hourCurrent = table.rows[pRow-1].cells[0].innerText;
+
+    var dateSplit = dateCurrent.split('-');
+    dateCurrent = new Date(dateSplit[0], dateSplit[1]-1, dateSplit[2]);
+    
+    for(var i = 0; i < (package*2); i++){
+
+        buildDiv += `
+            <div class="row">
+                <div class="col-xs-1 col-sm-1 col-lg-1 col-md-1">
+                    <div class="form-group"> 
+                        <label id="modalRowPackageOrder`+i+`">`+(i+1)+`</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group"> 
+                        <input type="date" name="datePackage[]" id="datePackage`+i+`" value="`+dateCurrent.toISOString().split('T')[0]+`" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-xs-5 col-sm-5 col-lg-5 col-md-5">
+                    <div class="form-group"> 
+                        <input type="time" name="hourPackage[]" id="hourPackage`+i+`" value="`+hourCurrent+`" class="form-control">
+                    </div>
+                </div>
+            </div>
+        `;
+
+        dateCurrent.setDate(dateCurrent.getDate()+(14/package));
+        dateCurrent = new Date(dateCurrent.getFullYear(), dateCurrent.getMonth(), dateCurrent.getDate());
+    }
+        
+    $('#modalRowsSelectDays').html(buildDiv);
+
+    $('#modalSelectDaysPackage').modal('toggle');
+}
+
+function defineDateHourPackage(){
+    var datesPackage = document.getElementsByName('datePackage[]');
+    var hoursPackage = document.getElementsByName('hourPackage[]');
+    
+    var formatedReturn = new Array();
+    for(var i=0; i<hoursPackage.length; i++){
+        formatedReturn.push(
+            {
+                'date' : datesPackage[i].value,
+                'hour' : hoursPackage[i].value
+            }
+        );
+    }
+   
+    $('#dateHourPackage').val(JSON.stringify(formatedReturn));
 }

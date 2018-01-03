@@ -45,7 +45,7 @@
     <head>
         <meta charset="ISO 8895-1">
         <title>Agenda Pet</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <?php
             include_once($path."/bichoensaboado/view/inc/cssHeader.php");
         ?>
@@ -57,6 +57,7 @@
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
         ?>
+        <input type="hidden" id="dateCurrent" value="<?=$date?>">
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
@@ -401,6 +402,52 @@
                     
                     </div>
                 </div><!--Fim Modal adição de animal do mesmo dono-->
+
+                <!-- Modal seleção de dias do pacote -->
+                <div class="modal fade" id="modalSelectDaysPackage" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="width: 70%;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Selecionar Dias do Pacote</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row"> <!--div line head -->
+                                    <div class="col-xs-1 col-sm-1 col-lg-1 col-md-1">
+                                        <div class="form-group"> 
+                                            <strong id="modalHeadPackageOrder">#</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                                        <div class="form-group"> 
+                                            <strong id="modalHeadPackageDate">Data</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-5 col-sm-5 col-lg-5 col-md-5">
+                                        <div class="form-group"> 
+                                            <strong id="modalHeadPackageHour">Hora</strong>
+                                        </div>
+                                    </div>
+                                </div> <!-- end div line head -->
+
+                                <div  id="modalRowsSelectDays">
+                                    <!-- elementos adicionados via function JS  -->
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <input type="hidden" name="dateHourPackage" id="dateHourPackage" value />
+                                <button type="button" class="btn btn-success" data-dismiss="modal" onClick="defineDateHourPackage();">Confirmar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!--Fim Modal seleção de dias do pacote -->
+                
             </tbody>
         </table>
     </body>

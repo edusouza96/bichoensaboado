@@ -10,7 +10,8 @@
    $servic = $servicDao->SearchId($idService);
 
    $list = array('idField' => $idField ,
-                'valuation' => $servic->valuation
+                'valuation' => $servic->valuation,
+                'package' => $servic->package
                 );
     
    echo implode(',' , $list);
