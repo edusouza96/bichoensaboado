@@ -62,9 +62,7 @@ function save(idField, date){
         var hour = document.getElementById('hour'+idField).innerHTML;
         var dateHour = date+' '+hour;
         var paramSave = owner + '|' + service + '|' + search + '|' + price + '|' + deliveryPrice + '|' + totalPrice + '|' + dateHour;
-        // var url = "ajax/save.php?paramSave=" + paramSave + "&idField=" + idField; 
-        // // console.log(url);
-        // ajaxSave(url);
+
         $.get( "ajax/save.php", { 
             idField: idField, 
             owner: owner,

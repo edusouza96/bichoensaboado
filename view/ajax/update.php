@@ -23,37 +23,68 @@
     $diary = $diaryDao->SearchId($idField[$i]);
     $dateHourOld = $diary->dateHour;
     $diary->dateHour = $dateHour;
-    $diary->search = $search;
     $diary->servic = $servic;
     if($i > 0){
       $deliveryPrice = 0;
     }
-    $diary->deliveryPrice = $deliveryPrice;
-    $price = $servic->valuation;
-    $diary->price = $price;
-    $diary->totalPrice = $price + $deliveryPrice;
+
+    /**
+    * Se não for um pacote é atualizado o valor do serviço e o frete normalmente
+    * Caso contrario é atualizado apenas o frete, caso tenha modificado esta opção
+    */
+    if($diary->package->idPackage == 0){
+      $diary->deliveryPrice = $deliveryPrice;
+      $price = $servic->valuation;
+      $diary->price = $price;
+      $diary->totalPrice = $price + $deliveryPrice;
+    }else{
+      if($diary->search != $search){
+        $diary->deliveryPrice = $deliveryPrice;
+        $diary->totalPrice = $deliveryPrice;
+      }
+    }
+    $diary->search = $search;
+    
 
     $response = $diaryDao->Update($diary);
+
+    /**
+    * Em caso do serviço ser pacote, é feita a verificação de qual semana será editada,
+    * a seguir é colocado num array todos os dias diferente de null para ser colocado em ordem,
+    * para que seja atualizado corretamente de acordo com a semana
+    */
+    $datesOfPackage = array();
     if($diary->package->idPackage > 0){
       $packageDao = new PackageDAO();
       $package = $packageDao->SearchId($diary->package->idPackage);
 
-      $weekDescremento = 0;
       for($iPack = 1; $iPack<5; $iPack++){
-          $datePack = 'date'.$iPack;
-          $weekPack = 'week'.$iPack;
-          if($dateHourOld == $package->${'datePack'}){
-              $weekDescremento = 1;
-              $package->${'datePack'} = $dateHour;
-              $package->${'weekPack'} = 5;
-          }
-          $package->${'weekPack'} -= $weekDescremento;
-          
+        $datePack = 'date'.$iPack;
+        if($dateHourOld == $package->${'datePack'}){
+            $package->${'datePack'} = $dateHour;
+        }
+
+        if($package->${'datePack'} != '0000-00-00 00:00:00'){
+          $datesOfPackage[] = $package->${'datePack'};
+        }
+
+      }
+      
+      array_multisort($datesOfPackage);
+
+      foreach($datesOfPackage as $key => $valueDate){
+        $datePack = 'date'.($key+1);
+        $weekPack = 'week'.($key+1);
+
+        $package->${'datePack'} = $valueDate;
+        $package->${'weekPack'} = $key+1;
+
       }
       
       $packageDao->Update($package);
     }
   }
+
   echo $response;    
 ?>
 
