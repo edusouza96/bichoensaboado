@@ -27,7 +27,8 @@
     if($i > 0){
       $deliveryPrice = 0;
     }
-
+    $arquivo = 'meu_arquivo.txt';
+    $handle = fopen( $arquivo, 'a+' );
     /**
     * Se não for um pacote é atualizado o valor do serviço e o frete normalmente
     * Caso contrario é atualizado apenas o frete, caso tenha modificado esta opção
@@ -42,9 +43,22 @@
         $diary->deliveryPrice = $deliveryPrice;
         $diary->totalPrice = $deliveryPrice;
       }
-    }
+
+      /**
+       * teste se a data nova do pacote já não esta marcada
+       */
+      $packageDao = new PackageDAO();
+      $package = $packageDao->SearchId($diary->package->idPackage);
+      for($iPack = 1; $iPack<5; $iPack++){
+        $datePack = 'date'.$iPack;
+        if($dateHour.":00" == $package->${'datePack'}){
+          http_response_code(410);
+          echo "Data já marcada!";
+          die();
+        }
+      }
+    }    
     $diary->search = $search;
-    
 
     $response = $diaryDao->Update($diary);
 
@@ -55,9 +69,8 @@
     */
     $datesOfPackage = array();
     if($diary->package->idPackage > 0){
-      $packageDao = new PackageDAO();
-      $package = $packageDao->SearchId($diary->package->idPackage);
-
+      // $packageDao = new PackageDAO();
+      // $package = $packageDao->SearchId($diary->package->idPackage);
       for($iPack = 1; $iPack<5; $iPack++){
         $datePack = 'date'.$iPack;
         if($dateHourOld == $package->${'datePack'}){
@@ -67,10 +80,9 @@
         if($package->${'datePack'} != '0000-00-00 00:00:00'){
           $datesOfPackage[] = $package->${'datePack'};
         }
-
       }
       
-      array_multisort($datesOfPackage);
+      array_multisort($datesOfPackage);  
 
       foreach($datesOfPackage as $key => $valueDate){
         $datePack = 'date'.($key+1);
@@ -78,9 +90,8 @@
 
         $package->${'datePack'} = $valueDate;
         $package->${'weekPack'} = $key+1;
-
       }
-      
+
       $packageDao->Update($package);
     }
   }

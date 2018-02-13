@@ -172,7 +172,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                             <div class="form-group" style="height: 30px;">
-                                <input type="submit" value="Finalizar" class="form-control">
+                                <input type="submit" value="Finalizar" class="form-control" id="btn_submit">
                             </div>
                         </div>
                     </div>
@@ -296,6 +296,13 @@
             $("#rebate").val("0.0");
         }
     }
+
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            $('#btn_submit').focus();
+            return false;
+        }
+    });
     
     
 </script>

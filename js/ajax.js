@@ -295,6 +295,8 @@ function ajaxUpdate(url) {
 }
 
 function processReqUpdate() {
+  console.log(req);
+  
   if (req.readyState == 4) {
     if (req.status == 200) {
       var returnn = req.responseText;
@@ -304,8 +306,10 @@ function processReqUpdate() {
       }else{
         showMessage('Falha ao Atualizar Registro, Tente Novamente');
       }
-    } else{
-      alert("Houve um problema ao obter os dados:n" + req.statusText);
+    } else if (req.status == 410) {
+      showMessage("Falha: " + req.responseText);
+    }else{
+      showMessage("Houve um problema ao obter os dados:" + req.statusText);
     }
   }
 }
