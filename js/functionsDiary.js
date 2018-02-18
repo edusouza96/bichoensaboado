@@ -57,7 +57,7 @@ function save(idField, date){
         if(isNaN(deliveryPrice)){
             deliveryPrice = 0;
         }
-        var dateHourPackage = JSON.parse($('#dateHourPackage').val());
+        var dateHourPackage = ($('#dateHourPackage').val() == "" ? "" : JSON.parse($('#dateHourPackage').val()));
         var totalPrice = parseFloat(price) + parseFloat(deliveryPrice);
         var hour = document.getElementById('hour'+idField).innerHTML;
         var dateHour = date+' '+hour;

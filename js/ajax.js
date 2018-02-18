@@ -20,35 +20,35 @@ function ajax(url) {
 
 function processReqChange() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
+    if (req.status == 200) {
       var returnn = req.responseText.split("||");
       var idField = parseInt(returnn[0]);
-      
-      var breed = document.getElementById("breed"+idField);
-      var address = document.getElementById("address"+idField);
-      var district = document.getElementById("district"+idField);
-      var phone1 = document.getElementById("phone1"+idField);
-      var phone2 = document.getElementById("phone2"+idField);
-      var service = document.getElementById("service"+idField);
-      var deliveryPrice = document.getElementById("deliveryPrice"+idField);
+
+      var breed = document.getElementById("breed" + idField);
+      var address = document.getElementById("address" + idField);
+      var district = document.getElementById("district" + idField);
+      var phone1 = document.getElementById("phone1" + idField);
+      var phone2 = document.getElementById("phone2" + idField);
+      var service = document.getElementById("service" + idField);
+      var deliveryPrice = document.getElementById("deliveryPrice" + idField);
       var option = '<option value>-- Selecione --</option>';
-      for(var i=9; i<returnn.length; i++){
+      for (var i = 9; i < returnn.length; i++) {
         var optionFormat = returnn[i].split("|");
-        option += '<option value='+optionFormat[0]+'>'+optionFormat[1]+'</option>';
+        option += '<option value=' + optionFormat[0] + '>' + optionFormat[1] + '</option>';
       }
       breed.innerHTML = returnn[1];
-      addressValue = returnn[3]+'\n'+returnn[2];
-      address.innerHTML = '<input type="hidden" id="hiddenAddress'+idField+'" value="'+addressValue+'" >';
+      addressValue = returnn[3] + '\n' + returnn[2];
+      address.innerHTML = '<input type="hidden" id="hiddenAddress' + idField + '" value="' + addressValue + '" >';
       districtValue = returnn[5];
-      district.innerHTML = '<input type="hidden" id="hiddenDistrict'+idField+'" value="'+districtValue+'" >';
+      district.innerHTML = '<input type="hidden" id="hiddenDistrict' + idField + '" value="' + districtValue + '" >';
       phone1.innerHTML = returnn[6];
-      phone2.innerHTML = returnn[7]; 
-      service.innerHTML = '<select id="serviceSelect'+idField+'" name="service" onChange="selectValuation(this.value,'+idField+');" class="form-control">'+option+'</select>';
+      phone2.innerHTML = returnn[7];
+      service.innerHTML = '<select id="serviceSelect' + idField + '" name="service" onChange="selectValuation(this.value,' + idField + ');" class="form-control">' + option + '</select>';
       deliveryPriceValue = returnn[8];
-      deliveryPrice.innerHTML = '<input type="hidden" id="hiddenDeliveryPrice'+idField+'" value="'+deliveryPriceValue+'" >';
+      deliveryPrice.innerHTML = '<input type="hidden" id="hiddenDeliveryPrice' + idField + '" value="' + deliveryPriceValue + '" >';
       // deliveryPrice.value = returnn[8];
 
-    } else{
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -76,28 +76,28 @@ function ajaxValuation(url) {
 
 function processReqValuation() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
+    if (req.status == 200) {
       var returnn = req.responseText.split(",");
       var idField = parseInt(returnn[0]);
-      
-      var price = document.getElementById("price"+idField);
-      var deliveryPrice = document.getElementById("deliveryPrice"+idField);
-      var totalPrice = document.getElementById("totalPrice"+idField);
-      if(deliveryPrice.innerHTML.indexOf("hidden") == -1){
+
+      var price = document.getElementById("price" + idField);
+      var deliveryPrice = document.getElementById("deliveryPrice" + idField);
+      var totalPrice = document.getElementById("totalPrice" + idField);
+      if (deliveryPrice.innerHTML.indexOf("hidden") == -1) {
         price.innerHTML = returnn[1];
-        totalPrice.innerHTML = parseFloat(deliveryPrice.innerHTML) + parseFloat(returnn[1]); 
-      }else{
+        totalPrice.innerHTML = parseFloat(deliveryPrice.innerHTML) + parseFloat(returnn[1]);
+      } else {
         price.innerHTML = returnn[1];
-        totalPrice.innerHTML = parseFloat(returnn[1]); 
+        totalPrice.innerHTML = parseFloat(returnn[1]);
       }
 
       //  checar se é um serviço de pacote 
       var package = returnn[2];
-      if(package > 0){
+      if (package > 0) {
         showFormSelectDaysPackage(package);
       }
-    
-    } else{
+
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -126,20 +126,20 @@ function ajaxSelectOwner(url) {
 
 function processReqSelectOwner() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
+    if (req.status == 200) {
       var returnn = req.responseText.split(",");
       var idField = parseInt(returnn[0]);
-      
+
       var option = '<option value>-- Selecione --</option>';
-      for(var i=1; i<returnn.length; i++){
+      for (var i = 1; i < returnn.length; i++) {
         var optionFormat = returnn[i].split("|");
-        option += '<option value='+optionFormat[0]+'>'+optionFormat[1]+'</option>';
+        option += '<option value=' + optionFormat[0] + '>' + optionFormat[1] + '</option>';
       }
 
-      var selectOwner = document.getElementById("ownerTD"+idField);
-      selectOwner.innerHTML = '<select id="owner'+idField+'" name="owner" onChange="completeField(this.value,'+idField+');" class="form-control">'+option+'</select>';
+      var selectOwner = document.getElementById("ownerTD" + idField);
+      selectOwner.innerHTML = '<select id="owner' + idField + '" name="owner" onChange="completeField(this.value,' + idField + ');" class="form-control">' + option + '</select>';
 
-    } else{
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -168,14 +168,14 @@ function ajaxSave(url) {
 
 function processReqSave() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
-      if(req.responseText){
+    if (req.status == 200) {
+      if (req.responseText) {
         showMessage('Horario Marcado!');
         location.reload();
-      }else{
+      } else {
         showMessage('Falha no agendamento, tente novamente');
       }
-    } else{
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -205,30 +205,30 @@ function ajaxFinish(url) {
 
 function processReqFinish() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
+    if (req.status == 200) {
       var returnn = req.responseText.split("|");
-      if(parseInt(returnn[0])){
-        if(parseInt(returnn[2]) == 2){
+      if (parseInt(returnn[0])) {
+        if (parseInt(returnn[2]) == 2) {
           showMessage('Serviço Finalizado!');
-          document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Finalizado';
-          document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
-          if(returnn[3] == 0)
-            location.href = "sales/CashDesk.php?diary="+returnn[1];
-        }else if(parseInt(returnn[2]) == 1){
+          document.getElementById('status' + parseInt(returnn[1])).innerHTML = 'Finalizado';
+          document.getElementById('tr' + parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
+          if (returnn[3] == 0)
+            location.href = "sales/CashDesk.php?diary=" + returnn[1];
+        } else if (parseInt(returnn[2]) == 1) {
           showMessage('Check-in feito!');
-          document.getElementById('status'+parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish("+returnn[1]+",2);' value='Finalizar'/><input type='button' onClick='dataToModal("+returnn[1]+",&quot;"+returnn[3]+"&quot; , &quot;"+returnn[4]+"&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc("+returnn[1]+");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
-          document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
-        }else if(parseInt(returnn[2]) == - 1){
-         showMessage('Serviço Cancelado!');
-         location.reload();
-        //  document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
-        //  document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
+          document.getElementById('status' + parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish(" + returnn[1] + ",2);' value='Finalizar'/><input type='button' onClick='dataToModal(" + returnn[1] + ",&quot;" + returnn[3] + "&quot; , &quot;" + returnn[4] + "&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc(" + returnn[1] + ");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+          document.getElementById('tr' + parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
+        } else if (parseInt(returnn[2]) == - 1) {
+          showMessage('Serviço Cancelado!');
+          location.reload();
+          //  document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
+          //  document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
         }
-        
-      }else{
+
+      } else {
         showMessage('Falha, tente novamente');
       }
-    } else{
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -259,15 +259,15 @@ function processReqDeleteRegister() {
   if (req.readyState == 4) {
     if (req.status == 200) {
       var returnn = req.responseText;
-      if(returnn){
+      if (returnn) {
         showMessage('Registro Excluido!');
-        setTimeout(function(){
-          location.reload();          
+        setTimeout(function () {
+          location.reload();
         }, 2000);
-      }else{
+      } else {
         showMessage('Falha ao Excluir Registro, Tente Novamente');
       }
-    } else{
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -296,19 +296,19 @@ function ajaxUpdate(url) {
 
 function processReqUpdate() {
   console.log(req);
-  
+
   if (req.readyState == 4) {
     if (req.status == 200) {
       var returnn = req.responseText;
-      if(returnn){
+      if (returnn) {
         showMessage('Registro Atualizado!');
         location.reload();
-      }else{
+      } else {
         showMessage('Falha ao Atualizar Registro, Tente Novamente');
       }
     } else if (req.status == 410) {
       showMessage("Falha: " + req.responseText);
-    }else{
+    } else {
       showMessage("Houve um problema ao obter os dados:" + req.statusText);
     }
   }
@@ -336,22 +336,22 @@ function ajaxAnimalSameOwner(url) {
 
 function processReqAnimalSameOwner() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
+    if (req.status == 200) {
       var returnn = req.responseText.split("||");
       var select = document.createElement("select");
       select.className = 'form-control';
       select.name = 'nameAnimal';
-      if(document.getElementById('idClient-idBreed') != null){
-          var sel = document.getElementById('idClient-idBreed');
-          sel.parentNode.removeChild(sel);
+      if (document.getElementById('idClient-idBreed') != null) {
+        var sel = document.getElementById('idClient-idBreed');
+        sel.parentNode.removeChild(sel);
       }
       select.id = 'idClient-idBreed';
-      select.addEventListener('change', function() { listServic(this.value) });
+      select.addEventListener('change', function () { listServic(this.value) });
       var option = document.createElement("option");
       option.value = 0;
       option.label = 'Selecione';
       select.appendChild(option);
-      for (i=0; i < returnn.length; i++){
+      for (i = 0; i < returnn.length; i++) {
         var option = document.createElement("option");
         opt = returnn[i].split('|');
         option.value = opt[0];
@@ -359,8 +359,8 @@ function processReqAnimalSameOwner() {
         select.appendChild(option);
       }
       document.getElementById('inputName').appendChild(select);
-      
-    } else{
+
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -388,20 +388,20 @@ function ajaxAnimalSameOwnerListServic(url) {
 
 function processReqAnimalSameOwnerListServic() {
   if (req.readyState == 4) {
-    if (req.status ==200) {
+    if (req.status == 200) {
       var returnn = req.responseText.split("||");
-      if(returnn.length == 1){
+      if (returnn.length == 1) {
         location.reload();
-      }else{
+      } else {
         var inpServic = document.getElementById('servicAdd');
-        
-        if(!inpServic.disabled){
-          for(i=0; i<5; i++){
+
+        if (!inpServic.disabled) {
+          for (i = 0; i < 5; i++) {
             inpServic.removeChild(inpServic[0]);
           }
         }
         inpServic.disabled = false;
-        for (i=0; i < returnn.length; i++){
+        for (i = 0; i < returnn.length; i++) {
           opt = returnn[i].split('|');
           var option = document.createElement("option");
           option.value = opt[0];
@@ -409,8 +409,8 @@ function processReqAnimalSameOwnerListServic() {
           inpServic.appendChild(option);
         }
       }
-      
-    } else{
+
+    } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
     }
   }
@@ -440,13 +440,13 @@ function processReqAjaxAlertValuationExpected() {
   if (req.readyState == 4) {
     if (req.status == 200) {
       var returnn = req.responseText;
-      if(returnn != 0){
+      if (returnn != 0) {
         $("#modal-alert").modal();
         $("#alertValuationExpected").html(returnn);
-      }else{
+      } else {
         $('form').submit();
       }
-    } else{
+    } else {
       alert("Houve um problema ao obter os dados: " + req.statusText);
     }
   }
@@ -476,15 +476,15 @@ function ajaxOpenCloseTreasurer(url) {
 function processReqAjaxOpenCloseTreasurer() {
   if (req.readyState == 4) {
     if (req.status == 200) {
-        document.getElementById('alert').style.display = 'block';
-        document.getElementById('msg-alert').innerHTML = req.responseText;
-        document.getElementById('link-treasurer').style.display = 'none';
-        if(req.responseText == " Caixa Fechado!"){
-          $('#dayMovement').modal('show');
-        }
-    } else{
+      document.getElementById('alert').style.display = 'block';
+      document.getElementById('msg-alert').innerHTML = req.responseText;
+      document.getElementById('link-treasurer').style.display = 'none';
+      if (req.responseText == " Caixa Fechado!") {
+        $('#dayMovement').modal('show');
+      }
+    } else {
       alert("Houve um problema ao obter os dados: " + req.statusText);
     }
   }
-  
+
 }
