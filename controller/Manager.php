@@ -266,6 +266,18 @@
                     $financialClass->datePayFinancial = date('Y-m-d');
                     $financialClass->methodPayment = $methodPayment;
                     $financialClass->numberPlotsFinancial = $numberPlotsFinancial;
+                    if($methodPayment == 2){
+                        $financialClass->valueAliquot = $financialClass->valueProduct - ($financialClass->valueProduct * 2.39)/100;
+                    }else if($methodPayment == 3){
+                        if($numberPlotsFinancial == 1){
+                            $financialClass->valueAliquot = $financialClass->valueProduct - ($financialClass->valueProduct * 4.99)/100;
+                        }else if($numberPlotsFinancial == 2){
+                            $financialClass->valueAliquot = $financialClass->valueProduct - ($financialClass->valueProduct * 8.50)/100;
+                        }else if($numberPlotsFinancial == 3){
+                            $financialClass->valueAliquot = $financialClass->valueProduct - ($financialClass->valueProduct * 11.16)/100;
+                        }
+                    } 
+
                     ($financialDao->insert($financialClass));
                 }
                 // print invoice
