@@ -43,7 +43,7 @@ class TreasurerDAO{
             $p_sql->bindValue(":moneyDrawerTreasurer",      $treasurer->moneyDrawerTreasurer);
             $p_sql->bindValue(":moneySavingsTreasurer",     $treasurer->moneySavingsTreasurer);
             $p_sql->bindValue(":moneyBankTreasurer",        $treasurer->moneyBankTreasurer);
-            $p_sql->bindValue(":moneyBankOnlineTreasurer",        $treasurer->moneyBankOnlineTreasurer);
+            $p_sql->bindValue(":moneyBankOnlineTreasurer",  $treasurer->moneyBankOnlineTreasurer);
             $p_sql->bindValue(":dateRegistryTreasurer",     $treasurer->dateRegistryTreasurer);
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
@@ -194,7 +194,7 @@ class TreasurerDAO{
                         UNION
                     (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 2) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueProduct) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 3) 
                         UNION
                     (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 4) 
                         UNION

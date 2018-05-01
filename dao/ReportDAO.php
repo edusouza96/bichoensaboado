@@ -126,11 +126,11 @@ class ReportDAO{
                     ((SUM(valueInCredit)+SUM(valueInCash)) - SUM(valueOut)) as column4Report,
                     CONCAT(MAX(SUBSTRING(day, 6, 2)),'/',MAX(SUBSTRING(day, 1, 4))) as column5Report
                 FROM ( 
-                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
+                    (SELECT datePayFinancial as day, (valueAliquot) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
                     UNION 
-                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueAliquot) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL) 
                     UNION
-                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, (valueAliquot) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
                 ) AS tbl 
                 WHERE 1 ".$this->sqlWhere."
                 GROUP BY SUBSTRING(day, 1, 7);
