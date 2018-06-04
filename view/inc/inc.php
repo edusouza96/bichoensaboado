@@ -1,4 +1,6 @@
 <?php
+    header('Content-Type: text/html; charset=utf-8');
+
     if($_SERVER['SERVER_NAME'] == 'localhost'){
         $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
     }else{
@@ -46,8 +48,8 @@
                 <li><a href="/bichoensaboado/">Agenda</a></li>
                 <li><a href="/bichoensaboado/view/client/">Clientes</a></li>
                 <li><a href="/bichoensaboado/view/address/">Bairro</a></li>
-                <li><a href="/bichoensaboado/view/breed/">Raças</a></li>
-                <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
+                <li><a href="/bichoensaboado/view/breed/">RaÃ§as</a></li>
+                <li><a href="/bichoensaboado/view/servic/">ServiÃ§os</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
                 <?php
                 if($dataLogin->role != 3){
@@ -55,7 +57,7 @@
                     <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
                     <li><a href="/bichoensaboado/view/center-cost/">Centro de Custo</a></li>
                     <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
-                    <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
+                    <li><a href="/bichoensaboado/view/report/">RelatÃ³rios</a></li>
                 <?php
                 }
                 ?>

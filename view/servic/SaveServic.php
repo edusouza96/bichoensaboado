@@ -15,14 +15,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="ISO 8895-1">
-        <title>Cadastro de Serviços</title>
+        <meta charset="UTF-8">
+        <title>Cadastro de ServiÃ§os</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
     </head>
     <body>
         <div class="jumbotron">
-            <h2>Serviços</h2>
+            <h2>ServiÃ§os</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -34,7 +34,7 @@
                 <div class="row"> <!--div line name servic-->
                     <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><!--div name servic-->
                         <div class="form-group"> 
-                            <label for="nameServic">Nome do Serviço</label>
+                            <label for="nameServic">Nome do ServiÃ§o</label>
                             <input type="text" id="nameServic" name="nameServic" class="form-control" value="<?=$servic->nameServic?>" required>
                         </div>
                     </div><!-- end div name Servic-->
@@ -45,9 +45,9 @@
                         <div class="form-group"> 
                             <label for="package">Pacote</label>
                             <select id="package" name="package" class="form-control">
-                                <option value="0">Não</option>
-                                <option value="1">15 Dias</option>
-                                <option value="2">30 Dias</option>
+                                <option value="0" <?=$servic->package == 0 ? 'selected' : '' ?> >NÃ£o</option>
+                                <option value="1" <?=$servic->package == 1 ? 'selected' : '' ?> >15 Dias</option>
+                                <option value="2" <?=$servic->package == 2 ? 'selected' : '' ?> >30 Dias</option>
                             </select>
                         </div>
                     </div> <!-- end div package-->
@@ -57,9 +57,9 @@
                 <div class="row"> <!--div line breed-->
                     <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div breed-->
                         <div class="form-group"> 
-                            <label for="breed">Raça</label>
+                            <label for="breed">RaÃ§a</label>
                             <select id="breed" name="breed" class="form-control">
-                                <option value="">-- Selecione --</option>
+                                <option value="0">-- Selecione --</option>
                                 <?php 
                                     foreach($breedList as $breed){ 
                                         if($servic->breed->idBreed == $breed->idBreed){

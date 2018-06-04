@@ -42,7 +42,7 @@ function save(idField, date){
     var owner = document.getElementById('owner'+idField).value;
 
     if(service == 0){
-        alert("Selecione um Serviço");
+        alert("Selecione um ServiÃ§o");
     }else if(owner == 0){
         alert("Selecione um Proprietario");
     }else{

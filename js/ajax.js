@@ -43,10 +43,14 @@ function processReqChange() {
       district.innerHTML = '<input type="hidden" id="hiddenDistrict' + idField + '" value="' + districtValue + '" >';
       phone1.innerHTML = returnn[6];
       phone2.innerHTML = returnn[7];
-      service.innerHTML = '<select id="serviceSelect' + idField + '" name="service" onChange="selectValuation(this.value,' + idField + ');" class="form-control">' + option + '</select>';
       deliveryPriceValue = returnn[8];
-      deliveryPrice.innerHTML = '<input type="hidden" id="hiddenDeliveryPrice' + idField + '" value="' + deliveryPriceValue + '" >';
-      // deliveryPrice.value = returnn[8];
+
+      if(window.location.pathname == '/bichoensaboado/view/vet/index.php'){
+        // 
+      }else{
+        service.innerHTML = '<select id="serviceSelect' + idField + '" name="service" onChange="selectValuation(this.value,' + idField + ');" class="form-control">' + option + '</select>';
+        deliveryPrice.innerHTML = '<input type="hidden" id="hiddenDeliveryPrice' + idField + '" value="' + deliveryPriceValue + '" >';
+      }
 
     } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -55,7 +59,7 @@ function processReqChange() {
 }
 
 /**
- *Completa Valor do serviço
+ *Completa Valor do serviÃ§o
  */
 function ajaxValuation(url) {
   req = null;
@@ -85,13 +89,18 @@ function processReqValuation() {
       var totalPrice = document.getElementById("totalPrice" + idField);
       if (deliveryPrice.innerHTML.indexOf("hidden") == -1) {
         price.innerHTML = returnn[1];
-        totalPrice.innerHTML = parseFloat(deliveryPrice.innerHTML) + parseFloat(returnn[1]);
+        if(isNaN(parseFloat(deliveryPrice.innerHTML))){
+          totalPrice.innerHTML = parseFloat(returnn[1]);
+        }else{
+          totalPrice.innerHTML = parseFloat(deliveryPrice.innerHTML) + parseFloat(returnn[1]);
+        }
       } else {
         price.innerHTML = returnn[1];
-        totalPrice.innerHTML = parseFloat(returnn[1]);
+        totalPrice.innerHTML = parseFloat(returnn[1]);z
+        
       }
 
-      //  checar se é um serviço de pacote 
+      //  checar se Ã© um serviÃ§o de pacote 
       var package = returnn[2];
       if (package > 0) {
         showFormSelectDaysPackage(package);
@@ -137,7 +146,12 @@ function processReqSelectOwner() {
       }
 
       var selectOwner = document.getElementById("ownerTD" + idField);
-      selectOwner.innerHTML = '<select id="owner' + idField + '" name="owner" onChange="completeField(this.value,' + idField + ');" class="form-control">' + option + '</select>';
+      
+      if(window.location.pathname == '/bichoensaboado/view/vet/index.php'){
+        selectOwner.innerHTML = '<select id="owner' + idField + '" name="owner" onChange="vetCompleteField(this.value,' + idField + ');" class="form-control">' + option + '</select>';
+      }else{
+        selectOwner.innerHTML = '<select id="owner' + idField + '" name="owner" onChange="completeField(this.value,' + idField + ');" class="form-control">' + option + '</select>';
+      }
 
     } else {
       alert("Houve um problema ao obter os dados:n" + req.statusText);
@@ -147,7 +161,7 @@ function processReqSelectOwner() {
 
 
 /**
- *Salva os dados e modifica a visualização da linha(deprecated)
+ *Salva os dados e modifica a visualizaÃ§Ã£o da linha(deprecated)
  */
 function ajaxSave(url) {
   req = null;
@@ -184,7 +198,7 @@ function processReqSave() {
 
 
 /**
- *Finaliza serviço
+ *Finaliza serviÃ§o
  */
 function ajaxFinish(url) {
   req = null;
@@ -209,17 +223,30 @@ function processReqFinish() {
       var returnn = req.responseText.split("|");
       if (parseInt(returnn[0])) {
         if (parseInt(returnn[2]) == 2) {
-          showMessage('Serviço Finalizado!');
+          showMessage('ServiÃ§o Finalizado!');
           document.getElementById('status' + parseInt(returnn[1])).innerHTML = 'Finalizado';
           document.getElementById('tr' + parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
-          if (returnn[3] == 0)
-            location.href = "sales/CashDesk.php?diary=" + returnn[1];
+          
+          if(window.location.pathname == '/bichoensaboado/view/vet/index.php'){
+            if (returnn[3] == 0){
+              location.href = "../sales/CashDesk.php?vet=" + returnn[1];
+            }
+          }else{
+            if (returnn[3] == 0){
+              location.href = "sales/CashDesk.php?diary=" + returnn[1];
+            }  
+          }
+
         } else if (parseInt(returnn[2]) == 1) {
           showMessage('Check-in feito!');
-          document.getElementById('status' + parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish(" + returnn[1] + ",2);' value='Finalizar'/><input type='button' onClick='dataToModal(" + returnn[1] + ",&quot;" + returnn[3] + "&quot; , &quot;" + returnn[4] + "&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc(" + returnn[1] + ");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+          if(window.location.pathname == '/bichoensaboado/view/vet/index.php'){
+            document.getElementById('status' + parseInt(returnn[1])).innerHTML = "<input type='button' onClick='vetFinish(" + returnn[1] + ",2);' value='Finalizar'/><input type='button' onClick='dataToModal(" + returnn[1] + ",&quot;" + returnn[3] + "&quot; , &quot;" + returnn[4] + "&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc(" + returnn[1] + ");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+          }else{
+            document.getElementById('status' + parseInt(returnn[1])).innerHTML = "<input type='button' onClick='finish(" + returnn[1] + ",2);' value='Finalizar'/><input type='button' onClick='dataToModal(" + returnn[1] + ",&quot;" + returnn[3] + "&quot; , &quot;" + returnn[4] + "&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/><input type='button' onClick='canc(" + returnn[1] + ");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+          }
           document.getElementById('tr' + parseInt(returnn[1])).style.background = "rgba(24,202,39,0.6)";
         } else if (parseInt(returnn[2]) == - 1) {
-          showMessage('Serviço Cancelado!');
+          showMessage('ServiÃ§o Cancelado!');
           location.reload();
           //  document.getElementById('status'+parseInt(returnn[1])).innerHTML = 'Cancelado';
           //  document.getElementById('tr'+parseInt(returnn[1])).style.background = "rgba(255,0,0,0.6)";
@@ -367,7 +394,7 @@ function processReqAnimalSameOwner() {
 }
 
 /**
- *adicionar serviço para o animal do mesmo dono
+ *adicionar serviÃ§o para o animal do mesmo dono
  */
 function ajaxAnimalSameOwnerListServic(url) {
   req = null;

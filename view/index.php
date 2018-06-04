@@ -52,7 +52,7 @@
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Hor·rios - Dia <?=dateUs2Br($date)?></h2>
+            <h2>Hor√°rios - Dia <?=dateUs2Br($date)?></h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -63,14 +63,14 @@
                 <tr>
                     <th>Hora</th>
                     <th>Nome Animal</th>
-                    <th>RaÁa</th>
-                    <th>Propriet·rio</th>
+                    <th>Ra√ßa</th>
+                    <th>Propriet√°rio</th>
                     <th>Busca</th>
-                    <th>EndereÁo</th>
+                    <th>Endere√ßo</th>
                     <th>Bairro</th>
                     <th>Telefone 1</th>
                     <th>Telefone 2</th>
-                    <th>ServiÁo</th>
+                    <th>Servi√ßo</th>
                     <th>Valor</th>
                     <th>Taxa de Entrega</th>
                     <th>Total</th>
@@ -337,7 +337,7 @@
                     </div>
                 </div><!--Fim Modal Cancelamento-->
 
-                <!-- Modal EdiÁ„o -->
+                <!-- Modal Edi√ß√£o -->
                 <div class="modal fade" id="modalEdit" role="dialog">
                     <div class="modal-dialog">
                     
@@ -366,9 +366,9 @@
                     </div>
                     
                     </div>
-                </div><!--Fim Modal EdiÁ„o-->
+                </div><!--Fim Modal Edi√ß√£o-->
 
-                <!-- Modal adiÁ„o de animal do mesmo dono -->
+                <!-- Modal adi√ß√£o de animal do mesmo dono -->
                 <div class="modal fade" id="modalAdd" role="dialog">
                     <div class="modal-dialog">
                     
@@ -389,7 +389,7 @@
                                     </div><!-- end div name animal-->
 
                                     <div class="form-group">  <!--div service-->
-                                        <label for="servic-add">ServiÁo</label>
+                                        <label for="servic-add">Servi√ßo</label>
                                         <select id="servicAdd" name="servic" class="form-control" disabled></select>
                                     </div><!-- end div service-->
                                 </div> 
@@ -401,9 +401,9 @@
                     </div>
                     
                     </div>
-                </div><!--Fim Modal adiÁ„o de animal do mesmo dono-->
+                </div><!--Fim Modal adi√ß√£o de animal do mesmo dono-->
 
-                <!-- Modal seleÁ„o de dias do pacote -->
+                <!-- Modal sele√ß√£o de dias do pacote -->
                 <div class="modal fade" id="modalSelectDaysPackage" role="dialog">
                     <div class="modal-dialog">
 
@@ -446,7 +446,7 @@
                         </div>
 
                     </div>
-                </div> <!--Fim Modal seleÁ„o de dias do pacote -->
+                </div> <!--Fim Modal sele√ß√£o de dias do pacote -->
                 
             </tbody>
         </table>

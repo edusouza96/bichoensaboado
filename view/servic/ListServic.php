@@ -14,7 +14,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="ISO 8895-1">
-        <title>Lista de Serviços</title>
+        <title>Lista de ServiÃ§os</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <script language="javascript" src="../../js/ajax.js?v=2"></script>
         <script language="javascript" src="../../js/functionsModules.js?v=2"></script>
@@ -22,7 +22,7 @@
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Serviços</h2>
+            <h2>ServiÃ§os</h2>
         </div>
             <?php
                 include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -45,8 +45,8 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Serviço</th>
-                    <th>Raça</th>
+                    <th>ServiÃ§o</th>
+                    <th>RaÃ§a</th>
                     <th>Valor</th>
                     <th></th>
                 </tr>

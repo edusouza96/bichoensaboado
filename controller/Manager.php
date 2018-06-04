@@ -1,4 +1,5 @@
 <?php
+    header('Content-Type: text/html; charset=utf-8');
     $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/dao/ClientDAO.php");
     include_once($path."/bichoensaboado/class/ClientClass.php");
@@ -24,6 +25,9 @@
     include_once($path."/bichoensaboado/class/CenterCostClass.php");
     include_once($path."/bichoensaboado/dao/LoginDAO.php");
     include_once($path."/bichoensaboado/class/LoginClass.php");
+    include_once($path."/bichoensaboado/dao/VetDAO.php");
+    include_once($path."/bichoensaboado/class/VetClass.php");
+
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -48,6 +52,9 @@
     $centerCostDao = new CenterCostDAO();
     $loginClass = new LoginClass();
     $loginDao = new LoginDAO();
+    $vetClass = new VetClass();
+    $vetDao = new VetDAO();
+
     $module = $_POST['module'];
 
     switch ($module) {
@@ -197,7 +204,7 @@
                     $financialDao->insert($financialClass);
                 }
             }else{
-                // caso seja um update ou insert, segue o fluxo padrão
+                // caso seja um update ou insert, segue o fluxo padrÃ£o
                 if($productClass->idProduct != 0){
                     $productDao->update($productClass);
                 }else{

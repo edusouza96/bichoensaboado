@@ -1,6 +1,7 @@
 <?php
     $path = $_SERVER['DOCUMENT_ROOT']; 
     include_once($path."/bichoensaboado/dao/DiaryDAO.php");
+    include_once($path."/bichoensaboado/dao/VetDAO.php");
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
     include_once($path."/bichoensaboado/dao/SalesDAO.php");
     $productDao = new ProductDAO();
@@ -117,7 +118,56 @@
                                     <script>
                                         window.onload = function() {
                                             document.getElementById('alert').style.display = 'block';
-                                            document.getElementById('msg-alert').innerHTML = 'Pagamento j· realizado';
+                                            document.getElementById('msg-alert').innerHTML = 'Pagamento j√° realizado';
+                                        };
+                                    </script>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+
+                                <!-- VET -->
+                            <?php
+                            if(!empty($_GET['vet'])){
+                                $vetId = $_GET['vet'];
+
+                                $salesDao = new SalesDAO();
+                                $salesDao->addWhere(' vet_idVet = '.$vetId);
+                                $salesList = $salesDao->searchAll();
+                                if(count($salesList) < 1){
+                                    $vetDao = new VetDAO();   
+                                    $vetDao->addWhere("OR","idVet = ".$vetId." ");   
+                                    $vetClass = $vetDao->SearchId($vetId);  
+                                    $subValue = 0;
+                            ?>
+                                <div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">
+                                    <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
+                                    <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$vetClass->servic->nameServic?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$vetClass->totalPrice?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$vetClass->totalPrice?></p>
+                                </div>
+                                <input type="hidden" name="quantityProductSales[]" value="1">
+                                <input type="hidden" name="diarySales[]" value="<?=$vetClass->idVet?>">
+                                <input type="hidden" name="productSales[]" value="0">
+                                <input type="hidden" name="valuationUnitSales[]" value="<?=$vetClass->totalPrice?>">
+                               
+                            <?php
+                                        $subValue += $vetClass->totalPrice;
+                            ?> 
+                                    <script>
+                                        window.onload = function() {
+                                            diaryRegisterBuy(<?=$subValue?>);
+                                        };
+                                    </script>
+                            <?php
+                                    $subValue = 'R$ '.$subValue;
+                                }else{
+                                    ?>
+                                    <script>
+                                        window.onload = function() {
+                                            document.getElementById('alert').style.display = 'block';
+                                            document.getElementById('msg-alert').innerHTML = 'Pagamento j√° realizado';
                                         };
                                     </script>
                                     <?php
@@ -134,15 +184,15 @@
                             <div class="form-group">
                                 <label for="methodPayment">Forma de pagamento</label> 
                                 <select id="methodPayment" name="methodPayment" class="form-control" onchange="methodPaymentAction(this.value);" required>
-                                    <option value="1">¿ vista</option>
-                                    <option value="2">Cart„o - DÈbito</option>
-                                    <option value="3">Cart„o - CrÈdito</option>
+                                    <option value="1">√Ä vista</option>
+                                    <option value="2">Cart√£o - D√©bito</option>
+                                    <option value="3">Cart√£o - Cr√©dito</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3">
                             <div class="form-group">
-                                <label for="numberPlotsFinancial">N∫ Parcelas</label> 
+                                <label for="numberPlotsFinancial">N¬∫ Parcelas</label> 
                                 <input type="number" id="numberPlotsFinancial" name="numberPlotsFinancial" class="form-control" min="0" max="9" readonly>
                             </div>
                         </div>

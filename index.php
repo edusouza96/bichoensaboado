@@ -12,5 +12,5 @@ $path = $_SERVER['SERVER_NAME'];
 if($path=='localhost'){
     $path .=':7777';
 }
-Redirect('http://'.$path.'/bichoensaboado/view/index.php?date='.date("Y-m-d"), false);
+Redirect('http://'.$path.'/bichoensaboado/view/index.php', false);
 ?>

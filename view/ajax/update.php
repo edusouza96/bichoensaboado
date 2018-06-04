@@ -30,8 +30,8 @@
     $arquivo = 'meu_arquivo.txt';
     $handle = fopen( $arquivo, 'a+' );
     /**
-    * Se n„o for um pacote È atualizado o valor do serviÁo e o frete normalmente
-    * Caso contrario È atualizado apenas o frete, caso tenha modificado esta opÁ„o
+    * Se n√£o for um pacote √© atualizado o valor do servi√ßo e o frete normalmente
+    * Caso contrario √© atualizado apenas o frete, caso tenha modificado esta op√ß√£o
     */
     if($diary->package->idPackage == 0){
       $diary->deliveryPrice = $deliveryPrice;
@@ -45,7 +45,7 @@
       }
 
       /**
-       * teste se a data nova do pacote j· n„o esta marcada
+       * teste se a data nova do pacote j√° n√£o esta marcada
        */
       $packageDao = new PackageDAO();
       $package = $packageDao->SearchId($diary->package->idPackage);
@@ -53,7 +53,7 @@
         $datePack = 'date'.$iPack;
         if($dateHour.":00" == $package->${'datePack'}){
           http_response_code(410);
-          echo "Data j· marcada!";
+          echo "Data j√° marcada!";
           die();
         }
       }
@@ -63,8 +63,8 @@
     $response = $diaryDao->Update($diary);
 
     /**
-    * Em caso do serviÁo ser pacote, È feita a verificaÁ„o de qual semana ser· editada,
-    * a seguir È colocado num array todos os dias diferente de null para ser colocado em ordem,
+    * Em caso do servi√ßo ser pacote, √© feita a verifica√ß√£o de qual semana ser√° editada,
+    * a seguir √© colocado num array todos os dias diferente de null para ser colocado em ordem,
     * para que seja atualizado corretamente de acordo com a semana
     */
     $datesOfPackage = array();

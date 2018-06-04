@@ -21,7 +21,7 @@
 <link rel="stylesheet" href="../css/bootstrap-3.3.7-dist/css/bootstrap.css">
 <?php
     echo "<div>Bicho Ensaboado PetShop</div>";
-    echo "<div>Operarios, 84 Centro Viam„o/RS CEP:94410-090</div>";
+    echo "<div>Operarios, 84 Centro Viam√£o/RS CEP:94410-090</div>";
     echo "<div>Tel: (51)3045-1898</div>";
     echo "<div>CNPJ:14.524.569/0001-60";
     echo "<div class='div-separator'></div>";
@@ -29,10 +29,10 @@
     echo "<div class='div-separator'></div>";
     echo "<div>
             <span class='span-invoice'>#</span>
-            <span class='span-invoice'>CÛdigo</span>
-            <span class='span-invoice'>DescriÁ„o</span>
+            <span class='span-invoice'>C√≥digo</span>
+            <span class='span-invoice'>Descri√ß√£o</span>
             <span class='span-invoice'>Quantidade</span>
-            <span class='span-invoice'>Valor unit·rio</span>
+            <span class='span-invoice'>Valor unit√°rio</span>
             <span class='span-invoice'>Valor total</span>
         </div>";
     $total = 0;
@@ -61,7 +61,7 @@
             </div>";
         $total += ($quantityProductSales[$i] * $valuationUnitSales[$i]);
     }
-    $methodsPayment = array('','¿ vista','Cart„o - DÈbito','Cart„o - CrÈdito');  
+    $methodsPayment = array('','√Ä vista','Cart√£o - D√°bito','Cart√£o - Cr√©dito');  
     echo "<div class='div-separator'></div>";
     echo "<div>Forma de pagamento: ".$methodsPayment[$methodPayment]."</div>";
     echo "<div>Valor Total R$ ".$totalBuy."</div>";
