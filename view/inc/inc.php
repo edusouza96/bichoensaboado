@@ -45,7 +45,8 @@
     <body>
         <nav id="menu">
             <ul>
-                <li><a href="/bichoensaboado/">Agenda</a></li>
+                <li><a href="/bichoensaboado/">Agenda Pet</a></li>
+                <li><a href="/bichoensaboado/view/vet/">Veterinaria</a></li>
                 <li><a href="/bichoensaboado/view/client/">Clientes</a></li>
                 <li><a href="/bichoensaboado/view/address/">Bairro</a></li>
                 <li><a href="/bichoensaboado/view/breed/">Raças</a></li>

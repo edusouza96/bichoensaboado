@@ -13,7 +13,7 @@
         if($path=='localhost'){
             $path .=':7777';
         }
-        Redirect('http://'.$path.'/bichoensaboado/Calendar/', false);
+        Redirect('http://'.$path.'/bichoensaboado/Calendar/indexVet.php', false);
 
     }
     $date = $_GET['date'];

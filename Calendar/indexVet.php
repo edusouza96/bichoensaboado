@@ -29,7 +29,7 @@
 </head>
 <body>
 	<div class="jumbotron"> 
-		<h2>Agenda Pet</h2>
+		<h2>Agenda Vet</h2>
 	</div>
 	<div class="container">
 		<div id='calendar'></div>
@@ -61,7 +61,7 @@
 					day = '0'+day;
 
 				param = year+'-'+month+'-'+day;
-				location.assign('/bichoensaboado/view/index.php?date='+param);
+				location.assign('/bichoensaboado/view/vet/index.php?date='+param);
 			},
 			
 		});
