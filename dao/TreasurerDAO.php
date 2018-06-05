@@ -49,7 +49,7 @@ class TreasurerDAO{
             return Conexao::getInstance()->lastInsertId();
             
         } catch (Exception $e) {
-            print $e."Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print $e."Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }      
     }
 
@@ -69,7 +69,7 @@ class TreasurerDAO{
             return $p_sql->execute();
 
         }catch(Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -80,7 +80,7 @@ class TreasurerDAO{
             $p_sql->bindValue(":idTreasurer", $idTreasurer);
             return $p_sql->execute();
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -100,7 +100,7 @@ class TreasurerDAO{
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }    
     }
 
@@ -111,7 +111,7 @@ class TreasurerDAO{
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }    
     }
 
@@ -123,7 +123,7 @@ class TreasurerDAO{
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }    
     }
 
@@ -139,7 +139,7 @@ class TreasurerDAO{
  
             return $f_list;
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -167,7 +167,7 @@ class TreasurerDAO{
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
         }catch(Exception $e){
-            print "Ocorreu um erro ao tentat executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentat executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
     
@@ -218,7 +218,7 @@ class TreasurerDAO{
             $dateNow = date('Y-m-d H:i:s');
             $treasurerClass = null;
             $error = false;
-            // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
+            // Seta os valores para update caso $day nÃ£o for vazio, se for significa que o caixa nÃ£o foi aberto
             if(!empty($day)){
                 $treasurerClass = $this->searchDate($day);
                 $treasurerClass->closingMoneyDayTreasurer = $valueDay;
@@ -228,13 +228,13 @@ class TreasurerDAO{
                 $treasurerClass->moneyBankTreasurer -= $valueOutBank;
                 $treasurerClass->dateRegistryTreasurer = $dateNow;
             }
-            //Se $treasurerClass não for null é pq não deu erro no processo
+            //Se $treasurerClass nÃ£o for null Ã© pq nÃ£o deu erro no processo
             if(!is_null($treasurerClass)){
                 $error = $this->update($treasurerClass);
             }
             return $error;
         }catch(Exception $e){
-            print "Ocorreu um erro ao tentar executar ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 

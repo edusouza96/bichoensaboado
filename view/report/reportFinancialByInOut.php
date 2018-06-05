@@ -21,14 +21,14 @@
 <html lang="pt-br">
     <head>
         <meta charset="ISO 8895-1">
-        <title>RelatÛrio</title>
+        <title>Relat√≥rio</title>
         <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=$versionFiles?>">
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>MovimentaÁ„o financeira</h2>
+            <h2>Movimenta√ß√£o financeira</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -58,7 +58,7 @@
 
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <div class="form-group">
-                            <label for="dateEnd">AtÈ</label>
+                            <label for="dateEnd">At√°</label>
                             <input type="date" id="dateEnd" name="dateEnd" class="form-control" value="<?=$dateEnd?>">
                         </div>
                     </div>
@@ -78,13 +78,13 @@
                 <tr>
                     <td colspan="5" class="text-right">
                         <i title="Exportar para Excel" class="fa fa-table fa-2x  cursor" aria-hidden="true" onclick="exportReportToExcel('sheetFinancialByInOut');"></i>
-                        <i title="Mostrar/Ocultar Gr·fico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
+                        <i title="Mostrar/Ocultar Gr√°fico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
                     </td>
                 </tr>
                 <tr>
                     <th>Periodo</th>
                     <th>Vendas em Dinheiro</th>
-                    <th>Vendas em Cart„o</th>
+                    <th>Vendas em Cart√£o</th>
                     <th>Despesas</th>
                     <th>Lucro no Periodo</th>
                 </tr>

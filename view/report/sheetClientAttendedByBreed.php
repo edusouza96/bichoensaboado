@@ -32,7 +32,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Raça</th>
+                    <th>RaÃ§a</th>
                     <th>Quantidade</th>
                 </tr>
             </thead>

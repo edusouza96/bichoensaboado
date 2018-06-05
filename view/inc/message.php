@@ -34,7 +34,7 @@
     function getMessage($code){
         switch ($code) {
             case '400-l':
-                return 'Login Inv·lido!';
+                return 'Login Inv√°lido!';
 
             case '401-l':
                 return 'Acesso Negado!';

@@ -53,7 +53,7 @@
 
                     <div class="col-xs-2 col-sm-2 col-lg-2 col-md-2"> <!--div breed-->
                         <div class="form-group"> 
-                            <label for="breed">RaÁa</label>
+                            <label for="breed">Ra√ßa</label>
                             <select id="breed" name="breed[]" class="form-control" required>
                                 <option value="">-- Selecione --</option>
                                 <?php 
@@ -95,7 +95,7 @@
                 <div class="row"> <!--div line owner-->
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6"> <!--div owner-->
                         <div class="form-group"> 
-                            <label for="owner">Propriet·rio</label>
+                            <label for="owner">Propriet√°rio</label>
                             <input type="hidden" name="idOwner" value="<?=$client[0]->idOwner?>" >
                             <input type="text" id="owner" name="owner" class="form-control" value="<?=$client[0]->owner?>" required>
                         </div>
@@ -131,7 +131,7 @@
 
                     <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4"> <!--div street and number-->
                         <div class="form-group"> 
-                            <label for="addressNumber">EndereÁo</label>
+                            <label for="addressNumber">Endere√ßo</label>
                             <input type="text" id="addressNumber" name="addressNumber" class="form-control" value="<?=$client[0]->addressNumber?>">
                         </div>
                     </div><!-- end div streer and number-->
@@ -199,7 +199,7 @@
                     '</div>'+
                     '<div class="col-xs-2 col-sm-2 col-lg-2 col-md-2">'+
                         '<div class="form-group"> '+
-                           ' <label for="breed">RaÁa</label>'+
+                           ' <label for="breed">Ra√ßa</label>'+
                           '  <select id="breed" name="breed[]" class="form-control" required>'+
                            '     <option value="">-- Selecione --</option> <?php foreach($breedList as $breed){ ?>'+
                                 '<option value=<?=$breed->idBreed?> ><?=$breed->nameBreed?></option><?php }?>'+

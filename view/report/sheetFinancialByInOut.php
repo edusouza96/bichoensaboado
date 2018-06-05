@@ -34,7 +34,7 @@
                 <tr>
                     <th>Periodo</th>
                     <th>Vendas em Dinheiro</th>
-                    <th>Vendas em Cart„o</th>
+                    <th>Vendas em Cart√£o</th>
                     <th>Despesas</th>
                     <th>Lucro no Periodo</th>
                 </tr>

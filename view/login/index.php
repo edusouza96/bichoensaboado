@@ -30,7 +30,7 @@
             <div class="form-group">
               <label for="nameLogin" class="sr-only">User</label>
               <input type="hidden" name="module" value="login"/>
-              <input type="text" id="nameLogin" name="nameLogin" class="form-control" placeholder="Usuário" required autofocus>
+              <input type="text" id="nameLogin" name="nameLogin" class="form-control" placeholder="UsuÃ¡rio" required autofocus>
             </div>
           </div>
 

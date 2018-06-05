@@ -32,7 +32,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Descrição</th>
+                    <th>DescriÃ§Ã£o</th>
                     <th>Valor</th>
                     <th>Categoria</th>
                     <th>Data</th>

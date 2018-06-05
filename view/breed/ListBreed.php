@@ -14,8 +14,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <meta charset="ISO 8895-1">
-        <title>Lista de Raças</title>
+        <meta charset="UTF-8">
+        <title>Lista de RaÃ§as</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <script language="javascript" src="../../js/ajax.js?v=2"></script>
         <script language="javascript" src="../../js/functionsModules.js?v=2"></script>
@@ -23,7 +23,7 @@
     </head>
     <body>
         <div class="jumbotron"> 
-            <h2>Raças</h2>
+            <h2>RaÃ§as</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -46,7 +46,7 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Raça</th>
+                    <th>RaÃ§a</th>
                     <th></th>
                 </tr>
             </thead>

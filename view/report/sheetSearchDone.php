@@ -90,7 +90,7 @@
                 </tr>
                 <tr>
                     <th>Data</th>
-                    <th>Descrição</th>
+                    <th>DescriÃ§Ã£o</th>
                     <th>Valor</th>
                 </tr>
             </thead>

@@ -66,7 +66,7 @@ class FinancialDAO
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
         } catch (Exception $e) {
-            print $e . "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print $e . "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -88,7 +88,7 @@ class FinancialDAO
 
             return $p_sql->execute();
         } catch (Exception $e) {
-            print $e . "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print $e . "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -101,7 +101,7 @@ class FinancialDAO
 
             return $p_sql->execute();
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -119,7 +119,7 @@ class FinancialDAO
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£o, tente novamente mais tarde.";
         }
     }
 
@@ -137,7 +137,7 @@ class FinancialDAO
 
             return $f_list;
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta açãoo, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta aÃ§Ã£oo, tente novamente mais tarde.";
         }
     }
 

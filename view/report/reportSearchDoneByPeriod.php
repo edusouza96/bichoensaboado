@@ -20,7 +20,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="ISO 8895-1">
-        <title>Relatório</title>
+        <title>RelatÃ³rio</title>
         <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
@@ -57,7 +57,7 @@
 
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <div class="form-group">
-                            <label for="dateEnd">Até</label>
+                            <label for="dateEnd">AtÃ©</label>
                             <input type="date" id="dateEnd" name="dateEnd" class="form-control" value="<?=$dateEnd?>">
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                 <tr>
                     <td colspan="4" class="text-right">
                         <i title="Exportar para Excel" class="fa fa-table fa-2x  cursor" aria-hidden="true" onclick="exportReportToExcel('sheetSearchDoneByPeriod');"></i>
-                        <i title="Mostrar/Ocultar Gráfico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
+                        <i title="Mostrar/Ocultar GrÃ¡fico" class="fa fa-pie-chart fa-2x cursor" aria-hidden="true" onclick="showChart();"></i>
                     </td>
                 </tr>
                 <tr>

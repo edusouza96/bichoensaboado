@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <h5>Último registro <?=date("d/m/Y",$dateRegister)?></h5>                
+                <h5>Ãšltimo registro <?=date("d/m/Y",$dateRegister)?></h5>                
                 <hr>
 
                 <div class="row"> <!--div line tranfer from-->

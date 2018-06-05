@@ -19,7 +19,7 @@
         $valuationExpectedNew = $quantityNew * $valuationNew;
         $valuationUnitNew = ($valuationExpectedOld + $valuationExpectedNew) / ($quantityOld + $quantityNew);
         echo  "Atualmente existe em estoque ".$quantityOld." unidades, com o valor para venda de R$".number_format($valuationOld,2,",",".")."
-        <br>Melhor preço adequado para este produto R$".number_format($valuationUnitNew,2,",",".");
+        <br>Melhor preÃ§o adequado para este produto R$".number_format($valuationUnitNew,2,",",".");
     }else{
         echo "0";
     }

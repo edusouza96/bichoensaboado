@@ -5,13 +5,13 @@
 <html>
     <head>
         <meta charset="ISO 8895-1">
-        <title>Relatórios</title>
+        <title>RelatÃ³rios</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
     </head>
     <body>
         <div class="jumbotron">
-            <h2>Relatórios</h2>
+            <h2>RelatÃ³rios</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -32,7 +32,7 @@
 
                 <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
                     <div class="form-group">
-                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportClientAttendedByBreed.php');" >Cães atendidos por raça</button>
+                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportClientAttendedByBreed.php');" >CÃ£es atendidos por raÃ§a</button>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
 
                 <div class="col-xs-12 col-sm-4 col-lg-4 col-md-4">
                     <div class="form-group">
-                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportFinancialByInOut.php');">Movimentação financeira</button>
+                        <button class="btn btn-primary btn-size-report" onclick="redirectReport('reportFinancialByInOut.php');">MovimentaÃ§Ã£o financeira</button>
                     </div>
                 </div>
 

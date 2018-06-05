@@ -53,10 +53,10 @@
             <thead>
                 <tr>
                     <th>Nome Animal</th>
-                    <th>Raça</th>
+                    <th>RaÃ§a</th>
                     <th>Proprietario</th>
                     <th>Bairro</th>
-                    <th>Endereço</th>
+                    <th>EndereÃ§o</th>
                     <th>Telefone 1</th>
                     <th>Telefone 2</th>
                     <th>Email</th>

@@ -14,13 +14,13 @@
 <html>
     <head>
         <meta charset="ISO 8895-1">
-        <title>Cadastro de Raças</title>
+        <title>Cadastro de RaÃ§as</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
     </head>
     <body>
         <div class="jumbotron">
-            <h2>Raça</h2>
+            <h2>RaÃ§a</h2>
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
@@ -33,7 +33,7 @@
                 <div class="row"> <!--div line breed-->
                     <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4"> <!--div breed-->
                         <div class="form-group"> 
-                            <label for="nameBreed">Nome da Raça</label>
+                            <label for="nameBreed">Nome da RaÃ§a</label>
                             <input type="text" id="nameBreed" name="nameBreed" class="form-control" value="<?=$breed->nameBreed?>" required>
                         </div>
                     </div> <!-- end div breed-->

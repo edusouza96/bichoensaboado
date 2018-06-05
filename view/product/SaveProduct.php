@@ -35,7 +35,7 @@
                 <div class="row"> <!--div line barcode product-->
                     <div class="col-xs-12 col-sm-12 col-lg-4 col-md-4"> <!--div barcode product-->
                         <div class="form-group"> 
-                            <label for="barcodeProduct">Código de barra</label>
+                            <label for="barcodeProduct">CÃ³digo de barra</label>
                             <input type="text" id="barcodeProduct" name="barcodeProduct" class="form-control" value="<?=$product->barcodeProduct?>" required>
                         </div>
                     </div> <!-- end div barcode product-->

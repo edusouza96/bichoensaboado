@@ -38,7 +38,7 @@
         <div class="modal-content" style="width: 60%;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">MovimentaÁ„o do Dia</h4>
+                <h4 class="modal-title">Movimenta√ß√£o do Dia</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -49,8 +49,8 @@
 
                             <h3>Valores Arrecadados</h3>
                             <h5>Dinheiro R$ <?=$inCash?></h5>
-                            <h5>Cart„o de DÈbito R$ <?=$credit?></h5>
-                            <h5>Cart„o de CrÈdito R$ <?=$debit?></h5>
+                            <h5>Cart√£o de D√©bito R$ <?=$credit?></h5>
+                            <h5>Cart√£o de Cr√©dito R$ <?=$debit?></h5>
 
                             <h3>Valores Retirado</h3>
                             <h5>Caixa R$ <?=$expenseDrawer?></h5>
