@@ -92,51 +92,53 @@ function vetCompleteField(idClient, idField){
 
 function vetAddRow(hour, date){
     setTimeout(function () {
-        var pRow = window.sessionStorage.getItem('pRow');
-        var table=document.getElementById('tableDiary');
-        var row=table.insertRow(pRow);
-        var id = (table.rows.length);
-        var colCount=table.rows[0].cells.length;
-        row.setAttribute("onClick", "positionRow(this);");
-        for(var i=0;i<colCount;i++){
-            var newcell=row.insertCell(i);
-            
-            if (i == 0) {
-                newcell.innerHTML = hour;
-                newcell.setAttribute('onClick', "addRow('"+hour+"');");
-                newcell.setAttribute('id', 'hour'+id);
-            }else if (i == 1){
-                newcell.innerHTML = "<input type='text' id='nameAnimal"+id+"' name='nameAnimal' onKeyPress='completeNameAnimal();' onBlur='selectOwner(this.value,"+id+");' class='form-control nameAnimal ui-autocomplete-input' autocomplete='off'>";
-            }else if( i == 2){
-                newcell.setAttribute('id', 'breed'+id);   
-            }else if(i == 3){
-                newcell.setAttribute('id', 'ownerTD'+id);
-                // newcell.innerHTML = "<select id='owner"+id+"' name='owner'  onChange='completeField(this.value,"+id+");' class='form-control'><option value='0'>-- Selecione --</option>";
-            }else if( i == 4){
-                newcell.innerHTML = "<input type='checkbox' id='search"+id+"' onClick='deliveryChecked(this, "+id+");' name='search' value='1' class='form-control'>";
-            }else if( i == 5){
-                newcell.setAttribute('id', 'address'+id);   
-            }else if( i == 6){
-                newcell.setAttribute('id', 'district'+id);   
-            }else if( i == 7){
-                newcell.setAttribute('id', 'phone1'+id);   
-            }else if( i == 8){
-                newcell.setAttribute('id', 'phone2'+id);   
-            }else if( i == 9){
-                newcell.setAttribute('id', 'service'+id);   
-            }else if( i == 10){
-                newcell.setAttribute('id', 'price'+id);
-                // newcell.innerHTML = "<input type='text' id='price"+id+"' name='price' class='form-control'>";
-            }else if( i == 11){
-                newcell.setAttribute('id', 'deliveryPrice'+id);
-                // newcell.innerHTML = "<input type='text' id='deliveryPrice"+id+"' name='deliveryPrice' class='form-control'>";
-            }else if( i == 12){
-                newcell.setAttribute('id', 'totalPrice'+id);   
-            }else if( i == 13){
-                newcell.innerHTML = "<input type='button' id='save"+id+"' onClick='save("+id+",&quot;"+date+"&quot;)' value='Agendar'/>";
-            }
+        $.get( "../ajax/vetServices.php", function(option){
 
-        }
+            var pRow = window.sessionStorage.getItem('pRow');
+            var table=document.getElementById('tableVet');
+            var row=table.insertRow(pRow);
+            var id = (table.rows.length);
+            var colCount=table.rows[0].cells.length;
+            row.setAttribute("onClick", "vetPositionRow(this);");
+
+            for(var i=0;i<colCount;i++){
+                var newcell=row.insertCell(i);
+                
+                if (i == 0) {
+                    newcell.innerHTML = hour;
+                    newcell.setAttribute('onClick', "vetAddRow('"+hour+"');");
+                    newcell.setAttribute('id', 'hour'+id);
+                }else if (i == 1){
+                    newcell.innerHTML = "<input type='text' id='nameAnimal"+id+"' name='nameAnimal' onKeyPress='completeNameAnimal();' onBlur='vetSelectOwner(this.value,"+id+");' class='form-control nameAnimal ui-autocomplete-input' autocomplete='off'>";
+                }else if( i == 2){
+                    newcell.setAttribute('id', 'breed'+id);   
+                }else if(i == 3){
+                    newcell.setAttribute('id', 'ownerTD'+id);
+                }else if( i == 4){
+                    newcell.innerHTML = "<input type='checkbox' id='search"+id+"' onClick='vetDeliveryChecked(this, "+id+");' name='search' value='1' class='form-control'>";
+                }else if( i == 5){
+                    newcell.setAttribute('id', 'address'+id);   
+                }else if( i == 6){
+                    newcell.setAttribute('id', 'district'+id);   
+                }else if( i == 7){
+                    newcell.setAttribute('id', 'phone1'+id);   
+                }else if( i == 8){
+                    newcell.setAttribute('id', 'phone2'+id);   
+                }else if( i == 9){
+                    newcell.innerHTML = "<select id='serviceSelect"+id+"' name='service' class='form-control' onChange='vetSelectValuation(this.value,"+id+" );' >"+option+"</select>"; 
+                }else if( i == 10){
+                    newcell.setAttribute('id', 'price'+id);
+                }else if( i == 11){
+                    newcell.innerHTML = "<input type='text' id='deliveryPrice"+id+"' onBlur='vetCalcGross(this.value, "+id+");' name='deliveryPrice' class='form-control'>";
+                }else if( i == 12){
+                    newcell.setAttribute('id', 'totalPrice'+id);   
+                }else if( i == 13){
+                    newcell.innerHTML = "<input type='button' id='save"+id+"' onClick='vetSave("+id+",&quot;"+date+"&quot;)' value='Agendar'/>";
+                }
+
+            }
+        });
+            
     }, 500)
 }
 

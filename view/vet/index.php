@@ -83,9 +83,9 @@
                     for($i =1; $i < 20; $i++){
                         $vetList = $vetDao->SearchDateHour($date.' '.$hour);
                         if(empty($vetList)){
-                            echo "<tr onClick='positionRow(this);'>";
+                            echo "<tr onClick='vetPositionRow(this);'>";
 
-                            echo "<td id='hour".$i."' onClick='addRow(&quot;".$hour."&quot; , &quot;".$date."&quot;);'>";
+                            echo "<td id='hour".$i."' onClick='vetAddRow(&quot;".$hour."&quot; , &quot;".$date."&quot;);'>";
                             echo $hour;
                             echo "</td>";
 
@@ -155,11 +155,11 @@
                                 }else if($vet->status == 0){
                                     $bgColor = "style='background: rgba(222,217,8,0.6);'";
                                 }
-                                echo "<tr ".$bgColor." id='tr".$vet->idVet."' onClick='positionRow(this);'>";
+                                echo "<tr ".$bgColor." id='tr".$vet->idVet."' onClick='vetPositionRow(this);'>";
 
                                 $dHour = new DateTime($vet->dateHour);
                                 $dHourShow = $dHour->format('H:i');
-                                echo "<td id='hour_".$vet->idVet."' onClick='addRow(&quot;".$dHourShow."&quot; , &quot;".$date."&quot;);'>";
+                                echo "<td id='hour_".$vet->idVet."' onClick='vetAddRow(&quot;".$dHourShow."&quot; , &quot;".$date."&quot;);'>";
                                 echo $dHourShow;
                                 echo "</td>";
 
