@@ -1,4 +1,5 @@
 <?php
+    header('Content-Type: text/html; charset=utf-8');
     $barcodeProduct = $_GET['barcodeProduct'];
     $quantityProduct = $_GET['quantityProduct'];
     $valuationProduct = $_GET['valuationProduct'];
@@ -7,7 +8,7 @@
     include_once($path."/bichoensaboado/class/ProductClass.php");
     $productClass = new ProductClass();
     $productDao = new ProductDAO();
-    $productDao->addWhere('barcodeProduct = '.$barcodeProduct);
+    $productDao->addWhere('barcodeProduct = "'.$barcodeProduct.'" ');
     $productList = $productDao->searchAll();
     if(count($productList) > 0){
         $productClass = $productList[0];

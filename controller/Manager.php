@@ -167,7 +167,7 @@
 
             if($_POST['optionActionProduct'] > 0){
                 $productAuxDao = new ProductDAO();
-                $productAuxDao->addWhere('barcodeProduct = '.$_POST['barcodeProduct']);
+                $productAuxDao->addWhere('barcodeProduct = "'.$_POST['barcodeProduct'].'"');
                 $productAuxList = $productAuxDao->searchAll();
                 if(count($productAuxList) > 0){
                     $productAuxClass = $productAuxList[0];
@@ -188,42 +188,42 @@
                     $productClass->valuationProduct = $valuationUnitNew;
                 }
                 $idProductSucess = $productDao->update($productClass);
-                if($idProductSucess){
-                    $quantity = $quantityNew;
-                    $valueUnit = $productClass->valuationBuyProduct;
-                    $description = $productClass->nameProduct;
-                    $typeTreasurer = $productClass->typeTreasurerFinancial;
-                    $financialClass = new FinancialClass();
-                    $financialClass->description              = 'Compra de produtos: '.$quantity. ' unidades de '.$description;
-                    $financialClass->dateDueFinancial         = date('Y-m-d');
-                    $financialClass->datePayFinancial         = date('Y-m-d');
-                    $financialClass->valueProduct             = $quantity * $valueUnit;
-                    $financialClass->centerCost               = 4;
-                    $financialClass->typeTreasurerFinancial   = $typeTreasurer;
-                    $financialDao = new FinancialDao();
-                    $financialDao->insert($financialClass);
-                }
+                // if($idProductSucess){
+                //     $quantity = $quantityNew;
+                //     $valueUnit = $productClass->valuationBuyProduct;
+                //     $description = $productClass->nameProduct;
+                //     $typeTreasurer = $productClass->typeTreasurerFinancial;
+                //     $financialClass = new FinancialClass();
+                //     $financialClass->description              = 'Compra de produtos: '.$quantity. ' unidades de '.$description;
+                //     $financialClass->dateDueFinancial         = date('Y-m-d');
+                //     $financialClass->datePayFinancial         = date('Y-m-d');
+                //     $financialClass->valueProduct             = $quantity * $valueUnit;
+                //     $financialClass->centerCost               = 4;
+                //     $financialClass->typeTreasurerFinancial   = $typeTreasurer;
+                //     $financialDao = new FinancialDao();
+                //     $financialDao->insert($financialClass);
+                // }
             }else{
                 // caso seja um update ou insert, segue o fluxo padrão
                 if($productClass->idProduct != 0){
                     $productDao->update($productClass);
                 }else{
                     $idProductSucess = $productDao->insert($productClass);
-                    if($idProductSucess){
-                        $quantity = $productClass->quantityProduct;
-                        $valueUnit = $productClass->valuationBuyProduct;
-                        $description = $productClass->nameProduct;
-                        $typeTreasurer = $productClass->typeTreasurerFinancial;
-                        $financialClass = new FinancialClass();
-                        $financialClass->description              = 'Compra de produtos: '.$quantity. 'unidades de '.$description;
-                        $financialClass->dateDueFinancial         = date('Y-m-d');
-                        $financialClass->datePayFinancial         = date('Y-m-d');
-                        $financialClass->valueProduct             = $quantity * $valueUnit;
-                        $financialClass->centerCost               = 4;
-                        $financialClass->typeTreasurerFinancial   = $typeTreasurer;
-                        $financialDao = new FinancialDao();
-                        $financialDao->insert($financialClass);
-                    }
+                    // if($idProductSucess){
+                    //     $quantity = $productClass->quantityProduct;
+                    //     $valueUnit = $productClass->valuationBuyProduct;
+                    //     $description = $productClass->nameProduct;
+                    //     $typeTreasurer = $productClass->typeTreasurerFinancial;
+                    //     $financialClass = new FinancialClass();
+                    //     $financialClass->description              = 'Compra de produtos: '.$quantity. 'unidades de '.$description;
+                    //     $financialClass->dateDueFinancial         = date('Y-m-d');
+                    //     $financialClass->datePayFinancial         = date('Y-m-d');
+                    //     $financialClass->valueProduct             = $quantity * $valueUnit;
+                    //     $financialClass->centerCost               = 4;
+                    //     $financialClass->typeTreasurerFinancial   = $typeTreasurer;
+                    //     $financialDao = new FinancialDao();
+                    //     $financialDao->insert($financialClass);
+                    // }
                 }
             }
             

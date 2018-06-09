@@ -96,7 +96,7 @@ function processReqValuation() {
         }
       } else {
         price.innerHTML = returnn[1];
-        totalPrice.innerHTML = parseFloat(returnn[1]);z
+        totalPrice.innerHTML = parseFloat(returnn[1]);
         
       }
 

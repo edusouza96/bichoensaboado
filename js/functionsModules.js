@@ -16,6 +16,10 @@ function valueProductExpected(option){
 function alertValuationExpected(){
     var id = $('#idProduct').val();
     if(id < 1){
+        var barcodeProduct = $('#barcodeProduct').val();
+        if(barcodeProduct == 0  || barcodeProduct == '' || barcodeProduct == undefined){
+            $('#barcodeProduct').val(md5($('#nameProduct').val()));
+        }
         var url = "../ajax/dialog.php?barcodeProduct=" + $('#barcodeProduct').val() + "&valuationProduct=" + $('#valuationProduct').val()+"&quantityProduct=" + $('#quantityProduct').val(); 
         ajaxAlertValuationExpected(url);
     }else{

@@ -6,7 +6,6 @@ class ProductClass{
     private $quantityProduct;
     private $valuationBuyProduct;
     private $barcodeProduct;
-    private $typeTreasurerFinancial;
 
     function __construct(){
         //

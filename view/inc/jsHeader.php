@@ -10,3 +10,4 @@
 <script language="javascript" src="<?=$pathJs?>functionsDiary.js?v=<?=$version?>"></script>
 <script language="javascript" src="<?=$pathJs?>functionsVet.js?v=<?=$version?>"></script>
 <script language="javascript" src="<?=$pathJs?>functionsModules.js?v=<?=$version?>"></script>
+<script language="javascript" src="<?=$pathJs?>md5.min.js?v=<?=$version?>"></script>

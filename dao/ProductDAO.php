@@ -68,9 +68,10 @@ class ProductDAO
             $p_sql = Conexao::getInstance()->prepare($sql);
    
             $p_sql->bindValue(":idProduct", $product->idProduct);
-   
+
             return $p_sql->execute();
         } catch (Exception $e) {
+            var_dump($e);exit;
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
@@ -131,7 +132,7 @@ class ProductDAO
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "zOcorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
      
@@ -142,7 +143,7 @@ class ProductDAO
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
-   
+            
             foreach ($list as $row) {
                 $f_list[] = $this->showObject($row);
             }

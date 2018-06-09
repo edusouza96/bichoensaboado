@@ -43,7 +43,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <meta charset="ISO 8895-1">
+        <meta charset="UTF-8">
         <title>Agenda Pet</title>
         
         <?php
