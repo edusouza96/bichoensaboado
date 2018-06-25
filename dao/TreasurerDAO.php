@@ -238,6 +238,83 @@ class TreasurerDAO{
         }
     }
 
+    public function valuesOfDay($days = 1){
+        try{
+            // busca os valores do dia 
+            $sql = "SELECT 
+                    MAX(day) as day, 
+                    SUM(valueInCash) as valueInCash, 
+                    SUM(valueInCredit) as valueInCredit, 
+                    SUM(valueOutDrawer) as valueOutDrawer,
+                    SUM(valueOutSavings) as valueOutSavings,
+                    SUM(valueOutBankOnline) as valueOutBankOnline,
+                    SUM(valueOutBank) as valueOutBank,
+                    (
+                        (SUM(valueInCredit)+SUM(valueInCash)) 
+                        - 
+                        (SUM(valueOutDrawer)+SUM(valueOutSavings)+SUM(valueOutBankOnline)+SUM(valueOutBank))
+                    ) as valueDay 
+                FROM (
+                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
+                        UNION 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 1) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 2) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 4) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
+                ) AS tbl 
+                WHERE SUBSTRING(day, 1, 10) > DATE_ADD(DATE(CURRENT_TIMESTAMP), INTERVAL -$days DAY)
+            ";
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->execute();
+            $resultInfosAux = $p_sql->fetch(PDO::FETCH_ASSOC);
+            
+            // seta os resultados em variaveis
+            $day = $resultInfosAux['day'];
+            $valueInCash = $resultInfosAux['valueInCash'];
+            $valueInCredit = $resultInfosAux['valueInCredit'];
+            $valueOutDrawer = $resultInfosAux['valueOutDrawer'];
+            $valueOutSavings = $resultInfosAux['valueOutSavings'];
+            $valueOutBankOnline = $resultInfosAux['valueOutBankOnline'];
+            $valueOutBank = $resultInfosAux['valueOutBank'];
+            $valueDay = $resultInfosAux['valueDay'];
+
+            $treasurerClass = null;
+            $error = false;
+
+            // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
+            if(!empty($day)){
+                $treasurerClass = $this->searchLastId();
+                $dateRegistryTreasurer = $treasurerClass->dateRegistryTreasurer;
+                $id = $treasurerClass->idTreasurer;
+                $startingMoneyDayTreasurer = $treasurerClass->startingMoneyDayTreasurer;
+                $this->delete($id);
+
+                $treasurerClass = $this->searchLastId();
+                $treasurerClass->idTreasurer = null;
+                $treasurerClass->startingMoneyDayTreasurer = $startingMoneyDayTreasurer;
+                $treasurerClass->closingMoneyDayTreasurer = $valueDay;
+                $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
+                $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
+                $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
+                $treasurerClass->moneyBankTreasurer -= $valueOutBank;
+                $treasurerClass->dateRegistryTreasurer = $dateRegistryTreasurer;
+                
+            }
+            //Se $treasurerClass não for null é pq não deu erro no processo
+            if(!is_null($treasurerClass)){
+                $error = $this->insert($treasurerClass);
+            }
+            return $error;
+        }catch(Exception $e){
+            print "Ocorreu um erro ao tentar executar ação, tente novamente mais tarde.";
+        }
+    }
+
     private function showObject($row){
         $treasurerClass = new TreasurerClass();
         foreach($row as $field => $value){

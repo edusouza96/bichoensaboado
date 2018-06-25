@@ -27,7 +27,7 @@
     include_once($path."/bichoensaboado/class/LoginClass.php");
     include_once($path."/bichoensaboado/dao/VetDAO.php");
     include_once($path."/bichoensaboado/class/VetClass.php");
-
+    
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
     $servicClass = new ServicClass();
@@ -54,9 +54,9 @@
     $loginDao = new LoginDAO();
     $vetClass = new VetClass();
     $vetDao = new VetDAO();
-
+    
     $module = $_POST['module'];
-
+    
     switch ($module) {
         case 'client':
             $nameAnimal = array();
@@ -134,9 +134,19 @@
             
         break;
 
-        case 'financial':
+        case 'financialPDV':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $financialClass->${'fieldKey'} = $fieldValue;
+                }
+            }
 
-            
+            $financialDao->insert($financialClass);
+            $valuesOfDay = $treasurerDao->valuesOfDay(2);
+            $module = 'sales';
+        break;
+
+        case 'financial':
             foreach($_POST as $fieldKey=>$fieldValue){
                 if(${'fieldKey'} != 'module'){
                     $financialClass->${'fieldKey'} = $fieldValue;
@@ -327,8 +337,13 @@
             } 
             $treasurerDao = new TreasurerDAO();
             $treasurerDao->update($treasurerClass);
-            header("location:../view/financial/TransferTreasury.php");
-            exit;
+            if(isset($_POST['page'])){
+                header("location:../view/sales/CashDesk.php");
+                exit;
+            }else{
+                header("location:../view/financial/TransferTreasury.php");
+                exit;
+            }
         break;
         
         case 'treasurer':

@@ -14,18 +14,18 @@
     }
     $productJson = json_encode($productArray);
     $subValue = 'R$ 00.00';
-    
-    
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="ISO 8895-1">
         <title>Caixa</title>
+        <link rel="icon" href="../../img/logo.jpg" type="image/png" />
         <link rel="stylesheet" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" href="../../css/jquery-ui.min.css" type="text/css" /> 
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
+        <link rel="stylesheet" href="../../css/font-awesome/css/font-awesome.min.css">
         
     </head>
     <body>
@@ -34,6 +34,7 @@
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
+            include_once($path."/bichoensaboado/view/financial/confirmStartingMoney.php");
         ?>
 
         <form action="../../controller/Manager.php" method="POST">
@@ -233,8 +234,8 @@
 </html>
 <script language="javascript" src="../../js/ajax.js?v=2"></script>
 <script language="javascript" src="../../js/jquery.min.js"></script>
-<script language="javascript" src="../../js/bootstrap.min.js"></script>
 <script language="javascript" src="../../js/jquery-1.10.2.js"></script>
+<script language="javascript" src="../../js/bootstrap.min.js"></script>
 <script language="javascript" src="../../js/jquery-ui.js"></script>
 <script>
 
@@ -353,6 +354,24 @@
             return false;
         }
     });
-    
+
+    $(document).ready(function(){
+        if('<?=$textLink?>' == 'Abrir Caixa'){
+
+            if( confirm('Iniciar o caixa do dia ?') ){
+                $.get( "../ajax/managerCashDesk.php").done(function( data ) {
+                    data = JSON.parse(data);
+
+                if(data.isOpen){
+                    $('#valueStartingMoney').text('R$ '+data.startingMoney)
+                    $('#confirmStartingMoney').modal('show');
+                }
+                
+                });            
+            }else{
+                $(location).attr('href','/bichoensaboado/view')
+            }
+        }
+   });
     
 </script>

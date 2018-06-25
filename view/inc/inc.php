@@ -17,8 +17,9 @@
 
     include_once($path."/bichoensaboado/class/LoginClass.php");
     $dataLogin = unserialize($_SESSION['userOnline']);
+    $admin = true;
     if($dataLogin->role == 3){
-        // TODO : crete in the data base a relations of path with role
+        $admin = false;
     }
 
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
@@ -64,7 +65,7 @@
                 ?>
                 <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
                 <?php
-                if(!$disabledLink){
+                if(!$disabledLink && $textLink != "Abrir Caixa"){
                 ?>
                 <li><a class="cursor-link" id="link-treasurer" onclick="openCloseTreasurer(<?=$option?>);"><?=$textLink?></a></li>
                 <?php

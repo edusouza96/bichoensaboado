@@ -33,11 +33,10 @@
     $treasurerDao = new TreasurerDAO();
     $treasurerClass = $treasurerDao->searchLastId();
 ?>
-<div class="modal fade" id="dayMovement" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style="width: 60%;">
+<div class="modal fade" id="dayMovement" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Movimentação do Dia</h4>
             </div>
             <div class="modal-body">
@@ -52,19 +51,83 @@
                             <h5>Cartão de Débito R$ <?=$credit?></h5>
                             <h5>Cartão de Crédito R$ <?=$debit?></h5>
 
+                            <?php if($admin){ ?>
                             <h3>Valores Retirado</h3>
                             <h5>Caixa R$ <?=$expenseDrawer?></h5>
                             <h5>Cofre R$ <?=$expenseSavings?></h5>
                             <h5>Banco R$ <?=$expenseBank?></h5>
                             <h5>PagSeguro R$ <?=$expenseBankOnline?></h5>
+                            <?php } ?>
 
-                            <h3>Total no Caixa R$ <?=$treasurerClass->startingMoneyDayTreasurer+$inCash-$expenseDrawer?></h3>
+                            <h3>Total</h3> 
+                            <h5>Caixa R$ <?=$treasurerClass->moneyDrawerTreasurer?></h5>
+                            <?php if($admin){ ?>
+                            <h5>PagSeguro R$ <?=$treasurerClass->moneyBankOnlineTreasurer?></h5>
+                            <h5>Cofre R$ <?=$treasurerClass->moneySavingsTreasurer?></h5>
+                            <h5>Banco R$ <?=$treasurerClass->moneyBankTreasurer?></h5>
+                            <?php } ?>
+                            <br>
+                            
+                            <?php if($admin){ ?>
+                            <fieldset>
+                                <legend>Transferir</legend>
+                                <form action="../../controller/Manager.php" method="POST">
+                                    <input type="hidden" name="module" value="treasurer-transfer"> 
+                                    <input type="hidden" name="page" value="pdv"> 
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                            <div class="form-group">
+                                                <select name="optionTransferFrom" id="optionTransferFrom" class="form-control">
+                                                    <option value="">-- Transferir de --</option>
+                                                    <option value="1" selected>Caixa</option>
+                                                    <option value="2">Cofre</option>
+                                                    <option value="3">PagSeguro</option>
+                                                    <option value="4">Banco</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-1 col-lg-1 col-md-1">
+                                            <div class="form-group">
+                                                <i class="fa fa-exchange" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                            <div class="form-group">
+                                                <select name="optionTransferTo" id="optionTransferTo" class="form-control col-sm-2 col-md-2 col-xs-2 col-lg-2">
+                                                    <option value="">-- Transferir para --</option>
+                                                    <option value="1">Caixa</option>
+                                                    <option value="2">Cofre</option>
+                                                    <option value="3">PagSeguro</option>
+                                                    <option value="4">Banco</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" name="valueTranfer" id="valueTranfer" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <input type="submit" id="btnSave" value="Transferir" class="btn btn-primary">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </fieldset>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
