@@ -141,6 +141,31 @@ class FinancialDAO
         }
     }
 
+    public function searchAllSales()
+    {
+        try {
+            $sql = "
+                SELECT f.*, s.*, p.*, d.*, v.*, c.* FROM financial f 
+                INNER JOIN sales s ON (f.sales_idSales = s.idSales) 
+                LEFT JOIN product p ON (s.product_idProduct = p.idProduct) 
+                LEFT JOIN diary d ON (s.diary_idDiary = d.idDiary) 
+                LEFT JOIN vet v ON (s.vet_idVet = v.idVet) 
+                LEFT JOIN servic c ON (d.servic_idServic = c.idServic OR v.servic_idServic = c.idServic)
+                WHERE 1=1 " . $this->sqlWhere;
+            $result = Conexao::getInstance()->query($sql);
+            $list = $result->fetchAll(PDO::FETCH_ASSOC);
+            $f_list = array();
+
+            foreach ($list as $row) {
+                $f_list[] = $this->buildObject($row);
+            }
+
+            return $f_list;
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta açãoo, tente novamente mais tarde.";
+        }
+    }
+
     private function showObject($row)
     {
         $financial = new FinancialClass();
@@ -157,6 +182,24 @@ class FinancialDAO
         $financial->typeTreasurerFinancial = $row['typeTreasurerFinancial'];
         $financial->valueAliquot = $row['valueAliquot'];
 
+        return $financial;
+    }
+
+    private function buildObject($row)
+    {
+        $financial = new FinancialClass();
+        $financial->idFinancial = $row['idFinancial'];
+        $financial->description = $row['description'];
+        $financial->dateDueFinancial = $row['dateDueFinancial'];
+        $financial->datePayFinancial = $row['datePayFinancial'];
+        $financial->valueProduct = $row['valueProduct'];
+        $financial->registerBuy = $row['registerBuy'];
+        $financial->sales = ($row['nameProduct'] ? $row['nameProduct'] : $row['nameServic']);
+        $financial->centerCost = CenterCostDAO::getInstance()->searchId($row['center_cost_idCenterCost']);
+        $financial->methodPayment = $row['methodPayment'];
+        $financial->numberPlotsFinancial = $row['numberPlotsFinancial'];
+        $financial->typeTreasurerFinancial = $row['typeTreasurerFinancial'];
+        $financial->valueAliquot = $row['valueAliquot'];
         return $financial;
     }
 

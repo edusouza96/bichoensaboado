@@ -71,6 +71,7 @@
                 <?php
                 }
                 ?>
+                <li><a href="/bichoensaboado/view/sales/salesOfDay.php">Vendas do dia</a></li>
             </ul>
         </nav>
         <?php
