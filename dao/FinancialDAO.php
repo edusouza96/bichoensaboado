@@ -147,7 +147,7 @@ class FinancialDAO
             $sql = "
                 SELECT f.*, s.*, p.*, d.*, v.*, c.* FROM financial f 
                 INNER JOIN sales s ON (f.sales_idSales = s.idSales) 
-                LEFT JOIN product p ON (s.product_idProduct = p.idProduct) 
+                LEFT JOIN product p ON (s.product_idProduct = p.barcodeProduct) 
                 LEFT JOIN diary d ON (s.diary_idDiary = d.idDiary) 
                 LEFT JOIN vet v ON (s.vet_idVet = v.idVet) 
                 LEFT JOIN servic c ON (d.servic_idServic = c.idServic OR v.servic_idServic = c.idServic)

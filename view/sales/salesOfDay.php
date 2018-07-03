@@ -7,6 +7,9 @@
     $financialDao = new FinancialDAO();
     $financialDao->addWhere("registerBuy IS NOT NULL ");
     $financialDao->addWhere("datePayFinancial = CURDATE() ");
+    if($search){
+        $financialDao->addWhere("registerBuy = ".$search);
+    }
     $financialList = $financialDao->searchAllSales();
 ?>
 <!DOCTYPE html>
@@ -31,7 +34,7 @@
         <form role="form" method="POST">
             <div class="form-group col-xs-4 col-sm-4 col-lg-4 col-md-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchBar" name="search" placeholder="Buscar" />
+                    <input type="number" class="form-control" id="searchBar" name="search" placeholder="Código Venda" />
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-info" value="Buscar">
                             <span class="glyphicon glyphicon-search"></span>
