@@ -151,7 +151,8 @@ class FinancialDAO
                 LEFT JOIN diary d ON (s.diary_idDiary = d.idDiary) 
                 LEFT JOIN vet v ON (s.vet_idVet = v.idVet) 
                 LEFT JOIN servic c ON (d.servic_idServic = c.idServic OR v.servic_idServic = c.idServic)
-                WHERE 1=1 " . $this->sqlWhere;
+                WHERE 1=1 " . $this->sqlWhere.
+                " ORDER BY p.barcodeProduct";
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();

@@ -76,16 +76,20 @@ class ProductDAO
         }
     }
 
-    public function updateQuantity($barcodeProduct, $quantityProduct)
+    public function updateQuantity($barcodeProduct, $quantityProduct, $reversal = false)
     {
         try {
-            $sql = "UPDATE product set quantityProduct = (quantityProduct - :quantityProduct) WHERE barcodeProduct = :barcodeProduct";
+            if($reversal){
+                $sql = "UPDATE product set quantityProduct = (quantityProduct + :quantityProduct) WHERE barcodeProduct = :barcodeProduct";
+            }else{
+                $sql = "UPDATE product set quantityProduct = (quantityProduct - :quantityProduct) WHERE barcodeProduct = :barcodeProduct";
+            }
            
             $p_sql = Conexao::getInstance()->prepare($sql);
  
             $p_sql->bindValue(":quantityProduct", $quantityProduct);
             $p_sql->bindValue(":barcodeProduct", $barcodeProduct);
- 
+
             return $p_sql->execute();
         } catch (Exception $e) {
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
@@ -128,7 +132,7 @@ class ProductDAO
         try {
             $sql = "SELECT * FROM product WHERE barcodeProduct = :barcodeProduct";
             $p_sql = Conexao::getInstance()->prepare($sql);
-            $p_sql->bindValue(":barcodeProduct", $barcodeProduct);
+            $p_sql->bindValue(":barcodeProduct", $barcodeProduct.'');
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {

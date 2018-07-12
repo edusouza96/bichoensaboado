@@ -18,6 +18,7 @@
         <meta charset="ISO 8895-1">
         <title>Vendas do Dia</title>
         <link rel="stylesheet" href="../../css/bootstrap-3.3.7-dist/css/bootstrap.css">
+        <script language="javascript" src="../../js/jquery.min.js"></script>
         <script language="javascript" src="../../js/ajax.js?v=2"></script>
         <script language="javascript" src="../../js/functionsModules.js?v=3"></script>
         <link rel="stylesheet" href="../../css/stylePages.css?v=<?=rand(100, 500)?>">
@@ -44,13 +45,12 @@
                 <br>
             </div>
         </form>
-        <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
+        <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered">
             <thead>
                 <tr>
                     <th class="col-md-2">Código Venda</th>
                     <th class="col-md-5">Descrição</th>
-                    <th class="col-md-3">Valor</th>
-                    <th class="col-md-1">Alterar</th>
+                    <th class="col-md-2">Valor</th>
                     <th class="col-md-1">Estornar</th>
                 </tr>
             </thead>
@@ -62,8 +62,7 @@
                         <td><?=$financial->registerBuy?></td>
                         <td><?=$financial->sales?></td>
                         <td>R$ <?=$financial->valueProduct?></td>
-                        <td class="text-center"><i class="fa fa-pencil" aria-hidden="true"></i></td>
-                        <td class="text-center"><i class="fa fa-undo" aria-hidden="true"></i></td>
+                        <td><i class="fa fa-undo cursor" aria-hidden="true" onClick="purchaseReversal(<?=$financial->idFinancial?>)"></i></td>
                     </tr>
                 <?php
                     }
@@ -75,3 +74,15 @@
        
     </body>
 </html>
+
+<script>
+    function purchaseReversal(idFinancial){
+        $.post( "../ajax/purchaseReversal.php", { 
+            idFinancial: idFinancial,
+        }).done(function( data ) {
+            location.reload();
+        });
+    }
+
+
+</script>

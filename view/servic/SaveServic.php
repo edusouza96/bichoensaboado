@@ -53,7 +53,6 @@
                     </div> <!-- end div package-->
                 </div><!-- end div line package-->
 
-
                 <div class="row"> <!--div line breed-->
                     <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3"> <!--div breed-->
                         <div class="form-group"> 

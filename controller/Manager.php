@@ -98,6 +98,14 @@
                     $servicClass->${'fieldKey'} = $fieldValue;
                 }
             }
+
+            $package = $servicClass->package;
+            if($package == 1){
+                $servicClass->nameServic .= " - Pacote 15 dias";
+            }else if ($package == 2){
+                $servicClass->nameServic .= " - Pacote 30 dias";
+            }
+
             if($servicClass->idServic != 0){
                 $servicDao->Update($servicClass);
             }else{
@@ -242,7 +250,7 @@
         case 'sales':
 
             if($_POST['idSales'] > 0){
-                // $salesDao->update($salesClass);
+                // 
             }else{
                 $quantityProductSales = $_POST['quantityProductSales'];
                 $productSales         = $_POST['productSales'];

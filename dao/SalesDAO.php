@@ -64,7 +64,7 @@ class SalesDAO{
         }
     }
       
-    public function delete($diarySales){
+    public function delete($idSales){
         try {
             $sql = "DELETE FROM sales WHERE idSales = :idSales";
             $p_sql = Conexao::getInstance()->prepare($sql);
