@@ -36,7 +36,13 @@
     }
 
     foreach ($clientList as $cli){
-        $f_list[] = array('label' => utf8_encode($cli->nameAnimal));
+        $nameAnimalsList[] = strtoupper($cli->nameAnimal);
+    }
+
+    $nameAnimalsList = array_unique($nameAnimalsList);
+    
+    foreach ($nameAnimalsList as $name){
+        $f_list[] = array('label' => utf8_encode($name));
     }
    
 ?>

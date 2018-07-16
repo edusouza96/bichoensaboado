@@ -27,6 +27,8 @@
     include_once($path."/bichoensaboado/class/LoginClass.php");
     include_once($path."/bichoensaboado/dao/VetDAO.php");
     include_once($path."/bichoensaboado/class/VetClass.php");
+    include_once($path."/bichoensaboado/dao/RebateDAO.php");
+    include_once($path."/bichoensaboado/class/RebateClass.php");
     
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
@@ -54,6 +56,8 @@
     $loginDao = new LoginDAO();
     $vetClass = new VetClass();
     $vetDao = new VetDAO();
+    $rebateClass = new RebateClass();
+    $rebateDao = new RebateDAO();
     
     $module = $_POST['module'];
     
@@ -396,6 +400,19 @@
                 header("location:../view/index.php");
             }
             exit;
+        break;
+
+        case 'rebate':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $rebateClass->${'fieldKey'} = $fieldValue;
+                }
+            }
+            if($rebateClass->idRebate != 0){
+                $rebateDao->update($rebateClass);
+            }else{
+                $rebateDao->insert($rebateClass);
+            }
         break;
 
         default:
