@@ -53,6 +53,7 @@
                 <li><a href="/bichoensaboado/view/breed/">Raças</a></li>
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
+                <li><a href="/bichoensaboado/view/rebate/">Descontos</a></li>
                 <?php
                 if($dataLogin->role != 3){
                 ?>

@@ -359,7 +359,7 @@
         if('<?=$textLink?>' == 'Abrir Caixa'){
 
             if( confirm('Iniciar o caixa do dia ?') ){
-                $.get( "../ajax/managerCashDesk.php").done(function( data ) {
+                $.get( "../ajax/managerCashDesk.php").done(function( data ) {                    
                     data = JSON.parse(data);
 
                 if(data.isOpen){

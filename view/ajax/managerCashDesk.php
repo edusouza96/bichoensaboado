@@ -12,10 +12,18 @@
     if(empty($treasurerList)){
         $treasurerDao = new TreasurerDAO();
         $treasurerList = $treasurerDao->searchAll();
-        echo '{
-            "startingMoney":"'.$treasurerList[0]->closingMoneyDayTreasurer.'",
-            "isOpen": '.true.'
-        }';
+        if(empty($treasurerList)){
+            echo '{
+                "startingMoney":"0.00",
+                "isOpen": '.true.'
+            }';
+        }else{
+
+            echo '{
+                "startingMoney":"'.$treasurerList[0]->closingMoneyDayTreasurer.'",
+                "isOpen": '.true.'
+            }';
+        }
     }else{
         echo '{
             "isOpen": 0

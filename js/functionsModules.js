@@ -62,7 +62,7 @@ function moreDetails(idDiv){
 function showMessage(message){
     document.getElementById('alert').style.display = 'block';
     document.getElementById('msg-alert').innerHTML = message;
-    document.getElementById('link-treasurer').style.display = 'none';
+    // document.getElementById('link-treasurer').style.display = 'none';
 }
 
 function selectTitleExpense(idCategory, idCenterCost = 0){

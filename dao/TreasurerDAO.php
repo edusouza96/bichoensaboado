@@ -109,7 +109,12 @@ class TreasurerDAO{
             $sql = "SELECT * FROM treasurer ORDER BY idTreasurer DESC LIMIT 1";
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->execute();
-            return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+
+            if($p_sql->fetch(PDO::FETCH_ASSOC)){
+                return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+            }else{
+                return null;
+            }
         } catch (Exception $e) {
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }    
@@ -317,11 +322,16 @@ class TreasurerDAO{
 
     private function showObject($row){
         $treasurerClass = new TreasurerClass();
-        foreach($row as $field => $value){
-            $treasurerClass->${'field'} = $value;    
-        }
+        $treasurerClass->idTreasurer = $row['idTreasurer'];
+        $treasurerClass->startingMoneyDayTreasurer = $row['startingMoneyDayTreasurer'];
+        $treasurerClass->closingMoneyDayTreasurer = $row['closingMoneyDayTreasurer'];
+        $treasurerClass->moneyDrawerTreasurer = $row['moneyDrawerTreasurer'];
+        $treasurerClass->moneySavingsTreasurer = $row['moneySavingsTreasurer'];
+        $treasurerClass->moneyBankOnlineTreasurer = $row['moneyBankOnlineTreasurer'];
+        $treasurerClass->moneyBankTreasurer = $row['moneyBankTreasurer'];
+        $treasurerClass->dateRegistryTreasurer = $row['dateRegistryTreasurer'];
         return $treasurerClass;
     }
 
 }
-?>
+?> 
