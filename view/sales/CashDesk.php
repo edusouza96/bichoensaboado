@@ -4,6 +4,7 @@
     include_once($path."/bichoensaboado/dao/VetDAO.php");
     include_once($path."/bichoensaboado/dao/ProductDAO.php");
     include_once($path."/bichoensaboado/dao/SalesDAO.php");
+    include_once($path."/bichoensaboado/dao/RebateDAO.php");
     $productDao = new ProductDAO();
     $productList = $productDao->searchAll();
     $productJson = "";
@@ -14,6 +15,9 @@
     }
     $productJson = json_encode($productArray);
     $subValue = 'R$ 00.00';
+
+    $rebateDao = new RebateDAO();
+    $rebateList = $rebateDao->searchAll();
 ?>
 <!DOCTYPE html>
 <html>
@@ -199,11 +203,24 @@
                         </div>
                         <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
                             <div class="form-group">
+                                <label for="promotion">Desconto Promocional</label> 
+                                <select id="promotion" name="promotion" class="form-control" onblur="calcPromotion(this.value);">
+                                    <option>-- Selecione --</option>
+                                    <?php
+                                        foreach($rebateList as $rebate){
+                                            echo "<option value='$rebate->idRebate'>$rebate->descriptionRebate</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                            <div class="form-group">
                                 <label for="rebate">Desconto</label> 
                                 <input type="text" id="rebate" name="rebate" value="0.0" class="form-control" onblur="applyRebate(this.value);">
                             </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                             <div class="form-group">
                                 <label for="totalBuy">Total</label> 
                                 <input type="text" id="totalBuy" name="totalBuy" class="form-control" readonly="readonly">
@@ -287,7 +304,7 @@
 
     function calculateValueReceive(valueReceive){
         var totalBuy = $("#totalBuy").val();
-        totalBuy = parseFloat(totalBuy)
+        totalBuy = parseFloat(totalBuy);
         valueReceive = parseFloat(valueReceive);
         $("#change").val(int2decimal(valueReceive-totalBuy));
     }
@@ -345,6 +362,19 @@
             $("#numberItems").val(null);
             $("#valueTotalItems").val(null);
             $("#rebate").val("0.0");
+        }
+    }
+
+    function calcPromotion(idRebate) {
+        var totalBuy = $("#totalBuy").val();
+        totalBuy = parseFloat(totalBuy);
+        if(totalBuy > 0){
+            $.get( "../ajax/getRebate.php", {idRebate : idRebate}).done(function( valueRebate ) {                    
+                var rebate = (totalBuy * valueRebate) /100;
+                $('#rebate').val(rebate);
+                applyRebate(rebate);
+            });  
+            
         }
     }
 
