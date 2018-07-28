@@ -110,8 +110,9 @@ class TreasurerDAO{
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->execute();
 
-            if($p_sql->fetch(PDO::FETCH_ASSOC)){
-                return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+            $fetchArray = $p_sql->fetch(PDO::FETCH_ASSOC);
+            if($fetchArray){
+                return $this->showObject($fetchArray);
             }else{
                 return null;
             }
@@ -134,7 +135,7 @@ class TreasurerDAO{
 
     public function searchAll(){
         try {
-            $sql = "SELECT * FROM treasurer WHERE 1=1 ".$this->sqlWhere."".$this->sqlComplement;
+            $sql = "SELECT * FROM treasurer WHERE 1=1 ".$this->sqlWhere." ".$this->sqlComplement;
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
@@ -176,8 +177,12 @@ class TreasurerDAO{
         }
     }
     
-    public function closeTreasurer(){
+    public function closeTreasurer($dateClose = null){
         try{
+            if($dateClose == null){
+                $dateClose = date('Y-m-d');
+            }
+
             // busca os valores do dia 
             $sql = "SELECT 
                     day, 
@@ -205,9 +210,10 @@ class TreasurerDAO{
                         UNION
                     (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
                 ) AS tbl 
-                WHERE SUBSTRING(day, 1, 10) = curdate()
+                WHERE SUBSTRING(day, 1, 10) = '".$dateClose."'
                 GROUP BY day
             ";
+
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->execute();
             $resultInfosAux = $p_sql->fetch(PDO::FETCH_ASSOC);
@@ -220,18 +226,18 @@ class TreasurerDAO{
             $valueOutBankOnline = $resultInfosAux['valueOutBankOnline'];
             $valueOutBank = $resultInfosAux['valueOutBank'];
             $valueDay = $resultInfosAux['valueDay'];
-            $dateNow = date('Y-m-d H:i:s');
+            // $dateNow = date('Y-m-d H:i:s');
             $treasurerClass = null;
             $error = false;
             // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
             if(!empty($day)){
                 $treasurerClass = $this->searchDate($day);
-                $treasurerClass->closingMoneyDayTreasurer = $valueDay;
+                $treasurerClass->closingMoneyDayTreasurer = $valueInCash;
                 $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
                 $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
                 $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
                 $treasurerClass->moneyBankTreasurer -= $valueOutBank;
-                $treasurerClass->dateRegistryTreasurer = $dateNow;
+                // $treasurerClass->dateRegistryTreasurer = $dateNow;
             }
             //Se $treasurerClass não for null é pq não deu erro no processo
             if(!is_null($treasurerClass)){

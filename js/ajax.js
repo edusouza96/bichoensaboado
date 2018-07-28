@@ -505,8 +505,8 @@ function processReqAjaxOpenCloseTreasurer() {
     if (req.status == 200) {
       document.getElementById('alert').style.display = 'block';
       document.getElementById('msg-alert').innerHTML = req.responseText;
-      document.getElementById('link-treasurer').style.display = 'none';
-      if (req.responseText == " Caixa Fechado!") {
+      // document.getElementById('link-treasurer').style.display = 'none';
+      if (req.responseText.indexOf("Caixa Fechado!") != -1) {
         $('#dayMovement').modal('show');
       }
     } else {

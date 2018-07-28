@@ -11,6 +11,7 @@
     $treasurerList = $treasurerDao->searchAll();
     if(empty($treasurerList)){
         $treasurerDao = new TreasurerDAO();
+        $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
         $treasurerList = $treasurerDao->searchAll();
         if(empty($treasurerList)){
             echo '{
@@ -19,8 +20,15 @@
             }';
         }else{
 
+            if($treasurerList[0]->closingMoneyDayTreasurer == null){
+                $treasurerDao->closeTreasurer(substr($treasurerList[0]->dateRegistryTreasurer, 0, 10)); 
+                
+                $treasurerDao = new TreasurerDAO();
+                $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
+                $treasurerList = $treasurerDao->searchAll();
+            }
             echo '{
-                "startingMoney":"'.$treasurerList[0]->closingMoneyDayTreasurer.'",
+                "startingMoney":"'.$treasurerList[0]->moneyDrawerTreasurer.'",
                 "isOpen": '.true.'
             }';
         }
