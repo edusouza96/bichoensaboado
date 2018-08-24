@@ -223,13 +223,13 @@
                         <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                             <div class="form-group">
                                 <label for="totalBuy">Total</label> 
-                                <input type="text" id="totalBuy" name="totalBuy" class="form-control" readonly="readonly">
+                                <input type="text" id="totalBuy" name="totalBuy" class="form-control" readonly="readonly" required>
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="valueReceive">Valor Recebido</label> 
-                                <input type="text" id="valueReceive" name="valueReceive" class="form-control" onblur="calculateValueReceive(this.value);">
+                                <input type="text" id="valueReceive" name="valueReceive" class="form-control" onblur="calculateValueReceive(this.value);" required>
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
