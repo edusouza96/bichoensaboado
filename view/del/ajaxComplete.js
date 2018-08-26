@@ -24,7 +24,7 @@ function processReqChange1() {
       var address = document.getElementById("address");
       var district = document.getElementById("district");
       var phone1 = document.getElementById("phone1");
-      var phone2 = document.getElementById("phone2");
+      // var phone2 = document.getElementById("phone2");
       
       for (i = 0; i < arrayReturnn.length; i++) {
         var arrayReturnnId = arrayReturnn[i].split("_"); 
@@ -32,7 +32,7 @@ function processReqChange1() {
         address.value = arrayReturnnId[1];
         district.value = arrayReturnnId[2];
         phone1.value = arrayReturnnId[3];
-        phone2.value = arrayReturnnId[4];
+        // phone2.value = arrayReturnnId[4];
       }
 
       

@@ -1,3 +1,15 @@
+<?php
+if($_SERVER['SERVER_NAME'] == 'localhost'){
+	$urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
+}else{
+	$urlBase = "https://".$_SERVER['SERVER_NAME'];
+}
+
+session_start();
+if(empty($_SESSION["userOnline"])){
+	header("location:$urlBase/bichoensaboado/view/login/index.php");  
+}
+?>
 <!DOCTYPE html>
 <html lang='PT-BR'>
 <head>

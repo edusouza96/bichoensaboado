@@ -28,7 +28,7 @@ function processReqChange() {
       var address = document.getElementById("address" + idField);
       var district = document.getElementById("district" + idField);
       var phone1 = document.getElementById("phone1" + idField);
-      var phone2 = document.getElementById("phone2" + idField);
+      // var phone2 = document.getElementById("phone2" + idField);
       var service = document.getElementById("service" + idField);
       var deliveryPrice = document.getElementById("deliveryPrice" + idField);
       var option = '<option value>-- Selecione --</option>';
@@ -42,7 +42,9 @@ function processReqChange() {
       districtValue = returnn[5];
       district.innerHTML = '<input type="hidden" id="hiddenDistrict' + idField + '" value="' + districtValue + '" >';
       phone1.innerHTML = returnn[6];
-      phone2.innerHTML = returnn[7];
+      if(returnn[7] > 0 ){
+        phone1.innerHTML = returnn[6]+" - "+returnn[7];
+      }
       deliveryPriceValue = returnn[8];
 
       if(window.location.pathname == '/bichoensaboado/view/vet/index.php'){

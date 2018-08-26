@@ -27,8 +27,8 @@
     if($i > 0){
       $deliveryPrice = 0;
     }
-    $arquivo = 'meu_arquivo.txt';
-    $handle = fopen( $arquivo, 'a+' );
+    // $arquivo = 'meu_arquivo.txt';
+    // $handle = fopen( $arquivo, 'a+' );
     /**
     * Se não for um pacote é atualizado o valor do serviço e o frete normalmente
     * Caso contrario é atualizado apenas o frete, caso tenha modificado esta opção

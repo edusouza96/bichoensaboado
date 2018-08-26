@@ -142,12 +142,12 @@ class DiaryDAO
             $p_sql->bindValue(":totalPrice", $diary->totalPrice);
             $p_sql->bindValue(":dateHour", $diary->dateHour);
             $p_sql->bindValue(":status", $diary->status);
-            $p_sql->bindValue(":package_idPackage", $diary->package->idPackage);
+            $p_sql->bindValue(":package_idPackage", $diary->package->idPackage ? $diary->package->idPackage : 0);
             $p_sql->bindValue(":idDiary", $diary->idDiary);
-   
+            
             return $p_sql->execute();
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "#02xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
       
@@ -175,7 +175,7 @@ class DiaryDAO
             $p_sql->execute();
             return $this->ShowObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "#01xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
    

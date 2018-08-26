@@ -74,8 +74,7 @@
                     <th>Busca</th>
                     <th>Endereço</th>
                     <th>Bairro</th>
-                    <th>Telefone 1</th>
-                    <th>Telefone 2</th>
+                    <th>Telefone</th>
                     <th>Serviço</th>
                     <th>Valor</th>
                     <th>Taxa de Entrega</th>
@@ -118,9 +117,6 @@
                             echo "<td id='phone1".$i."'>";
                             echo "</td>";
 
-                            echo "<td id='phone2".$i."'>";
-                            echo "</td>";
-                            
                             echo "<td id='service".$i."'>";
                             echo "</td>";
 
@@ -223,10 +219,7 @@
 
                                 echo "<td>";
                                 echo $diary->client->phone1;
-                                echo "</td>";
-
-                                echo "<td>";
-                                echo $diary->client->phone2;
+                                echo ($diary->client->phone2 ||$diary->client->phone2 == 0) ? " - ".$diary->client->phone2 : "";
                                 echo "</td>";
                                 
                                 echo "<td>";

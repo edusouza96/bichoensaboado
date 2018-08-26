@@ -128,18 +128,16 @@ function addRow(hour, date){
             }else if( i == 7){
                 newcell.setAttribute('id', 'phone1'+id);   
             }else if( i == 8){
-                newcell.setAttribute('id', 'phone2'+id);   
-            }else if( i == 9){
                 newcell.setAttribute('id', 'service'+id);   
-            }else if( i == 10){
+            }else if( i == 9){
                 newcell.setAttribute('id', 'price'+id);
                 // newcell.innerHTML = "<input type='text' id='price"+id+"' name='price' class='form-control'>";
-            }else if( i == 11){
+            }else if( i == 10){
                 newcell.setAttribute('id', 'deliveryPrice'+id);
                 // newcell.innerHTML = "<input type='text' id='deliveryPrice"+id+"' name='deliveryPrice' class='form-control'>";
-            }else if( i == 12){
+            }else if( i == 10){
                 newcell.setAttribute('id', 'totalPrice'+id);   
-            }else if( i == 13){
+            }else if( i == 12){
                 newcell.innerHTML = "<input type='button' id='save"+id+"' onClick='save("+id+",&quot;"+date+"&quot;)' value='Agendar'/>";
             }
 

@@ -138,7 +138,7 @@ class ServicDAO
             $p_sql->execute();
             return $this->ShowObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "#01xS - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
 
