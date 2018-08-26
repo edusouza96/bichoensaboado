@@ -49,14 +49,14 @@
        */
       $packageDao = new PackageDAO();
       $package = $packageDao->SearchId($diary->package->idPackage);
-      for($iPack = 1; $iPack<5; $iPack++){
-        $datePack = 'date'.$iPack;
-        if($dateHour.":00" == $package->${'datePack'}){
-          http_response_code(410);
-          echo "Data já marcada!";
-          die();
-        }
-      }
+      // for($iPack = 1; $iPack<5; $iPack++){
+      //   $datePack = 'date'.$iPack;
+      //   if($dateHour.":00" == $package->${'datePack'}){
+      //     http_response_code(410);
+      //     echo "Data ja marcada!";
+      //     die();
+      //   }
+      // }
     }    
     $diary->search = $search;
 
