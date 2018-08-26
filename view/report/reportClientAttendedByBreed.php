@@ -35,11 +35,7 @@
         ?>
         <form role="form" method="POST">
             
-            <i class="fa fa-filter fa-1x cursor" aria-hidden="true" id="showFilters" onclick="reportShowFilters();">
-                <p>Exibir Filtro</p>
-            </i>
-
-            <div class="container hidden" id="filters">
+            <div class="container" id="filters">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <div class="form-group">
@@ -62,10 +58,8 @@
                             <input type="date" id="dateEnd" name="dateEnd" class="form-control" value="<?=$dateEnd?>">
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <div class="form-group">
                             <input type="submit" id="btn-search" class="btn btn-info" value="buscar">
                         </div>

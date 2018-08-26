@@ -34,11 +34,7 @@
         ?>
         <form role="form" method="POST">
             
-            <i class="fa fa-filter fa-1x cursor" aria-hidden="true" id="showFilters" onclick="reportShowFilters();">
-                <p>Exibir Filtro</p>
-            </i>
-
-            <div class="container hidden" id="filters">
+            <div class="container" id="filters">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <div class="form-group">

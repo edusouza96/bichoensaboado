@@ -219,7 +219,7 @@
 
                                 echo "<td>";
                                 echo $diary->client->phone1;
-                                echo ($diary->client->phone2 ||$diary->client->phone2 == 0) ? " - ".$diary->client->phone2 : "";
+                                echo ($diary->client->phone2 == 0) ? "" : " - ".$diary->client->phone2 ;
                                 echo "</td>";
                                 
                                 echo "<td>";
