@@ -307,7 +307,7 @@
                     }                        
                 ?>
                 
-                 <!-- Modal Cancelamento -->
+                <!-- Modal Cancelamento -->
                 <div class="modal fade" id="modalCanc" role="dialog">
                     <div class="modal-dialog">
                     

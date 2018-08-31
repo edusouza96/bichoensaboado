@@ -22,12 +22,12 @@
     $sumValueInCash = 0;
     $reportSearch = array();
     foreach($reportInList as $item){
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['value'] += $item->column5Report;
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['quantity'] += 1;
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['name'][] = utf8_encode($item->column1Report);
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['value'][] = $item->column5Report;
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['payment'][] = utf8_encode($item->column7Report);
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['id_payment'][] = $item->column8Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ $item->column3Report]['value'] += $item->column5Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ $item->column3Report]['quantity'] += 1;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ $item->column3Report]['detail']['name'][] = $item->column1Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ $item->column3Report]['detail']['value'][] = $item->column5Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ $item->column3Report]['detail']['payment'][] = $item->column7Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ $item->column3Report]['detail']['id_payment'][] = $item->column8Report;
     }
 
 ?>

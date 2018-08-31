@@ -21,7 +21,8 @@ function finish(idDiary,status){
     if(status == -1){
         var password = document.getElementById('password').value; 
         var idDiary = document.getElementById('idCanc').value;            
-            if(password == '4518' || password == 'admin1996'){
+            
+        if(password == '4518' || password == 'admin1996'){
             var url = "ajax/finish.php?idDiary=" + idDiary + "&status=" + status; 
             ajaxFinish(url);
         }else{
