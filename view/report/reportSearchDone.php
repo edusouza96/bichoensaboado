@@ -19,13 +19,17 @@
     $reportInList = $reportInDao->reportSearchDoneByPeriod();    
     $reportOutList = $reportOutDao->reportExpenseWithSearch();    
 
+    $sumValueInCash = 0;
     $reportSearch = array();
     foreach($reportInList as $item){
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][$item->column3Report]['value'] += $item->column5Report;
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][$item->column3Report]['quantity'] += 1;
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][$item->column3Report]['detail']['name'][] = $item->column1Report;
-        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][$item->column3Report]['detail']['value'][] = $item->column5Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['value'] += $item->column5Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['quantity'] += 1;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['name'][] = utf8_encode($item->column1Report);
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['value'][] = $item->column5Report;
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['payment'][] = utf8_encode($item->column7Report);
+        $reportSearch[date("d/m/Y", strtotime($item->column4Report))][ utf8_encode($item->column3Report)]['detail']['id_payment'][] = $item->column8Report;
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -94,7 +98,7 @@
                     <th>Valor</th>
                 </tr>
             </thead>
-            <tbody id="tableReportSearch" class="hidden">
+            <tbody id="tableReportSearch" class="">
                 <?php
                     ksort($reportSearch);
                     $totalQuantity = 0;
@@ -125,20 +129,25 @@
                           
                             echo "
                                 <tr onclick='moreDetails(&quot;#".$idDiv."&quot;);' >
-                                    <td colspan='3' class='detais-report' data-toggle='tooltip' title='clique para mais detalhes'>
-                                        <div id='".$idDiv."'class='hidden col-md-4'>
+                                    <td colspan='4' class='detais-report' data-toggle='tooltip' title='clique para mais detalhes'>
+                                        <div id='".$idDiv."'class='show col-md-6'>
                                         <div class='font-weight-bold'> 
-                                            <span class='col-md-6'>Nome do Pet</span>
-                                            <span class='col-md-6'>Valor da Busca</span>
+                                            <span class='col-md-4'>Nome do Pet</span>
+                                            <span class='col-md-4'>Pagamento</span>
+                                            <span class='col-md-4'>Valor da Busca</span>
                                         </div>
                             ";
                                     for($i=0; $i<count($valueItem['detail']['name']); $i++){
                                         echo "
                                             <div> 
-                                                <span class='col-md-6'>".$valueItem['detail']['name'][$i]."</span>
-                                                <span class='col-md-6'>".$valueItem['detail']['value'][$i]."</span>
+                                                <span class='col-md-4'>".$valueItem['detail']['name'][$i]."</span>
+                                                <span class='col-md-4'>".$valueItem['detail']['payment'][$i]."</span>
+                                                <span class='col-md-4'>".$valueItem['detail']['value'][$i]."</span>
                                             </div>
                                         "; 
+                                        if($valueItem['detail']['id_payment'][$i] == 1){
+                                            $sumValueInCash += $valueItem['detail']['value'][$i];
+                                        }
                                     }
                                             
                             echo        "</div>
@@ -175,7 +184,7 @@
                     <th>Valor</th>
                 </tr>
             </thead>
-            <tbody  id="tableReportDiscount" class="hidden">
+            <tbody  id="tableReportDiscount" class="">
                 <?php
                     $totalValueOut = 0;
                     /*Table show the discounts*/
@@ -217,16 +226,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Total das buscas</th>
+                    <th>Total das buscas(Em dinheiro)</th>
                     <th>Total de descontos</th>
                     <th>Valor a pagar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><?=number_format($totalValueIn, 2, '.','')?></td>
+                    <td><?=number_format($sumValueInCash, 2, '.','')?></td>
                     <td><?=number_format($totalValueOut, 2, '.','')?></td>                    
-                    <td><?=number_format(($totalValueIn-$totalValueOut), 2, '.','')?></td>
+                    <td><?=number_format(($sumValueInCash-$totalValueOut), 2, '.','')?></td>
                 </tr>
             </tbody>
         </table>

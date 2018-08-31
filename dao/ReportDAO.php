@@ -23,13 +23,25 @@ class ReportDAO{
     public function reportSearchDoneByPeriod(){
         try {
             $sql = "
-                SELECT c.nameAnimal as column1Report,c.owner as column2Report, a.district as column3Report, d.dateHour as column4Report, (a.valuation) as column5Report, a.idAddress as column6Report
+                SELECT 
+                    c.nameAnimal as column1Report,
+                    c.owner as column2Report, 
+                    a.district as column3Report, 
+                    d.dateHour as column4Report, 
+                    a.valuation as column5Report, 
+                    a.idAddress as column6Report,
+                    im.nameMethodPayment as column7Report,
+                    im.idMethodPayment as column8Report
                 FROM diary d 
                 INNER JOIN client c ON (c.idClient = d.client_idClient) 
                 INNER JOIN address a ON (a.idAddress = c.address_idAddress) 
+                INNER JOIN sales s ON (s.diary_idDiary = d.idDiary)
+                INNER JOIN financial f ON (f.sales_idSales = s.idSales)
+                INNER JOIN zinfo_method_payment im ON (im.idMethodPayment = f.methodPayment)
                 WHERE search = 1 ".$this->sqlWhere."
                 ORDER BY a.district, d.dateHour;
             ";
+
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
