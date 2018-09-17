@@ -157,6 +157,18 @@
             $valuesOfDay = $treasurerDao->valuesOfDay(2);
             $module = 'sales';
         break;
+        case 'financialPDV-dashboard':
+            foreach($_POST as $fieldKey=>$fieldValue){
+                if(${'fieldKey'} != 'module'){
+                    $financialClass->${'fieldKey'} = $fieldValue;
+                }
+            }
+
+            $financialDao->insert($financialClass);
+            $valuesOfDay = $treasurerDao->valuesOfDay(2);
+            header("location:../view/dashboard.php");
+            exit;
+        break;
 
         case 'financial':
             foreach($_POST as $fieldKey=>$fieldValue){
@@ -397,7 +409,7 @@
                 header("location:../view/login/index.php?code=400-l");
             }else{
                 $_SESSION["userOnline"] = serialize($result);
-                header("location:../view/index.php");
+                header("location:../view/dashboard.php");
             }
             exit;
         break;

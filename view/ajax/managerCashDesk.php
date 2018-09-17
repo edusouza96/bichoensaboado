@@ -33,7 +33,12 @@
             }';
         }
     }else{
+        $treasurerDao = new TreasurerDAO();
+        $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
+        $treasurerList = $treasurerDao->searchAll();
+        $startingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->moneyDrawerTreasurer;
         echo '{
+            "startingMoney":"'.$startingMoney.'",
             "isOpen": 0
         }';
     }

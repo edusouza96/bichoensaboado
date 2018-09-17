@@ -5,7 +5,9 @@
     $reportDayMovementList = $reportDao->reportDayMovement();
     $inCash = 0;
     $credit = 0;
+    $creditAliquot = 0;
     $debit = 0;
+    $debitAliquot = 0;
     $expenseBankOnline = 0;
     $expenseSavings = 0;
     $expenseDrawer = 0;
@@ -15,8 +17,10 @@
             $inCash = $report->column1Report;
         }else if($report->column3Report == 2){
             $debit = $report->column1Report;
+            $debitAliquot = $report->column5Report;
         }else if($report->column3Report == 3){
             $credit = $report->column1Report;
+            $creditAliquot = $report->column5Report;
         }else{
             if($report->column4Report == 1){
                 $expenseDrawer = $report->column1Report;
@@ -48,8 +52,14 @@
 
                             <h3>Valores Arrecadados</h3>
                             <h5>Dinheiro R$ <?=$inCash?></h5>
-                            <h5>Cartão de Débito R$ <?=$credit?></h5>
-                            <h5>Cartão de Crédito R$ <?=$debit?></h5>
+                            <h5>Cartão de Débito R$ <?=$debit?></h5>
+                            <?php if($admin){ ?>
+                                <h6>Com desconto da aliquota R$ <?=$debitAliquot?></h6>
+                            <?php } ?>
+                            <h5>Cartão de Crédito R$ <?=$credit?></h5>
+                            <?php if($admin){ ?>
+                                <h6>Com desconto da aliquota R$ <?=$creditAliquot?></h6>
+                            <?php } ?>
 
                             <?php if($admin){ ?>
                             <h3>Valores Retirado</h3>
@@ -62,7 +72,7 @@
                             <h3>Total</h3> 
                             <h5>Caixa R$ <?=$treasurerClass->moneyDrawerTreasurer?></h5>
                             <?php if($admin){ ?>
-                            <h5>PagSeguro R$ <?=$treasurerClass->moneyBankOnlineTreasurer?></h5>
+                            <h5>PagSeguro R$ ~<?=$treasurerClass->moneyBankOnlineTreasurer?></h5>
                             <h5>Cofre R$ <?=$treasurerClass->moneySavingsTreasurer?></h5>
                             <h5>Banco R$ <?=$treasurerClass->moneyBankTreasurer?></h5>
                             <?php } ?>
@@ -77,7 +87,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
                                             <div class="form-group">
-                                                <select name="optionTransferFrom" id="optionTransferFrom" class="form-control">
+                                                <select name="optionTransferFrom" id="optionTransferFrom" class="form-control" required>
                                                     <option value="">-- Transferir de --</option>
                                                     <option value="1" selected>Caixa</option>
                                                     <option value="2">Cofre</option>
@@ -95,7 +105,7 @@
 
                                         <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
                                             <div class="form-group">
-                                                <select name="optionTransferTo" id="optionTransferTo" class="form-control col-sm-2 col-md-2 col-xs-2 col-lg-2">
+                                                <select name="optionTransferTo" id="optionTransferTo" class="form-control col-sm-2 col-md-2 col-xs-2 col-lg-2" required>
                                                     <option value="">-- Transferir para --</option>
                                                     <option value="1">Caixa</option>
                                                     <option value="2">Cofre</option>
@@ -107,17 +117,25 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                        <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
                                             <div class="form-group">
-                                                <input type="text" name="valueTranfer" id="valueTranfer" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
-                                            <div class="form-group">
-                                                <input type="submit" id="btnSave" value="Transferir" class="btn btn-primary">
+                                                <input type="text" name="valueTranfer" placeholder="valor" id="valueTranfer" class="form-control" required>
                                             </div>
                                         </div>
 
+                                        <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5 col-lg-push-1 col-md-push-1 col-sm-push-1">
+                                            <div class="form-group">
+                                                <input type="password" name="passwordAdmin" placeholder="senha" id="passwordAdmin" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-11 col-lg-11 col-md-11">
+                                            <div class="form-group pull-right">
+                                                <input type="submit" id="btnSaveTranfer" value="Transferir" class="btn btn-primary" disabled>
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
                             </fieldset>
@@ -132,3 +150,15 @@
         </div>
     </div>
 </div>
+
+<script language="javascript" src="../js/jquery.min.js"></script>
+<script>
+     
+    $('#passwordAdmin').on('keyup', function(){
+        if(this.value == '4518'){
+            $('#btnSaveTranfer').attr('disabled', false);
+        }else{
+            $('#btnSaveTranfer').attr('disabled', true);
+        }
+    });
+</script>

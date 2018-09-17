@@ -224,7 +224,8 @@ class ReportDAO{
                     SUM(f.valueProduct) AS column1Report, 
                     f.datePayFinancial AS column2Report,
                     f.methodPayment AS column3Report,
-                    f.typeTreasurerFinancial AS column4Report
+                    f.typeTreasurerFinancial AS column4Report,
+                    SUM(f.valueAliquot) AS column5Report
                 FROM financial f 
                 GROUP BY f.methodPayment, f.datePayFinancial, f.typeTreasurerFinancial
                 HAVING f.datePayFinancial = CURDATE()

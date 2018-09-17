@@ -388,19 +388,22 @@
     $(document).ready(function(){
         if('<?=$textLink?>' == 'Abrir Caixa'){
 
-            if( confirm('Iniciar o caixa do dia ?') ){
-                $.get( "../ajax/managerCashDesk.php").done(function( data ) {                    
-                    data = JSON.parse(data);
+            // if( confirm('Iniciar o caixa do dia ?') ){
+            //     $.get( "../ajax/managerCashDesk.php").done(function( data ) {                    
+            //         data = JSON.parse(data);
 
-                if(data.isOpen){
-                    $('#valueStartingMoney').text('R$ '+data.startingMoney)
-                    $('#confirmStartingMoney').modal('show');
-                }
+            //     if(data.isOpen){
+            //         $('#valueStartingMoney').text('R$ '+data.startingMoney)
+            //         $('#confirmStartingMoney').modal('show');
+            //     }
                 
-                });            
-            }else{
-                $(location).attr('href','/bichoensaboado/view')
-            }
+            //     });            
+            //     $(location).attr('href','/bichoensaboado/view/dashboard.php');
+            // }else{
+            //     $(location).attr('href','/bichoensaboado/view');
+            // }
+            alert('Ops! Caixa ainda Fechado. \nVocê será redirecionado para confirmar abertura de caixa');
+            $(location).attr('href','/bichoensaboado/view/dashboard.php');
         }
    });
     
