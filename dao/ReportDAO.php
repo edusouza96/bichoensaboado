@@ -242,7 +242,35 @@ class ReportDAO{
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
+    
+    public function reportDebtors(){
+        try{
+            $sql = "
+                SELECT 
+                    c.nameAnimal AS column1Report,
+                    c.owner AS column2Report,
+                    c.phone1 AS column3Report,
+                    d.totalPrice AS column4Report,
+                    d.idDiary AS column5Report,
+                    d.dateHour AS column6Report
+                FROM diary d 
+                LEFT JOIN sales s ON (d.idDiary = s.diary_idDiary)
+                LEFT JOIN client c ON (d.client_idClient = c.idClient)
+                WHERE d.STATUS = 2 AND s.idSales IS NULL
+            ";
 
+            $result = Conexao::getInstance()->query($sql);
+            $list = $result->fetchAll(PDO::FETCH_ASSOC);
+            $f_list = array();
+            foreach ($list as $row)
+                $f_list[] = $this->showObject($row);
+
+            return $f_list;
+            
+        }catch(Exception $e){
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
     
     private function showObject($row) {
         

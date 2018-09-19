@@ -1,8 +1,12 @@
 <?php
 $path = $_SERVER['DOCUMENT_ROOT'];
+include_once $path."/bichoensaboado/view/inc/util.php";
 include_once $path . "/bichoensaboado/dao/CategoryExpenseFinancialDAO.php";
+include_once $path . "/bichoensaboado/dao/ReportDAO.php";
 $categoryExpenseDao = new CategoryExpenseFinancialDAO();
 $categoryExpenseList = $categoryExpenseDao->searchAll();
+$reportDao = new ReportDAO();
+$debtorsList = $reportDao->reportDebtors();
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +28,33 @@ $categoryExpenseList = $categoryExpenseDao->searchAll();
         <div class="row main">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 main-left">
                 <div class="main-left-debtors">
+                    <div class="main-left-debtors-header">
+                        <h3>
+                            <strong>BlackList</strong>
+                        </h3>
+                    </div>
 
+                    <div class="main-left-debtors-content">
+                        <?php
+                            if(empty($debtorsList)){
+                                echo '<h3><i class="fa fa-check-circle color-danger" aria-hidden="true"></i> Nenhum Cliente Inadimplente</h3>';
+                            }
+                        ?>
+                        <table class="table">
+                            <tbody>
+                                <?php foreach ($debtorsList as $debtor) { ?>
+                                    <tr>
+                                        <td><?=$debtor->column2Report.'/'.$debtor->column1Report ?></td>
+                                        <td><?=$debtor->column3Report ?></td>
+                                        <td>R$ <?=$debtor->column4Report ?></td>
+                                        <td><?=dateUs2Br($debtor->column6Report)?></td>
+                                        <td><a href="sales/CashDesk.php?diary=<?=$debtor->column5Report?>" class="btn btn-warning btn-xs"><i class="fa fa-check" aria-hidden="true"></i> Pagar</a></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
 
@@ -128,7 +158,23 @@ $categoryExpenseList = $categoryExpenseDao->searchAll();
         width: 100%;
     }
     .main-left{
-        background-color: red;
+        background-color: #000;
+    }
+    .main-left-debtors-header > h3 strong{
+        color: #ff0000;
+        margin: 15px;
+    }
+    .main-left-debtors-content{
+        margin-left: 10px;
+    }
+    .main-left-debtors-content h3{
+        color: #fff;
+    }
+    .main-left-debtors-content h3 i{
+        color: #5cb85c;
+    }
+    .main-left-debtors-content > table{
+        background-color: #fff;
     }
     .main-right{
         background-color: #f1efef;
