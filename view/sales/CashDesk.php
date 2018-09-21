@@ -76,7 +76,7 @@
                     <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
                         <div id="listRegisterBuy" style="background: #fbf4b4;min-height: 200px;">
                             
-                            <div class="form-group" style="background: #fbf4b4;height: 50px;display:-webkit-box;font-size: 18px;font-weight: bold;"> 
+                            <div class="form-group" style="background: #fbf4b4;height: 50px;display:block;font-size: 18px;font-weight: bold;"> 
                                 <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">Qtde</p>
                                 <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">Item</p>
                                 <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">Valor unitario</p>
@@ -96,7 +96,7 @@
                                     $subValue = 0;
                                     foreach($diaryList as $diaryClass){   
                             ?>
-                                <div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">
+                                <div class="form-group" style="margin-bottom: 0px;display:block;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
                                     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$diaryClass->servic->nameServic?></p>
                                     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
@@ -146,7 +146,7 @@
                                     $vetClass = $vetDao->SearchId($vetId);  
                                     $subValue = 0;
                             ?>
-                                <div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">
+                                <div class="form-group" style="margin-bottom: 0px;display:block;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
                                     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$vetClass->servic->nameServic?></p>
                                     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$vetClass->totalPrice?></p>
@@ -337,7 +337,7 @@
             if($("#numberItems").val() <2){
                 $("#numberItems").val(1);
             }
-            var div = '<div class="form-group" style="margin-bottom: 0px;display:-webkit-box;">'; 
+            var div = '<div class="form-group" style="margin-bottom: 0px;display:block;">'; 
             div +=    '     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">'+ $("#numberItems").val() +'</p>';
             div +=    '     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">'+ productName[1] +'</p>';
             div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueItems").val() +'</p>';
