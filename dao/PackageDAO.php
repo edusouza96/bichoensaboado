@@ -52,6 +52,7 @@ class PackageDAO {
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
+              print_r($e);
               print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
           }
       }

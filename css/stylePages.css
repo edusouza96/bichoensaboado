@@ -1,39 +1,65 @@
-h2{
+h2 {
     text-align: center;
 }
-.jumbotron{
-    margin-top: -4%;
 
+.jumbotron {
+    margin-top: -4%;
 }
-.cursor{
-    cursor:pointer;
+
+.cursor {
+    cursor: pointer;
 }
+
 .ui-autocomplete {
-  z-index:2147483647;
+    z-index: 2147483647;
 }
-#showFilters{
+
+#showFilters {
     font-size: 20px;
 }
-#showFilters p{
+
+#showFilters p {
     float: right;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
 #filters {
     margin-left: 0;
 }
-#filters .btn{
+
+#filters .btn {
     margin-top: 24px;
 }
-.btn-size-report{
+
+.btn-size-report {
     height: 100px;
     width: 230px;
     font-size: 14px;
-    font-weight:bolder;
+    font-weight: bolder;
 }
-.row-total{
+
+.row-total {
     font-weight: bold;
     color: #ff0000;
 }
-.font-weight-bold{
+
+.font-weight-bold {
     font-weight: bold;
+}
+
+.diary-animals-input {
+    margin: 5px 0;
+}
+
+.diary-breed {
+    margin: 15px 0;
+}
+
+.diary-service {
+    margin: 15px 0;
+}
+
+#tableDiary>tbody>tr>td {
+    text-align: center;
+    vertical-align: middle;
 }

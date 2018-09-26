@@ -17,7 +17,7 @@ function ajax(url) {
         }
     }
 }
-
+// NAO USO MAIS
 function processReqChange() {
     if (req.readyState == 4) {
         if (req.status == 200) {
@@ -414,7 +414,7 @@ function ajaxAnimalSameOwnerListServic(url) {
         }
     }
 }
-
+// NAO USO MAIS
 function processReqAnimalSameOwnerListServic() {
     if (req.readyState == 4) {
         if (req.status == 200) {
@@ -425,7 +425,7 @@ function processReqAnimalSameOwnerListServic() {
                 var inpServic = document.getElementById('servicAdd');
 
                 if (!inpServic.disabled) {
-                    for (i = 0; i < 5; i++) {
+                    for (i = 0; i < inpServic.length; i++) {
                         inpServic.removeChild(inpServic[0]);
                     }
                 }
@@ -440,7 +440,7 @@ function processReqAnimalSameOwnerListServic() {
             }
 
         } else {
-            alert("Houve um problema ao obter os dados:n" + req.statusText);
+            alert("Houve um problema ao obter os dados:" + req.statusText);
         }
     }
 }

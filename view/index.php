@@ -25,6 +25,7 @@
     include_once($path."/bichoensaboado/view/inc/util.php");
     $servicDao = new ServicDAO();
     $servicList = $servicDao->SearchAll();
+    $servicVetList = $servicDao->SearchVet();
     $diaryDao = new DiaryDAO();
     $clientDao = new ClientDAO();
     $clientList = $clientDao->SearchAll(); 
@@ -75,8 +76,10 @@
                     <th>Endereço</th>
                     <th>Bairro</th>
                     <th>Telefone</th>
-                    <th>Serviço</th>
-                    <th>Valor</th>
+                    <th>Serviço Pet</th>
+                    <th>Valor Pet</th>
+                    <th>Serviço Vet</th>
+                    <th>Valor Vet</th>
                     <th>Taxa de Entrega</th>
                     <th>Total</th>
                     <th></th>
@@ -121,7 +124,12 @@
                             echo "</td>";
 
                             echo "<td id='price".$i."'>";
-                            // echo "<input type='text' id='price".$i."' name='price' class='form-control'>";
+                            echo "</td>";
+
+                            echo "<td id='serviceVet".$i."'>";
+                            echo "</td>";
+
+                            echo "<td id='priceVet".$i."'>";
                             echo "</td>";
 
                             echo "<td id='deliveryPrice".$i."'>";
@@ -156,6 +164,7 @@
                                 }else{
                                     $service = $diary->servic->nameServic;
                                 }
+                                $serviceVet = $diary->servicVet->nameServic;
                                 $bgColor = '';
                                 if($diary->status == 2){
                                     $bgColor = "style='background: rgba(255, 0, 0, 0.6);'";
@@ -177,17 +186,16 @@
                                 echo "<td>";
                                 echo "<input type='text' id='nameAnimal_".$diary->idDiary."' name='nameAnimal' class='form-control nameAnimal' value='".$diary->client->nameAnimal."' readonly>";
                                 foreach ($companionList as $companion) {
-                                    echo "<input type='text' id='nameAnimal_".$companion->idDiary."' name='nameAnimal' class='form-control nameAnimal' value='".$companion->client->nameAnimal."' readonly>";
+                                    echo "<input type='text' id='nameAnimal_".$companion->idDiary."' name='nameAnimal' class='diary-animals-input form-control nameAnimal' value='".$companion->client->nameAnimal."' readonly>";
                                 }
                                 echo "<div id='addCompanion".$diary->idDiary."'></div>";
                                 echo "</td>";
 
                                 echo "<td>";
-                                echo $diary->client->breed->nameBreed;
+                                echo '<div class="diary-breed">'.$diary->client->breed->nameBreed.'</div>';
                                 foreach ($companionList as $companion) {
-                                    echo '</br></br>'.$companion->client->breed->nameBreed;
+                                    echo '<div class="diary-breed">'.$companion->client->breed->nameBreed.'</div>';
                                 }
-                                echo "</td>";
                                 echo "</td>";
 
                                 // echo "<td class='cursor' data-toggle='modal' data-target='#modalAdd' >";
@@ -225,6 +233,7 @@
                                 echo "<td>";
                                 echo "<div id='servicWithFieldEdit".$diary->idDiary."' style='display:none'>";
                                 echo "<select id='serviceSelect".$diary->idDiary."' name='service' class='form-control'>";
+                                echo "<option value='0'>-- Selecione --</option>";
                                 foreach($servicList as $servic){
                                     if($servic->breed->idBreed == $diary->client->breed->idBreed){
                                         if($servic->idServic == $diary->servic->idServic){
@@ -238,6 +247,7 @@
                                 // 
                                 foreach ($companionList as $companion) {
                                     echo "<select id='serviceSelect".$companion->idDiary."' name='service' class='form-control'>";
+                                    echo "<option value='0'>-- Selecione --</option>";
                                     foreach($servicList as $servic){
                                         if($servic->breed->idBreed == $companion->client->breed->idBreed){
                                             if($servic->idServic == $companion->servic->idServic){
@@ -266,7 +276,50 @@
                                     echo '</br></br>'.$companion->price;
                                 }
                                 echo "</td>";
+                                // VET
+                                echo "<td>";
+                                echo "<div id='servicVetWithFieldEdit".$diary->idDiary."' style='display:none'>";
+                                echo "<select id='serviceVetSelect".$diary->idDiary."' name='serviceVet' class='form-control'>";
+                                echo "<option value='0'>-- Selecione --</option>";
+                                foreach($servicVetList as $servicVet){
+                                    if($servicVet->idServic == $diary->servicVet->idServic){
+                                        echo "<option value=".$servicVet->idServic." selected>".$servicVet->nameServic."</option>";
+                                    }else{
+                                        echo "<option value=".$servicVet->idServic.">".$servicVet->nameServic."</option>";
+                                    }
+                                }
+                                echo "</select>";
+                                // 
+                                foreach ($companionList as $companion) {
+                                    echo "<select id='serviceVetSelect".$companion->idDiary."' name='serviceVet' class='form-control'>";
+                                    echo "<option value='0'>-- Selecione --</option>";
+                                    foreach($servicVetList as $servicVet){
+                                        if($servicVet->idServic == $companion->servicVet->idServic){
+                                            echo "<option value=".$servicVet->idServic." selected>".$servicVet->nameServic."</option>";
+                                        }else{
+                                            echo "<option value=".$servicVet->idServic.">".$servicVet->nameServic."</option>";
+                                        }
+                                    }
+                                    echo "</select>";
+                                }
+                                // 
+                                echo "</div>";
 
+                                echo "<div id='servicVetWithoutFieldEdit".$diary->idDiary."'>";
+                                echo $serviceVet;
+                                foreach ($companionList as $companion) {
+                                    echo '</br></br>'.$companion->servicVet->nameServic;
+                                }
+                                echo "</div>";
+                                echo "</td>";
+
+                                echo "<td>";
+                                echo $diary->priceVet;
+                                foreach ($companionList as $companion) {
+                                    echo '</br></br>'.$companion->priceVet;
+                                }
+                                echo "</td>";
+                                // END VET
                                 echo "<td id='tdDeliveryPrice_".$diary->idDiary."'>";
                                 if($diary->deliveryPrice > 0)
                                     echo $diary->deliveryPrice;
@@ -387,10 +440,15 @@
                                         
                                     </div><!-- end div name animal-->
 
-                                    <div class="form-group">  <!--div service-->
-                                        <label for="servic-add">Serviço</label>
+                                    <div class="form-group">  <!--div service Pet-->
+                                        <label for="servic-add">Serviço Pet</label>
                                         <select id="servicAdd" name="servic" class="form-control" disabled></select>
-                                    </div><!-- end div service-->
+                                    </div><!-- end div service Pet-->
+
+                                    <div class="form-group">  <!--div service Vet-->
+                                        <label for="servic-vet-add">Serviço Vet</label>
+                                        <select id="servicVetAdd" name="servicVet" class="form-control" disabled></select>
+                                    </div><!-- end div service Vet-->
                                 </div> 
                             </div><!-- end div line -->
                         </div>

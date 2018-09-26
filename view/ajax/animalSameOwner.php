@@ -1,54 +1,73 @@
 <?php
-  $id = $_GET['id'];
-  $field = $_GET['field'];
-  $path = $_SERVER['DOCUMENT_ROOT']; 
+$id = $_GET['id'];
+$field = $_GET['field'];
+$path = $_SERVER['DOCUMENT_ROOT'];
 
-if($field == 'name'){
-  include_once($path."/bichoensaboado/dao/ClientDAO.php");
-  $clientDao = new ClientDAO();
-  $clientList = $clientDao->SearchAnimalsSameOwnerByIdOwner($id);
+if ($field == 'name') {
+    include_once $path . "/bichoensaboado/dao/ClientDAO.php";
+    $clientDao = new ClientDAO();
+    $clientList = $clientDao->SearchAnimalsSameOwnerByIdOwner($id);
 
-  foreach($clientList as $client){
-    $list[] = $client->idClient.'#'.$client->breed->idBreed.'|'.utf8_encode($client->nameAnimal);
-  }
-}else if($field == 'servic'){
-  include_once($path."/bichoensaboado/dao/ServicDAO.php");
-  $servicDao = new ServicDAO();
-  $servicList = $servicDao->SearchBreed($id);
+    foreach ($clientList as $client) {
+        $list['animals'][$client->idClient . '#' . $client->breed->idBreed] = utf8_encode($client->nameAnimal);
+    }
+    
+    echo json_encode($list);
 
-  foreach($servicList as $servic){
-    $list[] = $servic->idServic.'|'.utf8_encode($servic->nameServic);
-  }
-}else if($field == 'save'){
+} else if ($field == 'servic') {
+    include_once $path . "/bichoensaboado/dao/ServicDAO.php";
+    $servicDao = new ServicDAO();
+    $servicPetList = $servicDao->SearchBreed($id);
+    $servicVetList = $servicDao->SearchVet();
 
-  $idServic = $_GET['idServic'];
-  $idClient = $_GET['idClient'];
-  $idBreed = $_GET['idBreed'];
-  include_once($path."/bichoensaboado/dao/DiaryDAO.php");
-  include_once($path."/bichoensaboado/dao/ServicDAO.php");
+    foreach ($servicPetList as $servic) {
+        $list['servicesPet'][$servic->idServic] = utf8_encode($servic->nameServic);
+    }
 
-  $diaryDao = new DiaryDAO();
-  $diaryDao->UpdateCompanion($id,'true');
+    foreach ($servicVetList as $servic) {
+        $list['servicesVet'][$servic->idServic] = ($servic->nameServic);
+    }
+    
+    echo json_encode($list);
 
-  $diaryDao = new DiaryDAO();
-  $servicDao = new ServicDAO();
-  $servicClass = $servicDao->SearchId($idServic);
+    
+} else if ($field == 'save') {
 
-  $diaryClass = $diaryDao->SearchId($id);
-  $diaryClass->servic = $idServic;
-  $diaryClass->client = $idClient;
-  $diaryClass->deliveryPrice = 0;
-  $diaryClass->price = $servicClass->valuation;
-  $diaryClass->totalPrice = $servicClass->valuation;
-  $diaryClass->package = 0;
-  $idDiaryLast = $diaryDao->Insert($diaryClass);
+    $idBreed = $_GET['idBreed'];
+    $idClient = $_GET['idClient'];
+    $idServic = $_GET['idServic'];
+    $idServicVet = $_GET['idServicVet'];
 
-  $diaryDao = new DiaryDAO();
-  $diaryDao->UpdateCompanion($idDiaryLast,$id);
-  
-  $list[] = 'ok';
+    include_once $path . "/bichoensaboado/dao/DiaryDAO.php";
+    include_once $path . "/bichoensaboado/dao/ServicDAO.php";
+
+    $diaryDao = new DiaryDAO();
+    $diaryDao->UpdateCompanion($id, 'true');
+
+    $diaryDao = new DiaryDAO();
+    $servicDao = new ServicDAO();
+    if(!empty($idServic))
+        $servicClass = $servicDao->SearchId($idServic);
+        
+    if(!empty($idServicVet))
+        $servicVetClass = $servicDao->SearchId($idServicVet);
+        
+
+    $diaryClass = $diaryDao->SearchId($id);
+    $diaryClass->servic = empty($idServic) ? null : $idServic;
+    $diaryClass->servicVet = empty($idServicVet) ? null : $idServicVet;
+    $diaryClass->client = $idClient;
+    $diaryClass->deliveryPrice = 0;
+    $diaryClass->price = empty($idServic) ? 0 : $servicClass->valuation;
+    $diaryClass->priceVet = empty($idServicVet) ? 0 : $servicVetClass->valuation;
+    $diaryClass->totalPrice = $diaryClass->price + $diaryClass->priceVet;
+    $diaryClass->package = 0;
+    $idDiaryLast = $diaryDao->Insert($diaryClass);
+
+    $diaryDao = new DiaryDAO();
+    $diaryDao->UpdateCompanion($idDiaryLast, $id);
+
+    echo true;
+
 }
-      
-echo implode('||', $list);
-?>
 

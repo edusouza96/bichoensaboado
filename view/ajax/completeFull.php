@@ -13,22 +13,24 @@ $client = $clientDao->SearchId($idClient);
 $servicDao = new ServicDAO();
 $servicPetList = $servicDao->SearchBreed($client->breed->idBreed);
 $servicVetList = $servicDao->SearchVet();
-$servicList = array_merge($servicPetList, $servicVetList);
 
 $addressDao = new AddressDAO();
 $address = $addressDao->SearchId($client->address->idAddress);
 
 $list = array('idField' => $idField,
-    'breed' => $client->breed->nameBreed,
-    'addressComplement' => $client->addressComplement,
-    'addressNumber' => $client->addressNumber,
-    'street' => $client->address->street,
-    'district' => $client->address->district,
+    'breed' => utf8_encode($client->breed->nameBreed),
+    'addressComplement' => is_null($client->addressComplement) ? "" : utf8_encode($client->addressComplement),
+    'addressNumber' => utf8_encode($client->addressNumber),
+    'street' => utf8_encode($client->address->street),
+    'district' => utf8_encode($client->address->district),
     'phone1' => $client->phone1,
     'phone2' => $client->phone2,
     'deliveryPrice' => $address->valuation,
 );
-foreach ($servicList as $servic) {
-    $list[] = $servic->idServic . '|' . $servic->nameServic;
+foreach ($servicPetList as $servic) {
+    $list['servicPet'][$servic->idServic] = ($servic->nameServic);
 }
-echo implode('||', $list);
+foreach ($servicVetList as $servic) {
+    $list['servicVet'][$servic->idServic] = ($servic->nameServic);
+}
+echo json_encode($list);
