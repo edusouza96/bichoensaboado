@@ -138,11 +138,12 @@ class ReportDAO{
                     ((SUM(valueInCredit)+SUM(valueInCash)) - SUM(valueOut)) as column4Report,
                     CONCAT(MAX(SUBSTRING(day, 6, 2)),'/',MAX(SUBSTRING(day, 1, 4))) as column5Report
                 FROM ( 
-                    (SELECT datePayFinancial as day, (valueAliquot) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
-                    UNION 
-                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueAliquot) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL) 
+                    (SELECT datePayFinancial as day, SUM(valueProduct) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1 GROUP BY day)
                     UNION
-                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, (valueAliquot) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, SUM(valueAliquot) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1 GROUP BY day)
+                    UNION 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, SUM(valueProduct) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL GROUP BY day) 
+                    
                 ) AS tbl 
                 WHERE 1 ".$this->sqlWhere."
                 GROUP BY SUBSTRING(day, 1, 7);
@@ -164,7 +165,7 @@ class ReportDAO{
     public function reportFinancialByExpenses(){
         try {
             $sql = "
-                SELECT f.description AS column1Report, f.valueProduct AS column2Report, cef.descCategoryExpenseFinancial AS column3Report, f.datePayFinancial AS column4Report, cef.idCategoryExpenseFinancial AS column5Report
+                SELECT ct.nameCenterCost AS column1Report, f.valueProduct AS column2Report, cef.descCategoryExpenseFinancial AS column3Report, f.datePayFinancial AS column4Report, cef.idCategoryExpenseFinancial AS column5Report
                 FROM financial f
                 INNER JOIN center_cost ct ON (ct.idCenterCost = f.center_cost_idCenterCost)
                 INNER JOIN category_expense_financial cef ON (cef.idCategoryExpenseFinancial = ct.category_expense_financial_idCategoryExpenseFinancial)
@@ -172,7 +173,7 @@ class ReportDAO{
                 ORDER BY f.datePayFinancial;
             ";
             $result = Conexao::getInstance()->query($sql);
-            $list = $result->fetchAll(PDO::FETCH_ASSOC);
+            $list = $result->fetchAll(PDO::FETCH_ASSOC); 
             $f_list = array();
             foreach ($list as $row)
                 $f_list[] = $this->showObject($row);
@@ -190,9 +191,9 @@ class ReportDAO{
             $sql = "
                 SELECT 
                     f.description AS column1Report, 
-                    f.valueProduct AS column2Report, 
+                    IF(f.methodPayment > 1, f.valueAliquot, f.valueProduct) AS column2Report, 
                     f.datePayFinancial AS column3Report, 
-                    IFNULL(p.nameProduct, CONCAT(sp.nameServic, ' - ', b.nameBreed))  AS column4Report,
+                    IFNULL(p.nameProduct, CONCAT(sp.nameServic, ' - ', IFNULL(b.nameBreed, 'Vet')))  AS column4Report,
                     s.quantityProductSales AS column5Report
                 FROM financial f
                 INNER JOIN sales s ON (s.idSales = f.sales_idSales)

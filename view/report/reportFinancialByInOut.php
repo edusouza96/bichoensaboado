@@ -54,7 +54,7 @@
 
                     <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
                         <div class="form-group">
-                            <label for="dateEnd">Atá</label>
+                            <label for="dateEnd">Até</label>
                             <input type="date" id="dateEnd" name="dateEnd" class="form-control" value="<?=$dateEnd?>">
                         </div>
                     </div>
