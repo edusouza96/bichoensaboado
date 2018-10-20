@@ -98,7 +98,7 @@
                             ?>
                                 <div class="form-group" style="margin-bottom: 0px;display:block;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
-                                    <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$diaryClass->servic->nameServic?></p>
+                                    <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$diaryClass->servic->nameServic?>/<?=$diaryClass->servicVet->nameServic?></p>
                                     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
                                     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
                                 </div>
