@@ -232,7 +232,7 @@ class DiaryDAO
     public function SearchDateHour($dateHour)
     {
         try {
-            $sql = "SELECT * FROM diary WHERE dateHour = :dateHour AND companion in ('true','false') ";
+            $sql = "SELECT  * FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') ";
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->bindValue(":dateHour", $dateHour);
             $p_sql->execute();
@@ -285,6 +285,7 @@ class DiaryDAO
         $diary->dateHour        = ($row['dateHour']);
         $diary->status          = ($row['status']);
         $diary->package          = PackageDAO::getInstance()->SearchId($row['package_idPackage']);
+        $diary->pay = isset($row['idSales']);
         return $diary;
     }
 }

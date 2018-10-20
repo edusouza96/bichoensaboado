@@ -16,6 +16,7 @@ class DiaryClass
     private $companion;
     private $checkinHourDiary;
     private $checkoutHourDiary;
+    private $pay;
 
     public function __construct()
     {
@@ -35,6 +36,11 @@ class DiaryClass
         $this->totalPrice = $totalPrice;
         $this->dateHour = $dateHour;
         $this->package = $package;
+    }
+
+    public function isPay()
+    {
+        return $this->pay;
     }
 
     public function __get($property)

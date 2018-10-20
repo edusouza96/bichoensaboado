@@ -337,7 +337,7 @@
 
                                 echo "<td id='status".$diary->idDiary."' >";
                                 if($diary->status == 2){
-                                    echo "Finalizado";
+                                    echo $diary->isPay() ? "Finalizado" : "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Pagar'/>";
                                 }else if($diary->status == -1){
                                     echo "Cancelado";
                                 }else if($diary->status == 1){
