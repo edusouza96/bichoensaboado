@@ -10,7 +10,7 @@
     $productJson = "";
     $productArray = array();
     foreach ($productList as $product){
-        $f_list[] = array('label' => $product->barcodeProduct.'# '.utf8_encode($product->nameProduct));
+        $f_list[] = array('value' => $product->barcodeProduct, 'label' => utf8_encode($product->nameProduct));
         $productArray[] = array('barcodeProduct'=> $product->barcodeProduct, 'valuationProduct' => $product->valuationProduct);
     }
     $productJson = json_encode($productArray);
@@ -51,7 +51,7 @@
                     <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                         <div class="form-group" style="background:#fff;height: 50px;"> 
                             <center>
-                                <input type="text" name="searchProduct" id="searchProduct" onChange='completeFieldValueCashDesk(this.value);' onKeyPress='completeProduct();' class="form-control searchProduct" style="height: 100%;width: 98%;font-size: 34px;">
+                                <input data-id type="text" name="searchProduct" id="searchProduct" onChange='completeFieldValueCashDesk(this.value);' onKeyPress='completeProduct();' class="form-control searchProduct" style="height: 100%;width: 98%;font-size: 34px;">
                             </center>
                         </div>
                     </div>
@@ -258,9 +258,13 @@
 
     function completeProduct(){
         $(".searchProduct").autocomplete({
-            source: <?php
-                        echo json_encode($f_list);
-                    ?>
+            source: <?php echo json_encode($f_list); ?>,
+            select: function( event, ui ) {
+                $( "#searchProduct" ).val( ui.item.label );
+                $( "#searchProduct" ).data( "id", ui.item.value );
+        
+                return false;
+            }
         });
     }    
 
@@ -281,12 +285,13 @@
     }
 
     function completeFieldValueCashDesk(value){
-        var barcode_nameProduct = value.split('#');
+        var nameProduct = $("#searchProduct").val();
+        var barcode = $("#searchProduct").data("id");
         var listProducts = <?php
                                 echo $productJson;
                             ?>;
         for(cont in listProducts){
-            if(listProducts[cont]['barcodeProduct'] == barcode_nameProduct[0]){
+            if(listProducts[cont]['barcodeProduct'] == barcode){
                 $("#valueItems").val(int2decimal(parseFloat(listProducts[cont]['valuationProduct'])));   
                 completeFieldValueTotalCashDesk();
             }
@@ -332,19 +337,20 @@
         $("#totalBuy").val(int2decimal(parseFloat(grossProduct)));
     }
     function sendRegisterBuy(){
-        var productName = $("#searchProduct").val().split("#");
-        if(productName[1] != undefined){
+        var productName = $("#searchProduct").val();
+        var barcode = $("#searchProduct").data("id");
+        if(productName != undefined){
             if($("#numberItems").val() <2){
                 $("#numberItems").val(1);
             }
             var div = '<div class="form-group" style="margin-bottom: 0px;display:block;">'; 
             div +=    '     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">'+ $("#numberItems").val() +'</p>';
-            div +=    '     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">'+ productName[1] +'</p>';
+            div +=    '     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">'+ productName +'</p>';
             div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueItems").val() +'</p>';
             div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueTotalItems").val() +'</p>';
             div +=    '</div>';
             div +=    '<input type="hidden" name="quantityProductSales[]" value="'+ $("#numberItems").val() +'">';
-            div +=    '<input type="hidden" name="productSales[]" value="'+ productName[0] +'">';
+            div +=    '<input type="hidden" name="productSales[]" value="'+ barcode +'">';
             div +=    '<input type="hidden" name="valuationUnitSales[]" value="'+ $("#valueItems").val() +'">';
             var divRegisterBuy = $("#listRegisterBuy").html();
             divRegisterBuy += div;
