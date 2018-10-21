@@ -409,7 +409,11 @@
             //     $(location).attr('href','/bichoensaboado/view');
             // }
             alert('Ops! Caixa ainda Fechado. \nVocê será redirecionado para confirmar abertura de caixa');
-            $(location).attr('href','/bichoensaboado/view/dashboard.php');
+            if('<?=$developer?>' == 0){
+                $(location).attr('href','/bichoensaboado/view/dashboard.php');
+            }else{
+                alert('Developer!!!');
+            }
         }
    });
     

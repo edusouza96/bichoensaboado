@@ -18,8 +18,11 @@
     include_once($path."/bichoensaboado/class/LoginClass.php");
     $dataLogin = unserialize($_SESSION['userOnline']);
     $admin = true;
+    $developer = false;
     if($dataLogin->role == 3){
         $admin = false;
+    }else if($dataLogin->role == 1){
+        $developer = true;
     }
 
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
