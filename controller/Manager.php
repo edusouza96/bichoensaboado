@@ -158,12 +158,12 @@
             $module = 'sales';
         break;
         case 'financialPDV-dashboard':
-            foreach($_POST as $fieldKey=>$fieldValue){
-                if(${'fieldKey'} != 'module'){
-                    $financialClass->${'fieldKey'} = $fieldValue;
-                }
-            }
-
+            $financialClass->valueProduct = $_POST['value'];
+            $financialClass->description = $_POST['justification'];
+            $financialClass->dateDueFinancial = date('Y-m-d');
+            $financialClass->datePayFinancial = date('Y-m-d');
+            $financialClass->typeTreasurerFinancial = 1;
+            $financialClass->centerCost = 16;
             $financialDao->insert($financialClass);
             $valuesOfDay = $treasurerDao->valuesOfDay(2);
             header("location:../view/dashboard.php");

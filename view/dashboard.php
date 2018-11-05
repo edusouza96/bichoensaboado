@@ -75,24 +75,13 @@ $debtorsList = $reportDao->reportDebtors();
                     <div class="main-right-start-cashdesk-form hide">
                         <form id="form-update" action="../controller/Manager.php" method="POST">
                             <input type="hidden" name="module" value="financialPDV-dashboard">
-                            <input type="hidden" name="typeTreasurerFinancial" value="1">
 
                             <div class="">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="categoryExpenseFinancial">Categoria da despesa:</label>
-                                            <select id="categoryExpenseFinancial" name="categoryExpenseFinancial" class="form-control" onChange="selectTitleExpense(this.value);" required>
-                                                <option value="">-- Selecione --</option>
-                                                    <?php
-                                                        // $idCenterCost = $financial->centerCost->idCenterCost;
-                                                        foreach ($categoryExpenseList as $categoryExpense) {
-                                                            $idOption = $categoryExpense->idCategoryExpenseFinancial;
-                                                            $descOption = $categoryExpense->descCategoryExpenseFinancial;
-                                                            echo '<option value="' . $idOption . '" >' . $descOption . '</option>';
-                                                        }
-                                                    ?>
-                                            </select>
+                                            <label for="value">Valor:</label>
+                                            <input type="text" id="value" name="value" class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -100,35 +89,9 @@ $debtorsList = $reportDao->reportDebtors();
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="centerCost">Titulo</label>
-                                            <select id="centerCost" name="centerCost" class="form-control" required>
-                                                <option value="">-- Selecione uma categoria acima --</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label for="dateDueFinancial">Data de Vencimento</label>
-                                            <input type="date" id="dateDueFinancial" name="dateDueFinancial" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label for="datePayFinancial">Data de Pagamento</label>
-                                            <input type="date" id="datePayFinancial" name="datePayFinancial" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <label for="valueProduct">Custo do gasto</label>
-                                            <input type="text" id="valueProduct" name="valueProduct" class="form-control" required>
+                                            <label for="justification">Justificativa</label>
+                                            <textarea name="justification" id="justification" cols="30" rows="5" class="form-control" required></textarea>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +99,7 @@ $debtorsList = $reportDao->reportDebtors();
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                         <div class="form-group pull-right">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+                                            <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#modalCanc'><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -148,6 +111,35 @@ $debtorsList = $reportDao->reportDebtors();
                 </div>
             </div>
         </div>
+        <!-- Modal de senha -->
+        <div class="modal fade" id="modalCanc" role="dialog">
+            <div class="modal-dialog">
+                    
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 50%;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Corrigir caixa inicial</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row"> <!--div line password-->
+                            <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
+                                <div class="form-group"> 
+                                    <label for="password">Senha</label>
+                                    <input type="password" id="password" name="password" class="form-control" value>
+                                    <input type="hidden" id="idCanc" name="idCanc" class="form-control" value>
+                                </div>
+                            </div> <!-- end div password-->
+                        </div><!-- end div line password-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onClick="confirmRectify();">Confirmar</button>                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!--Fim Modal de senha-->
     </body>
 </html>
 <?php
@@ -190,6 +182,21 @@ $debtorsList = $reportDao->reportDebtors();
 </style>
 
 <script>
+    function confirmRectify(){
+        var password = document.getElementById('password').value; 
+        if(password == '4518' || password == 'admin1996'){
+            if($('#justification').val() == "" ){
+                $('#justification').on('focus', alert('Campo Justificativa deve ser preenchido'));
+            }else if($('#value').val() == ""){
+                $('#value').focus(alert('Campo Valor deve ser preenchido'));
+            }else{
+                $('#form-update').submit();
+            }
+        }else{
+            alert('Senha Incorreta!');
+        }
+        
+    }
     $(document).ready(function(){
 
         $.get( "ajax/managerCashDesk.php").done(function( data ) {

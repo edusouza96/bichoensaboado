@@ -6,9 +6,10 @@
     include_once($path."/bichoensaboado/dao/FinancialDAO.php");
     $financialDao = new FinancialDAO();
     $financialDao->addWhere("registerBuy IS NOT NULL ");
-    $financialDao->addWhere("datePayFinancial = CURDATE() ");
     if($search){
         $financialDao->addWhere("registerBuy = ".$search);
+    }else{
+        $financialDao->addWhere("datePayFinancial = CURDATE() ");
     }
     $financialList = $financialDao->searchAllSales();
 ?>
@@ -78,32 +79,33 @@
 
         <!-- Modal de estorno -->
         <div class="modal fade" id="modalCanc" role="dialog">
-                    <div class="modal-dialog">
+            <div class="modal-dialog">
                     
-                    <!-- Modal content-->
-                    <div class="modal-content" style="width: 50%;">
-                        <div class="modal-header">
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 50%;">
+                    <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Estorno Venda</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row"> <!--div line password-->
-                                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
-                                    <div class="form-group"> 
-                                        <label for="password">Senha</label>
-                                        <input type="password" id="password" name="password" class="form-control" value>
-                                        <input type="hidden" id="idCanc" name="idCanc" class="form-control" value>
-                                    </div>
-                                </div> <!-- end div password-->
-                            </div><!-- end div line password-->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal" onClick="purchaseReversal();">Confirmar</button>                        
-                        </div>
                     </div>
-                    
+                    <div class="modal-body">
+                        <div class="row"> <!--div line password-->
+                            <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
+                                <div class="form-group"> 
+                                    <label for="password">Senha</label>
+                                    <input type="password" id="password" name="password" class="form-control" value>
+                                    <input type="hidden" id="idCanc" name="idCanc" class="form-control" value>
+                                </div>
+                            </div> <!-- end div password-->
+                        </div><!-- end div line password-->
                     </div>
-                </div><!--Fim Modal de estorno-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onClick="purchaseReversal();">Confirmar</button>                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!--Fim Modal de estorno-->
        
     </body>
 </html>

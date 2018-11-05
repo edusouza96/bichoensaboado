@@ -337,7 +337,7 @@
 
                                 echo "<td id='status".$diary->idDiary."' >";
                                 if($diary->status == 2){
-                                    echo $diary->isPay() ? "Finalizado" : "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Pagar'/>";
+                                    echo $diary->isPay() ? "Finalizado" : "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Pagar'/><br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
                                 }else if($diary->status == -1){
                                     echo "Cancelado";
                                 }else if($diary->status == 1){
