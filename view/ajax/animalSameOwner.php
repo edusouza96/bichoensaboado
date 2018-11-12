@@ -88,6 +88,11 @@ if ($field == 'name') {
 
         foreach ($dateHourPackage as $key => $dateHourItem) {
             $diaryClass->dateHour = $dateHourItem['date'] . ' ' . $dateHourItem['hour'];
+            if($key > 0){
+                $diaryClass->price = 0;
+                $diaryClass->priceVet = 0;
+                $diaryClass->totalPrice = 0;
+            }
             $idDiaryLast = $diaryDao->Insert($diaryClass);
             $diaryDao = new DiaryDAO();
             $diaryDao->UpdateCompanion($idDiaryLast, $id+$key);
