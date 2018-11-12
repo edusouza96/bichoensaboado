@@ -456,7 +456,8 @@ function listServic(idBreed) {
         for (var i in data.servicesPet) {
             var option = document.createElement("option");
             option.value = i;
-            option.label = data.servicesPet[i];
+            option.label = data.servicesPet[i].name;
+            option.dataset.package = data.servicesPet[i].package;
             inpServic.appendChild(option);
         }
 
@@ -487,6 +488,8 @@ function listServic(idBreed) {
 }
 
 function saveAnimalSameOwner() {
+    defineDateHourPackage();
+    dateHourPackage = ($('#dateHourPackage').val() == "" ? "" : JSON.parse($('#dateHourPackage').val()));
     idDiary = document.getElementById('idDiary-add').value;
     idServic = document.getElementById('servicAdd').value;
     idServicVet = document.getElementById('servicVetAdd').value;
@@ -501,7 +504,8 @@ function saveAnimalSameOwner() {
         idServicVet: idServicVet,
         idClient: idClient,
         idBreed: idBreed,
-        field: "save"
+        field: "save",
+        dateHourPackage: dateHourPackage
     }).done(function(data) {
         location.reload();
     }).fail(function(error) {
@@ -521,7 +525,7 @@ function showFormSelectDaysPackage(package) {
     var dateCurrent = $('#dateCurrent').val();
     var pRow = window.sessionStorage.getItem('pRow');
     var table = document.getElementById('tableDiary');
-    var hourCurrent = table.rows[pRow - 1].cells[0].innerText;
+    var hourCurrent = table.rows[pRow - 1].cells[0].innerText.trim();
 
     var dateSplit = dateCurrent.split('-');
     dateCurrent = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]);
@@ -576,4 +580,47 @@ function defineDateHourPackage() {
 
 function isEmpty(str) {
     return (str == "" || str == null);
+}
+
+function showFormSelectDaysPackageAnimalSameOwner() {
+    var package = $('#servicAdd :selected').data('package');
+    var buildDiv = '';
+    var dateCurrent = $('#dateCurrent').val();
+    var pRow = window.sessionStorage.getItem('pRow');
+    var table = document.getElementById('tableDiary');
+    var hourCurrent = table.rows[pRow - 1].cells[0].innerText.trim();
+
+    var dateSplit = dateCurrent.split('-');
+    dateCurrent = new Date(dateSplit[0], dateSplit[1] - 1, dateSplit[2]);
+
+    for (var i = 0; i < (package * 2); i++) {
+
+        buildDiv += `
+            <div class="row">
+                <div class="col-xs-1 col-sm-1 col-lg-1 col-md-1">
+                    <div class="form-group"> 
+                        <label id="modalRowPackageOrder` + i + `">` + (i + 1) + `</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                    <div class="form-group"> 
+                        <input type="date" name="datePackage[]" id="datePackage` + i + `" value="` + dateCurrent.toISOString().split('T')[0] + `" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-xs-5 col-sm-5 col-lg-5 col-md-5">
+                    <div class="form-group"> 
+                        <input type="time" name="hourPackage[]" id="hourPackage` + i + `" value="` + hourCurrent + `" class="form-control">
+                    </div>
+                </div>
+            </div>
+        `;
+
+        dateCurrent.setDate(dateCurrent.getDate() + (14 / package));
+        dateCurrent = new Date(dateCurrent.getFullYear(), dateCurrent.getMonth(), dateCurrent.getDate());
+    }
+
+    $('#modalRowsSelectDaysAnimalSameOwner').html(buildDiv);
+
 }

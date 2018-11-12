@@ -425,7 +425,7 @@
                     <div class="modal-dialog">
                     
                     <!-- Modal content-->
-                    <div class="modal-content" style="width: 60%;">
+                    <div class="modal-content">
                         <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Adicionar</h4>
@@ -442,8 +442,12 @@
 
                                     <div class="form-group">  <!--div service Pet-->
                                         <label for="servic-add">Serviço Pet</label>
-                                        <select id="servicAdd" name="servic" class="form-control" disabled></select>
+                                        <select id="servicAdd" name="servic" class="form-control" onChange="showFormSelectDaysPackageAnimalSameOwner();" disabled></select>
                                     </div><!-- end div service Pet-->
+
+                                    <div  id="modalRowsSelectDaysAnimalSameOwner">
+                                        <!-- elementos adicionados via function JS  -->
+                                    </div>
 
                                     <div class="form-group">  <!--div service Vet-->
                                         <label for="servic-vet-add">Serviço Vet</label>
