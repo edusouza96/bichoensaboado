@@ -76,6 +76,7 @@
                 <?php
                 }
                 ?>
+                <li><a href="/bichoensaboado/view/login/">Sair</a></li>
             </ul>
         </nav>
         <?php
