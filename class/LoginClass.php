@@ -5,6 +5,7 @@ class LoginClass
     private $nameLogin;
     private $passwordLogin;
     private $role;
+    private $store;
 
     public function __construct()
     {
@@ -55,7 +56,8 @@ class LoginClass
             "idLogin":"' . $this->idLogin .'",
             "nameLogin":"' . $this->nameLogin . '",
             "passwordLogin": "' . $this->passwordLogin . '",
-            "role": "' . $this->role . '"
+            "role": "' . $this->role . '",
+            "store": "' . $this->store . '"
         }';
     }
 }

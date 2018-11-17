@@ -10,6 +10,7 @@ class DiaryDAO
         $path = $_SERVER['DOCUMENT_ROOT'];
         include_once($path."/bichoensaboado/class/Conexao.php");
         include_once($path."/bichoensaboado/class/DiaryClass.php");
+        include_once($path."/bichoensaboado/class/LoginClass.php");
         include_once($path."/bichoensaboado/dao/ClientDAO.php");
         include_once($path."/bichoensaboado/dao/ServicDAO.php");
         include_once($path."/bichoensaboado/dao/PackageDAO.php");
@@ -32,6 +33,9 @@ class DiaryDAO
     public function Insert(DiaryClass $diary)
     {
         try {
+            session_start();
+            $user = unserialize($_SESSION['userOnline']);
+
             $sql = "INSERT INTO diary (    
                   client_idClient,
                   search,
@@ -42,7 +46,8 @@ class DiaryDAO
                   deliveryPrice,
                   totalPrice,
                   dateHour,
-                  package_idPackage
+                  package_idPackage,
+                  store
                   ) VALUES (
                   :client_idClient,
                   :search,
@@ -53,7 +58,8 @@ class DiaryDAO
                   :deliveryPrice,
                   :totalPrice,
                   :dateHour,
-                  :package_idPackage)";
+                  :package_idPackage,
+                  :store)";
    
             $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -67,6 +73,7 @@ class DiaryDAO
             $p_sql->bindValue(":totalPrice", $diary->totalPrice);
             $p_sql->bindValue(":dateHour", $diary->dateHour);
             $p_sql->bindValue(":package_idPackage", $diary->package);
+            $p_sql->bindValue(":store", $user->store);
 
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
@@ -231,10 +238,20 @@ class DiaryDAO
 
     public function SearchDateHour($dateHour)
     {
+        $user = unserialize($_SESSION['userOnline']);
+
         try {
-            $sql = "SELECT  * FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') ";
-            $p_sql = Conexao::getInstance()->prepare($sql);
-            $p_sql->bindValue(":dateHour", $dateHour);
+            if($user->role == 3){
+                $sql = "SELECT * FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') AND store = :store";
+                $p_sql = Conexao::getInstance()->prepare($sql);
+                $p_sql->bindValue(":dateHour", $dateHour);
+                $p_sql->bindValue(":store", $user->store);
+            }else{
+                $sql = "SELECT * FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') ";
+                $p_sql = Conexao::getInstance()->prepare($sql);
+                $p_sql->bindValue(":dateHour", $dateHour);
+            }
+            
             $p_sql->execute();
             $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
@@ -284,7 +301,8 @@ class DiaryDAO
         $diary->totalPrice      = ($row['totalPrice']);
         $diary->dateHour        = ($row['dateHour']);
         $diary->status          = ($row['status']);
-        $diary->package          = PackageDAO::getInstance()->SearchId($row['package_idPackage']);
+        $diary->package         = PackageDAO::getInstance()->SearchId($row['package_idPackage']);
+        $diary->store           = ($row['store']);
         $diary->pay = isset($row['idSales']);
         return $diary;
     }

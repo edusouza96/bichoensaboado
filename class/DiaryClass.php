@@ -17,6 +17,7 @@ class DiaryClass
     private $checkinHourDiary;
     private $checkoutHourDiary;
     private $pay;
+    private $store = 1;
 
     public function __construct()
     {

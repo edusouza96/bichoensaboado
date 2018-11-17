@@ -45,7 +45,7 @@
     foreach ($nameAnimalsList as $name){
         $f_list[] = array('label' => utf8_encode($name));
     }
-   
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -175,7 +175,14 @@
                                 }else if($diary->status == 0){
                                     $bgColor = "style='background: rgba(222,217,8,0.6);'";
                                 }
-                                echo "<tr ".$bgColor." id='tr".$diary->idDiary."' onClick='positionRow(this);'>";
+
+                                if($diary->store == 2){
+                                    $storeStyle = "diary-store-2";
+                                }else{
+                                    $storeStyle = "diary-store-1";
+                                }
+
+                                echo "<tr ".$bgColor." id='tr".$diary->idDiary."' class='".$storeStyle."' onClick='positionRow(this);'>";
 
                                 $dHour = new DateTime($diary->dateHour);
                                 $dHourShow = $dHour->format('H:i');
