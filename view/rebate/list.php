@@ -26,7 +26,7 @@
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
         ?>
-        <a href="save.php" class='btn btn-success btn-sm'style="margin-top: -5.5%;float: right;">
+        <a href="save.php" class='btn btn-success btn-sm'style=" float: right;">
             <span class='glyphicon glyphicon-plus'></span> Adicionar
         </a>
         <form role="form" method="POST">

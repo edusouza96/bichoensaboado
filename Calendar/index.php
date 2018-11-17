@@ -31,10 +31,6 @@ if(empty($_SESSION["userOnline"])){
 		max-width: 800px;
 		margin: 0 auto;
 	}
-	.jumbotron{
-		margin-top: -4%;
-	}
-
 }
 
 </style>

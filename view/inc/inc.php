@@ -25,6 +25,12 @@
         $developer = true;
     }
 
+    if($dataLogin->store == 1){
+        $labelChangeStore = "Trocar Para Loja 2";
+    }else{
+        $labelChangeStore = "Trocar Para Loja 1";
+    }
+
     include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
     $disabledLink = false;
     $treasurerDao = new TreasurerDAO();
@@ -47,6 +53,7 @@
         <link rel="stylesheet" href="/bichoensaboado/css/menu.css">
     </head>
     <body>
+        <input type="hidden" value="<?=$urlBase?>" id="urlBase">
         <nav id="menu">
             <ul>
                 <li><a href="/bichoensaboado/view/dashboard.php">Dashboard</a></li>
@@ -63,19 +70,30 @@
                     <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
                     <li><a href="/bichoensaboado/view/center-cost/">Centro de Custo</a></li>
                     <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
-                <li><a href="/bichoensaboado/view/sales/salesOfDay.php">Vendas do dia</a></li>
+                    <li><a href="/bichoensaboado/view/sales/salesOfDay.php">Vendas do dia</a></li>
                     <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
                 <?php
                 }
                 ?>
+
                 <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
+
                 <?php
                 if(!$disabledLink && $textLink != "Abrir Caixa"){
                 ?>
-                <li><a class="cursor-link" id="link-treasurer" onclick="openCloseTreasurer(<?=$option?>);"><?=$textLink?></a></li>
+                    <li><a class="cursor-link" id="link-treasurer" onclick="openCloseTreasurer(<?=$option?>);"><?=$textLink?></a></li>
                 <?php
                 }
                 ?>
+
+                <?php
+                if($dataLogin->role != 3){
+                ?>
+                    <li><a href="#" onclick="changeStore(<?=$dataLogin->store?>)"><?=$labelChangeStore?></a></li>
+                <?php
+                }
+                ?>
+
                 <li><a href="/bichoensaboado/view/login/">Sair</a></li>
             </ul>
         </nav>
@@ -134,5 +152,14 @@
         var url = "../ajax/treasurer.php?option="+option; 
     }
     ajaxOpenCloseTreasurer(url);
+}
+
+function changeStore(currentStore){
+    var url = $('#urlBase').val()+"/bichoensaboado/view/ajax/changeStore.php";
+    $.get(url, {
+        currentStore: currentStore
+    }).done(function(data) {
+        location.reload();
+    });
 }
 </script>
