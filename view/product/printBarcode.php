@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 $barcode = $_GET['barcode'];
 $quantityPrint = isset($_GET['quantityPrint']) ? $_GET['quantityPrint'] : 1;
 ?>

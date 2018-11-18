@@ -151,7 +151,7 @@
     </div>
 </div>
 
-<script language="javascript" src="../js/jquery.min.js"></script>
+<script language="javascript" src="/bichoensaboado/js/jquery.min.js"></script>
 <script>
      
     $('#passwordAdmin').on('keyup', function(){
