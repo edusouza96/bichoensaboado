@@ -46,7 +46,7 @@ $quantityPrint = isset($_GET['quantityPrint']) ? $_GET['quantityPrint'] : 1;
 
         <?php for ($i = 0; $i < $quantityPrint; $i++) {?>
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 barcode-content">
-                <img src="../inc/barcode.php?text=<?=$barcode?>&print=true&codetype=codabar&size=40" />
+                <img src="../inc/barcode.php?text=<?=$barcode?>&print=true&size=40" />
             </div>
         <?php }?>
     </body>
