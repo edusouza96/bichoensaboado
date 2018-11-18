@@ -48,11 +48,11 @@
         <table border="1" id="tableDiary" class="table table-condensed table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Produto</th>
+                    <th width="25%">Produto</th>
                     <th>Valor de Compra</th>
                     <th>Valor de Venda</th>
                     <th>Quantidade</th>
-                    <th></th>
+                    <th width="25%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -81,6 +81,10 @@
                         echo "&emsp;";
                         echo "<a onClick='deleteRegister(".$product->idProduct.", &quot;Product&quot;);' class='btn btn-danger btn-sm'>";
                         echo "<span class='glyphicon glyphicon-trash'></span>";
+                        echo "</a>";
+                        echo "&emsp;";
+                        echo "<a href='printBarcode.php?barcode=$product->barcodeProduct' target='_blank' class='btn btn-primary btn-sm'>";
+                        echo "<span class='glyphicon glyphicon-print'></span> Imprimir Código de barra";
                         echo "</a>";
                         echo "</td>";
                       

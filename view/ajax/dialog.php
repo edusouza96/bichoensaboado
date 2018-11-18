@@ -19,10 +19,23 @@
         $valuationNew = $valuationProduct; 
         $valuationExpectedNew = $quantityNew * $valuationNew;
         $valuationUnitNew = ($valuationExpectedOld + $valuationExpectedNew) / ($quantityOld + $quantityNew);
-        echo  "Atualmente existe em estoque ".$quantityOld." unidades, com o valor para venda de R$".number_format($valuationOld,2,",",".")."
+        $message = "Atualmente existe em estoque ".$quantityOld." unidades, com o valor para venda de R$".number_format($valuationOld,2,",",".")."
         <br>Melhor preço adequado para este produto R$".number_format($valuationUnitNew,2,",",".");
+
+        $data['message'] = $message;
+        $data['status'] = 'warning';
+
+        echo json_encode($data);
     }else{
-        echo "0";
+        if($barcodeProduct == "AUTO_GENERATE"){
+            $lastId = $productDao->lastId() + 1;
+            $barcodeProduct = 'BE'.date('Y').str_pad($lastId, 6, "0", STR_PAD_LEFT);
+        }
+
+        $data['barcode'] = $barcodeProduct;
+        $data['status'] = 'success';
+
+        echo json_encode($data);
     }
     
 ?>

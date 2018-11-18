@@ -1,87 +1,105 @@
-function deleteRegister(id,module){
-    var url = "../ajax/deleteRegister.php?id=" + id + "&module=" + module; 
+function deleteRegister(id, module) {
+    var url = "../ajax/deleteRegister.php?id=" + id + "&module=" + module;
     ajaxDeleteRegister(url);
 }
 
-function showFinancial(tableVisible,tableInvisible){
+function showFinancial(tableVisible, tableInvisible) {
     document.getElementById(tableVisible).style.display = '';
     document.getElementById(tableInvisible).style.display = 'none';
 }
 
-function valueProductExpected(option){
+function valueProductExpected(option) {
     $('#optionActionProduct').val(option);
     $('form').submit();
 }
 
-function alertValuationExpected(){
+function alertValuationExpected() {
     var id = $('#idProduct').val();
-    if(id < 1){
+    if (id < 1) {
         var barcodeProduct = $('#barcodeProduct').val();
-        if(barcodeProduct == 0  || barcodeProduct == '' || barcodeProduct == undefined){
-            $('#barcodeProduct').val(md5($('#nameProduct').val()));
+        if (barcodeProduct == 0 || barcodeProduct == '' || barcodeProduct == undefined) {
+            $('#barcodeProduct').val('AUTO_GENERATE');
         }
-        var url = "../ajax/dialog.php?barcodeProduct=" + $('#barcodeProduct').val() + "&valuationProduct=" + $('#valuationProduct').val()+"&quantityProduct=" + $('#quantityProduct').val(); 
-        ajaxAlertValuationExpected(url);
-    }else{
+
+        $.get("../ajax/dialog.php", {
+            barcodeProduct: $('#barcodeProduct').val(),
+            valuationProduct: $('#valuationProduct').val(),
+            quantityProduct: $('#quantityProduct').val(),
+        }).done(function(data) {
+            data = JSON.parse(data);
+
+            if (data.status == "warning") {
+                $("#modal-alert").modal();
+                $("#alertValuationExpected").html(data.message);
+            } else if (data.status == "success") {
+                $('#barcodeProduct').val(data.barcode);
+                $('form').submit();
+            }
+
+        }).fail(function() {
+            console.log('Error: Call the developer');
+        });
+    } else {
         $('form').submit();
     }
 }
 
-function reportShowFilters(){
+function reportShowFilters() {
     $("#filters").removeClass('hidden');
     $("#showFilters").addClass('hidden');
 }
 
-function showChart(){
-    if( $('#reportChart').hasClass('hidden') ){
+function showChart() {
+    if ($('#reportChart').hasClass('hidden')) {
         $("#reportChart").removeClass('hidden');
-    }else{
+    } else {
         $("#reportChart").addClass('hidden');
     }
 }
 
-function exportReportToExcel(nameFileExcel){
+function exportReportToExcel(nameFileExcel) {
     var dateStart = $('#dateStart').val();
     var dateEnd = $('#dateEnd').val();
-    window.open(nameFileExcel+'.php?dateStart='+dateStart+'&dateEnd='+dateEnd);
+    window.open(nameFileExcel + '.php?dateStart=' + dateStart + '&dateEnd=' + dateEnd);
 
 }
-function redirectReport(file){
+
+function redirectReport(file) {
     location.assign(file);
 }
 
-function moreDetails(idDiv){
-    if($(idDiv).hasClass('hidden')){
+function moreDetails(idDiv) {
+    if ($(idDiv).hasClass('hidden')) {
         $(idDiv).removeClass('hidden');
-    }else{
+    } else {
         $(idDiv).addClass('hidden');
     }
-    
+
 }
 
-function showMessage(message){
+function showMessage(message) {
     document.getElementById('alert').style.display = 'block';
     document.getElementById('msg-alert').innerHTML = message;
     // document.getElementById('link-treasurer').style.display = 'none';
 }
 
-function selectTitleExpense(idCategory, idCenterCost = 0){
-    $.get( "../ajax/selectTitleExpense.php", { 
+function selectTitleExpense(idCategory, idCenterCost = 0) {
+    $.get("../ajax/selectTitleExpense.php", {
         idCategory: idCategory
-    }).done(function( data ) {
+    }).done(function(data) {
         data = JSON.parse(data);
-        var html = '';        
+        var html = '';
         var optionSelected = '';
-        for(var obj in data){
+        for (var obj in data) {
             optionSelected = (data[obj].idCenterCost == idCenterCost ? 'selected' : '');
-            html = html.concat('<option value="'+ data[obj].idCenterCost +'" '+optionSelected+'>'+ data[obj].nameCenterCost +'</option>');
+            html = html.concat('<option value="' + data[obj].idCenterCost + '" ' + optionSelected + '>' + data[obj].nameCenterCost + '</option>');
         }
         $('#centerCost').html(html);
-    
+
     });
 }
 
-function addRowFinancial(){
+function addRowFinancial() {
     var divNew = `
         <div class="row"> 
             <div class="col-xs-12 col-sm-12 col-lg-3 col-md-3"> 
@@ -105,5 +123,5 @@ function addRowFinancial(){
         </div>
     `;
     var divRow = $('#rowMulti').html();
-    $('#rowMulti').html(divRow+divNew);
+    $('#rowMulti').html(divRow + divNew);
 }

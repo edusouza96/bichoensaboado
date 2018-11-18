@@ -127,6 +127,18 @@ class ProductDAO
         }
     }
 
+    public function lastId()
+    {
+        try {
+            $sql = "SELECT idProduct FROM product ORDER BY idProduct DESC LIMIT 1";
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->execute();
+            return implode($p_sql->fetch(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
+
     public function searchBarcode($barcodeProduct)
     {
         try {
