@@ -4,12 +4,14 @@
     $path = $_SERVER['DOCUMENT_ROOT']; 
     $search = $_POST['search'];
     include_once($path."/bichoensaboado/dao/FinancialDAO.php");
+    include_once $path."/bichoensaboado/view/inc/util.php";
     $financialDao = new FinancialDAO();
     $financialDao->addWhere("registerBuy IS NOT NULL ");
     if($search){
         $financialDao->addWhere("registerBuy = ".$search);
     }else{
-        $financialDao->addWhere("datePayFinancial = CURDATE() ");
+        $financialDao->addWhere(" datePayFinancial = CURDATE() ");
+        $financialDao->addWhere(" f.store = ".getStore());
     }
     $financialList = $financialDao->searchAllSales();
 ?>

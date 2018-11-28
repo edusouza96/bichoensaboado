@@ -1,4 +1,5 @@
 <?php
+
 class TreasurerDAO{
 
     public static $instance;
@@ -9,6 +10,8 @@ class TreasurerDAO{
         $path = $_SERVER['DOCUMENT_ROOT']; 
         include_once($path."/bichoensaboado/class/Conexao.php");  
         include_once($path."/bichoensaboado/class/TreasurerClass.php");
+        include_once($path."/bichoensaboado/class/LoginClass.php");
+        include_once $path."/bichoensaboado/view/inc/util.php";
     }
  
     public static function getInstance() {
@@ -26,7 +29,8 @@ class TreasurerDAO{
                 moneySavingsTreasurer,   
                 moneyBankOnlineTreasurer,
                 moneyBankTreasurer,
-                dateRegistryTreasurer
+                dateRegistryTreasurer,
+                store
               )VALUES (
                 :startingMoneyDayTreasurer,
                 :closingMoneyDayTreasurer,
@@ -34,7 +38,8 @@ class TreasurerDAO{
                 :moneySavingsTreasurer,   
                 :moneyBankOnlineTreasurer,
                 :moneyBankTreasurer,
-                :dateRegistryTreasurer
+                :dateRegistryTreasurer,
+                :store
               )";
  
             $p_sql = Conexao::getInstance()->prepare($sql);
@@ -45,6 +50,7 @@ class TreasurerDAO{
             $p_sql->bindValue(":moneyBankTreasurer",        $treasurer->moneyBankTreasurer);
             $p_sql->bindValue(":moneyBankOnlineTreasurer",  $treasurer->moneyBankOnlineTreasurer);
             $p_sql->bindValue(":dateRegistryTreasurer",     $treasurer->dateRegistryTreasurer);
+            $p_sql->bindValue(":store",                     getStore());
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
             
@@ -106,7 +112,7 @@ class TreasurerDAO{
 
     public function searchLastId() {
         try {
-            $sql = "SELECT * FROM treasurer ORDER BY idTreasurer DESC LIMIT 1";
+            $sql = "SELECT * FROM treasurer WHERE store = ".getStore()." ORDER BY idTreasurer DESC LIMIT 1";
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->execute();
 
@@ -117,26 +123,29 @@ class TreasurerDAO{
                 return null;
             }
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.#TDSLI";
         }    
     }
 
     public function searchDate($dateRegistryTreasurer) {
         try {
-            $sql = "SELECT * FROM treasurer WHERE SUBSTRING(dateRegistryTreasurer, 1, 10) = :dateRegistryTreasurer";
+            $sql = "SELECT * FROM treasurer WHERE store = :store AND SUBSTRING(dateRegistryTreasurer, 1, 10) = :dateRegistryTreasurer";
             $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->bindValue(":store", getStore());
             $p_sql->bindValue(":dateRegistryTreasurer", $dateRegistryTreasurer);
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.#TDSD";
         }    
     }
 
     public function searchAll(){
         try {
-            $sql = "SELECT * FROM treasurer WHERE 1=1 ".$this->sqlWhere." ".$this->sqlComplement;
-            $result = Conexao::getInstance()->query($sql);
+            $sql = "SELECT * FROM treasurer WHERE store = :store ".$this->sqlWhere." ".$this->sqlComplement;
+            $result = Conexao::getInstance()->prepare($sql);
+            $result->bindValue(":store", getStore());
+            $result->execute();
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
  
@@ -145,7 +154,7 @@ class TreasurerDAO{
  
             return $f_list;
         } catch (Exception $e) {
-            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.#TDSA";
         }
     }
 
@@ -157,19 +166,23 @@ class TreasurerDAO{
                 moneySavingsTreasurer, 
                 moneyBankOnlineTreasurer, 
                 moneyBankTreasurer, 
-                dateRegistryTreasurer
+                dateRegistryTreasurer,
+                store
               )SELECT 
                 moneyDrawerTreasurer, 
                 moneyDrawerTreasurer, 
                 moneySavingsTreasurer, 
                 moneyBankOnlineTreasurer,
                 moneyBankTreasurer, 
-                NOW() 
+                NOW(),
+                :store
               FROM treasurer 
+              WHERE store = :store
               ORDER BY dateRegistryTreasurer 
               DESC limit 1
             ";
             $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->bindValue(":store", getStore());
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
         }catch(Exception $e){
@@ -198,17 +211,17 @@ class TreasurerDAO{
                         (SUM(valueOutDrawer)+SUM(valueOutSavings)+SUM(valueOutBankOnline)+SUM(valueOutBank))
                     ) as valueDay 
                 FROM (
-                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
+                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NOT NULL AND methodPayment = 1)
                         UNION 
-                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 1) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 1) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 2) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 2) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 3) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 4) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 4) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NOT NULL AND methodPayment <> 1)
                 ) AS tbl 
                 WHERE SUBSTRING(day, 1, 10) = '".$dateClose."'
                 GROUP BY day
@@ -251,6 +264,8 @@ class TreasurerDAO{
 
     public function valuesOfDay($days = 1){
         try{
+            $store = getStore();
+            
             // busca os valores do dia 
             $sql = "SELECT 
                     MAX(day) as day, 
@@ -266,24 +281,24 @@ class TreasurerDAO{
                         (SUM(valueOutDrawer)+SUM(valueOutSavings)+SUM(valueOutBankOnline)+SUM(valueOutBank))
                     ) as valueDay 
                 FROM (
-                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1)
+                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".$store." AND registerBuy IS NOT NULL AND methodPayment = 1)
                         UNION 
-                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 1) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE store = ".$store." AND registerBuy IS NULL AND typeTreasurerFinancial = 1) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 2) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".$store." AND registerBuy IS NULL AND typeTreasurerFinancial = 2) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".$store." AND registerBuy IS NULL AND typeTreasurerFinancial = 3) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL AND typeTreasurerFinancial = 4) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".$store." AND registerBuy IS NULL AND typeTreasurerFinancial = 4) 
                         UNION
-                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1)
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE store = ".$store." AND registerBuy IS NOT NULL AND methodPayment <> 1)
                 ) AS tbl 
                 WHERE SUBSTRING(day, 1, 10) > DATE_ADD(DATE(CURRENT_TIMESTAMP), INTERVAL -$days DAY)
             ";
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->execute();
             $resultInfosAux = $p_sql->fetch(PDO::FETCH_ASSOC);
-            
+
             // seta os resultados em variaveis
             $day = $resultInfosAux['day'];
             $valueInCash = $resultInfosAux['valueInCash'];
@@ -303,7 +318,6 @@ class TreasurerDAO{
                 $dateRegistryTreasurer = $treasurerClass->dateRegistryTreasurer;
                 $id = $treasurerClass->idTreasurer;
                 $startingMoneyDayTreasurer = $treasurerClass->startingMoneyDayTreasurer;
-                $this->delete($id);
 
                 $treasurerClass = $this->searchLastId();
                 $treasurerClass->idTreasurer = null;
@@ -314,6 +328,9 @@ class TreasurerDAO{
                 $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
                 $treasurerClass->moneyBankTreasurer -= $valueOutBank;
                 $treasurerClass->dateRegistryTreasurer = $dateRegistryTreasurer;
+
+                $this->delete($id);  
+
                 
             }
             //Se $treasurerClass não for null é pq não deu erro no processo
@@ -336,6 +353,7 @@ class TreasurerDAO{
         $treasurerClass->moneyBankOnlineTreasurer = $row['moneyBankOnlineTreasurer'];
         $treasurerClass->moneyBankTreasurer = $row['moneyBankTreasurer'];
         $treasurerClass->dateRegistryTreasurer = $row['dateRegistryTreasurer'];
+        $treasurerClass->store = $row['store'];
         return $treasurerClass;
     }
 

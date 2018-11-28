@@ -7,10 +7,9 @@ include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
 $treasurerDao = new TreasurerDAO();
 if($option == 1){
     $treasurerDao->openTreasurer();    
-    $response = "Caixa aberto!";
+    echo "Caixa aberto!";
 }else if($option == 2){
     $treasurerDao->closeTreasurer();    
-    $response = "Caixa Fechado!";
+    echo "Caixa Fechado!";
 }
-echo $response;
 ?>

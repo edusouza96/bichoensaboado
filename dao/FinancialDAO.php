@@ -36,7 +36,8 @@ class FinancialDAO
                 methodPayment,
                 numberPlotsFinancial,
                 typeTreasurerFinancial,
-                valueAliquot
+                valueAliquot,
+                store
                 )VALUES (
                 :registerBuy,
                 :sales,
@@ -48,7 +49,8 @@ class FinancialDAO
                 :methodPayment,
                 :numberPlotsFinancial,
                 :typeTreasurerFinancial,
-                :valueAliquot)";
+                :valueAliquot,
+                :store)";
 
             $p_sql = Conexao::getInstance()->prepare($sql);
 
@@ -63,6 +65,7 @@ class FinancialDAO
             $p_sql->bindValue(":numberPlotsFinancial", $financial->numberPlotsFinancial);
             $p_sql->bindValue(":typeTreasurerFinancial", $financial->typeTreasurerFinancial);
             $p_sql->bindValue(":valueAliquot", $financial->valueAliquot);
+            $p_sql->bindValue(":store", $financial->store ? $financial->store : getStore());
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
         } catch (Exception $e) {
@@ -182,6 +185,7 @@ class FinancialDAO
         $financial->numberPlotsFinancial = $row['numberPlotsFinancial'];
         $financial->typeTreasurerFinancial = $row['typeTreasurerFinancial'];
         $financial->valueAliquot = $row['valueAliquot'];
+        $financial->store = $row['store'];
 
         return $financial;
     }
@@ -201,6 +205,8 @@ class FinancialDAO
         $financial->numberPlotsFinancial = $row['numberPlotsFinancial'];
         $financial->typeTreasurerFinancial = $row['typeTreasurerFinancial'];
         $financial->valueAliquot = $row['valueAliquot'];
+        $financial->store = $row['store'];
+        
         return $financial;
     }
 

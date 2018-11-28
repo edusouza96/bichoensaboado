@@ -223,7 +223,7 @@ $debtorsList = $reportDao->reportDebtors();
         $.get( "ajax/treasurer.php", {
             option: 1
         }).done(function(data){
-            if(data == "  Caixa aberto!"){
+            if(data.search("Caixa aberto!") > -1){
                 location.href = "index.php?date=<?=date('Y-m-d')?>";
             }else{
                 alert('Ocorreu um erro!');

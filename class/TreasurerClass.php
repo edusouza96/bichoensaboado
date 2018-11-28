@@ -8,6 +8,7 @@ class TreasurerClass{
     private $moneyBankOnlineTreasurer;
     private $moneyBankTreasurer;
     private $dateRegistryTreasurer;
+    private $store;
 
     function __construct(){
             //

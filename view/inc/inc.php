@@ -10,7 +10,7 @@
     $path = $_SERVER['DOCUMENT_ROOT']; 
     $pathFile = $_SERVER['SCRIPT_NAME'];
 
-    session_start();
+    @session_start();
     if(empty($_SESSION["userOnline"])){
         header("location:$urlBase/bichoensaboado/view/login/index.php?code=401-l");  
     }
@@ -146,11 +146,12 @@
  function openCloseTreasurer(option){
     var pageNow = window.location.pathname;
     var pathPageNow = pageNow.split('/');
-    if(pathPageNow.length == 4 && pathPageNow[3] == 'index.php'){
+    if(pathPageNow.length == 4 && (pathPageNow[3] == 'index.php' || pathPageNow[3] == 'dashboard.php') ){
         var url = "ajax/treasurer.php?option="+option; 
     }else{
         var url = "../ajax/treasurer.php?option="+option; 
     }
+    
     ajaxOpenCloseTreasurer(url);
 }
 

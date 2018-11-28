@@ -160,10 +160,12 @@
         case 'financialPDV-dashboard':
             $financialClass->valueProduct = $_POST['value'];
             $financialClass->description = $_POST['justification'];
-            $financialClass->dateDueFinancial = date('Y-m-d');
-            $financialClass->datePayFinancial = date('Y-m-d');
+            
+            $financialClass->dateDueFinancial =date("Y-m-d", strtotime( '-1 days' ) );
+            $financialClass->datePayFinancial =date("Y-m-d", strtotime( '-1 days' ) );
             $financialClass->typeTreasurerFinancial = 1;
             $financialClass->centerCost = 16;
+            $financialClass->store = getStore();
             $financialDao->insert($financialClass);
             $valuesOfDay = $treasurerDao->valuesOfDay(2);
             header("location:../view/dashboard.php");
@@ -297,6 +299,9 @@
                 }
 
                 $registerBuy = date('YmdHis');
+                @session_start();
+                $dataLogin = unserialize($_SESSION['userOnline']);
+                    
                 for($i=0; $i<count($saleIds); $i++){
                     $financialClass = new FinancialClass();
                     $financialClass->registerBuy = "".$registerBuy;
@@ -307,6 +312,7 @@
                     $financialClass->datePayFinancial = date('Y-m-d');
                     $financialClass->methodPayment = $methodPayment;
                     $financialClass->numberPlotsFinancial = $numberPlotsFinancial;
+                    $financialClass->store = $dataLogin->store;
                     if($methodPayment == 2){
                         $financialClass->valueAliquot = $financialClass->valueProduct - ($financialClass->valueProduct * 2.39)/100;
                     }else if($methodPayment == 3){

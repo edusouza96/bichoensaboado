@@ -13,6 +13,7 @@ class FinancialClass
     private $numberPlotsFinancial;
     private $typeTreasurerFinancial;
     private $valueAliquot;
+    private $store;
 
     public function __construct()
     {
@@ -32,7 +33,7 @@ class FinancialClass
         return $list;
     }
 
-    public function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial, $datePayFinancial, $methodPayment = null, $numberPlotsFinancial = null, $typeTreasurerFinancial = null, $valueAliquot = null)
+    public function FinancialClass($idFinancial, $registerBuy, $sales, $product, $valueProduct, $description, $dateDueFinancial, $datePayFinancial, $methodPayment = null, $numberPlotsFinancial = null, $typeTreasurerFinancial = null, $valueAliquot = null, $store = null)
     {
         $this->idFinancial = $idFinancial;
         $this->registerBuy = $registerBuy;
@@ -46,6 +47,7 @@ class FinancialClass
         $this->numberPlotsFinancial = $numberPlotsFinancial;
         $this->typeTreasurerFinancial = $typeTreasurerFinancial;
         $this->valueAliquot = $valueAliquot;
+        $this->store = $store;
     }
 
     public function __get($property)
