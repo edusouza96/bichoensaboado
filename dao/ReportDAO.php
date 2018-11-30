@@ -228,12 +228,14 @@ class ReportDAO{
                     f.typeTreasurerFinancial AS column4Report,
                     SUM(f.valueAliquot) AS column5Report
                 FROM financial f 
+                WHERE f.store = ".getStore()."
                 GROUP BY f.methodPayment, f.datePayFinancial, f.typeTreasurerFinancial
                 HAVING f.datePayFinancial = CURDATE()
             ";
             $result = Conexao::getInstance()->query($sql);
             $list = $result->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
+
             foreach ($list as $row)
                 $f_list[] = $this->showObject($row);
 
