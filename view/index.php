@@ -343,19 +343,21 @@
                                 echo "</td>";
 
                                 echo "<td id='status".$diary->idDiary."' >";
-                                if($diary->status == 2){
-                                    echo $diary->isPay() ? "Finalizado" : "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Pagar'/><br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
-                                }else if($diary->status == -1){
-                                    echo "Cancelado";
-                                }else if($diary->status == 1){
-                                    echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";
-                                    echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
-                                    echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
-                                }else if($diary->status == 0){
-                                    echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
-                                    echo "<input type='button' onClick='payAnticipate(".$diary->idDiary.");' value='Pagar'/>";
-                                    echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
-                                    echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
+                                if($diary->store == getStore()){
+                                    if($diary->status == 2){
+                                        echo $diary->isPay() ? "Finalizado" : "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Pagar'/><br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+                                    }else if($diary->status == -1){
+                                        echo "Cancelado";
+                                    }else if($diary->status == 1){
+                                        echo "<input type='button' onClick='finish(".$diary->idDiary.",2);' value='Finalizar'/>";
+                                        echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
+                                        echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+                                    }else if($diary->status == 0){
+                                        echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
+                                        echo "<input type='button' onClick='payAnticipate(".$diary->idDiary.");' value='Pagar'/>";
+                                        echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
+                                        echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
+                                    }
                                 }
                                 echo "</td>";
 
