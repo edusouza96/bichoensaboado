@@ -80,8 +80,9 @@ $debtorsList = $reportDao->reportDebtors();
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="value">Valor:</label>
+                                            <label for="value">Valor Correto:</label>
                                             <input type="text" id="value" name="value" class="form-control" required>
+                                            <input type="hidden" id="valueStartingMoney" name="valueStartingMoney" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -203,6 +204,7 @@ $debtorsList = $reportDao->reportDebtors();
             data = JSON.parse(data);
 
             $('#valueStartingMoney').text('R$ '+data.startingMoney);
+            $('input[name=valueStartingMoney]').val(data.startingMoney);
             if(data.isOpen == 0){
                 $('#btnOpenCashdesk').text('Caixa Aberto');
                 $('#btnOpenCashdesk').attr('disabled', true);

@@ -158,16 +158,21 @@
             $module = 'sales';
         break;
         case 'financialPDV-dashboard':
-            $financialClass->valueProduct = $_POST['value'];
-            $financialClass->description = $_POST['justification'];
-            
-            $financialClass->dateDueFinancial =date("Y-m-d", strtotime( '-1 days' ) );
-            $financialClass->datePayFinancial =date("Y-m-d", strtotime( '-1 days' ) );
-            $financialClass->typeTreasurerFinancial = 1;
-            $financialClass->centerCost = 16;
-            $financialClass->store = getStore();
-            $financialDao->insert($financialClass);
-            $valuesOfDay = $treasurerDao->valuesOfDay(2);
+            $valueRemoved = $_POST['valueStartingMoney'] - $_POST['value'];
+
+            if($valueRemoved >= 0){
+                $financialClass->valueProduct = $_POST['valueStartingMoney'] - $_POST['value'];
+                $financialClass->description = $_POST['justification'];
+                
+                $financialClass->dateDueFinancial =date("Y-m-d", strtotime( '-1 days' ) );
+                $financialClass->datePayFinancial =date("Y-m-d", strtotime( '-1 days' ) );
+                $financialClass->typeTreasurerFinancial = 1;
+                $financialClass->centerCost = 16;
+                $financialClass->store = getStore();
+                $financialDao->insert($financialClass);
+                $valuesOfDay = $treasurerDao->valuesOfDay(2);
+            }
+           
             header("location:../view/dashboard.php");
             exit;
         break;
