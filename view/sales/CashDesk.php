@@ -10,7 +10,7 @@
     $productJson = "";
     $productArray = array();
     foreach ($productList as $product){
-        $f_list[] = array('value' => $product->barcodeProduct, 'label' => utf8_encode($product->nameProduct));
+        $f_list[] = array('value' => $product->barcodeProduct, 'label' => ($product->nameProduct));
         $productArray[] = array('barcodeProduct'=> $product->barcodeProduct, 'valuationProduct' => $product->valuationProduct);
     }
     $productJson = json_encode($productArray);
