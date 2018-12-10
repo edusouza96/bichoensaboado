@@ -13,6 +13,27 @@
     $financial = $financialDao->SearchId($idFinancial);
     $categoryExpenseDao = new CategoryExpenseFinancialDAO();
     $categoryExpenseList = $categoryExpenseDao->searchAll();
+    //
+    include_once($path."/bichoensaboado/dao/ReportDAO.php");
+    include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
+    $reportDao = new ReportDAO();
+    $reportDayMovementList = $reportDao->reportDayMovement();
+    $inCash = 0;
+    $expenseDrawer = 0;
+
+    foreach($reportDayMovementList as $report){
+        if($report->column3Report == 1){
+            $inCash = $report->column1Report;
+        }else{
+            if($report->column4Report == 1){
+                $expenseDrawer = $report->column1Report;
+            }
+        }
+    }
+    $treasurerDao = new TreasurerDAO();
+    $treasurerClass = $treasurerDao->searchLastId();
+    $valueCurrente = $treasurerClass->startingMoneyDayTreasurer + $inCash - $expenseDrawer;
+    //
 ?>
 <!DOCTYPE html>
 <html>
@@ -29,8 +50,11 @@
         </div>
         <?php
             include_once($path."/bichoensaboado/view/inc/inc.php");
+            include_once($path."/bichoensaboado/view/inc/util.php");
         ?>
         
+        <input type="hidden" name="valueCurrente" id="valueCurrente" value="<?=$valueCurrente?>" > 
+        <input type="hidden" name="isBasicUser" id="isBasicUser" value="<?=isBasicUser()?>" > 
         <form action="../../controller/Manager.php" method="POST">
             <input type="hidden" name="module" value="financial"> 
             <input type="hidden" name="idFinancial" id="idFinancial" value="<?=$idFinancial?>" > 
@@ -80,21 +104,27 @@
                             <div class="form-group"> 
                                 <label for="typeTreasurerFinancial">Retirar de:</label> 
                                 <select id="typeTreasurerFinancial" name="typeTreasurerFinancial[]" class="form-control" required>
-                                        <option value="">-- Selecione --</option>
-                                        <option value="1" <?=($financial->typeTreasurerFinancial == 1 ? 'selected':'')?> >Caixa(gaveta)</option>
-                                        <option value="2" <?=($financial->typeTreasurerFinancial == 2 ? 'selected':'')?> >Cofre</option>
-                                        <option value="4" <?=($financial->typeTreasurerFinancial == 4 ? 'selected':'')?> >Banco</option>
+                                        <?php if(isBasicUser()){ ?>
+                                            <option value="1">Caixa(gaveta)</option>
+                                        <?php }else{ ?>
+                                            <option value="">-- Selecione --</option>
+                                            <option value="1" <?=($financial->typeTreasurerFinancial == 1 ? 'selected':'')?> >Caixa(gaveta)</option>
+                                            <option value="2" <?=($financial->typeTreasurerFinancial == 2 ? 'selected':'')?> >Cofre</option>
+                                            <option value="4" <?=($financial->typeTreasurerFinancial == 4 ? 'selected':'')?> >Banco</option>
+                                        <?php } ?>
                                 </select>
                             </div>
                         </div> <!-- end div type treasurer-->
 
-                        <div class="col-xs-1 col-sm-1 col-lg-1 col-md-1"><!--div button add-->
-                            <div class="form-group">
-                                <label style="margin-top: 33px;margin-left: -23px;">
-                                    <i class="fa fa-plus-circle fa-lg" onclick="addRowFinancial();" aria-hidden="true"></i>
-                                </label>
-                            </div>
-                        </div><!--end div button add-->
+                        <?php if(!isBasicUser()){ ?>
+                            <div class="col-xs-1 col-sm-1 col-lg-1 col-md-1"><!--div button add-->
+                                <div class="form-group">
+                                    <label style="margin-top: 33px;margin-left: -23px;">
+                                        <i class="fa fa-plus-circle fa-lg" onclick="addRowFinancial();" aria-hidden="true"></i>
+                                    </label>
+                                </div>
+                            </div><!--end div button add-->
+                        <?php } ?>
 
                     </div><!-- end div line -->
                 </div>
@@ -117,9 +147,9 @@
                 </div><!-- end div line Dates -->
 
                 <div class="row"> <!--div button-->
-                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">Salvar</button>
+                    <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
+                        <div class="form-group pull-right">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
                         </div>
                     </div>
                 </div><!-- end div button-->
@@ -138,4 +168,14 @@
             selectTitleExpense(0<?=$idCategoryExpenseFinancial?>, 0<?=$idCenterCost?>);
         }
     };
+    $('#valueProduct').on('blur', function(){
+        if($('#isBasicUser').val()){
+            var valueProduct = parseFloat($('#valueProduct').val());
+            var valueCurrente = parseFloat($('#valueCurrente').val());
+            if(valueProduct > valueCurrente){
+                alert('Valor inserido superior ao que tem no caixa.');
+                $('#valueProduct').val('');
+            }
+        }
+    });
 </script>

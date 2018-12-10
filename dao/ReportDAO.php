@@ -7,6 +7,8 @@ class ReportDAO{
         $path = $_SERVER['DOCUMENT_ROOT']; 
         include_once($path."/bichoensaboado/class/Conexao.php");  
         include_once($path."/bichoensaboado/class/ReportClass.php");
+        include_once($path."/bichoensaboado/class/LoginClass.php");
+        include_once $path."/bichoensaboado/view/inc/util.php";
     }
 
     public static function getInstance() {

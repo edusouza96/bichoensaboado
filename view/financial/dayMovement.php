@@ -61,9 +61,9 @@
                                 <h6>Com desconto da aliquota R$ <?=$creditAliquot?></h6>
                             <?php } ?>
 
-                            <?php if($admin){ ?>
                             <h3>Valores Retirado</h3>
                             <h5>Caixa R$ <?=$expenseDrawer?></h5>
+                            <?php if($admin){ ?>
                             <h5>Cofre R$ <?=$expenseSavings?></h5>
                             <h5>Banco R$ <?=$expenseBank?></h5>
                             <h5>PagSeguro R$ <?=$expenseBankOnline?></h5>

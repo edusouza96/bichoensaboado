@@ -23,4 +23,20 @@ function getStore()
     return $dataLogin->store;
 }
 
+function getRole()
+{
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include_once $path . "/bichoensaboado/class/LoginClass.php";
+    $dataLogin = unserialize($_SESSION['userOnline']);
+    return $dataLogin->role;
+}
+
+function isBasicUser()
+{
+    $path = $_SERVER['DOCUMENT_ROOT'];
+    include_once $path . "/bichoensaboado/class/LoginClass.php";
+    $dataLogin = unserialize($_SESSION['userOnline']);
+    return $dataLogin->role == 3;
+}
+
 ?>

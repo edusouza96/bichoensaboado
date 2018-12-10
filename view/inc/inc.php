@@ -64,13 +64,13 @@
                 <li><a href="/bichoensaboado/view/servic/">Serviços</a></li>
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
                 <li><a href="/bichoensaboado/view/rebate/">Descontos</a></li>
+                <li><a href="/bichoensaboado/view/sales/salesOfDay.php">Vendas do dia</a></li>
+                <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
                 <?php
                 if($dataLogin->role != 3){
                 ?>
-                    <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
                     <li><a href="/bichoensaboado/view/center-cost/">Centro de Custo</a></li>
                     <li><a href="/bichoensaboado/view/financial/TransferTreasury.php">Transferir dinheiro</a></li>
-                    <li><a href="/bichoensaboado/view/sales/salesOfDay.php">Vendas do dia</a></li>
                     <li><a href="/bichoensaboado/view/report/">Relatórios</a></li>
                 <?php
                 }
