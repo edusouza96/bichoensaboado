@@ -157,6 +157,7 @@
             $valuesOfDay = $treasurerDao->valuesOfDay(2);
             $module = 'sales';
         break;
+
         case 'financialPDV-dashboard':
             $valueRemoved = $_POST['valueStartingMoney'] - $_POST['value'];
 
@@ -172,6 +173,24 @@
                 $financialDao->insert($financialClass);
                 $valuesOfDay = $treasurerDao->valuesOfDay(2);
             }
+           
+            header("location:../view/dashboard.php");
+            exit;
+        break;
+        
+        case 'financialPDV-contribution':
+            $valueAdd = $_POST['valueContribution'] * -1;
+
+            $financialClass->valueProduct = $valueAdd;
+            $financialClass->description = "Aporte";
+            
+            $financialClass->dateDueFinancial = date("Y-m-d");
+            $financialClass->datePayFinancial = date("Y-m-d");
+            $financialClass->typeTreasurerFinancial = 1;
+            $financialClass->centerCost = 16;
+            $financialClass->store = getStore();
+            $financialDao->insert($financialClass);
+            $valuesOfDay = $treasurerDao->valuesOfDay(1, $_POST['valueContribution']);
            
             header("location:../view/dashboard.php");
             exit;

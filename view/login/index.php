@@ -11,6 +11,7 @@
     <meta property="og:title" content="Bicho Ensaboado - Login">
     <meta property="og:description" content="Intranet">
     <meta property="og:image" content="https://bichoensaboado.com.br/bichoensaboado/img/logo.jpg">
+    <link rel="icon" type="image/png" href="/bichoensaboado/img/logo.jpg" />
 
   </head>
 

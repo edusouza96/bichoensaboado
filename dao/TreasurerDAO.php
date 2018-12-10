@@ -262,7 +262,7 @@ class TreasurerDAO{
         }
     }
 
-    public function valuesOfDay($days = 1){
+    public function valuesOfDay($days = 1, $valueContribution = 0){
         try{
             $store = getStore();
             
@@ -321,8 +321,9 @@ class TreasurerDAO{
 
                 $treasurerClass = $this->searchLastId();
                 $treasurerClass->idTreasurer = null;
-                $treasurerClass->startingMoneyDayTreasurer = $startingMoneyDayTreasurer;
-                $treasurerClass->closingMoneyDayTreasurer = $valueDay;
+                $treasurerClass->startingMoneyDayTreasurer = $startingMoneyDayTreasurer + $valueContribution;
+                if($treasurerClass->closingMoneyDayTreasurer > 0)
+                    $treasurerClass->closingMoneyDayTreasurer = $valueDay;
                 $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
                 $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
                 $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);

@@ -69,6 +69,7 @@ $debtorsList = $reportDao->reportDebtors();
 
                     <div class="main-right-buttons">
                         <button type="button" id="btnOpenCashdesk" class="btn btn-success">Abrir Caixa</button>
+                        <button type="button" id="btnContribution" class="btn btn-primary">Aporte</button>
                         <button type="button" id="btnRectify" class="btn btn-danger">Corrigir</button>
                     </div>
 
@@ -109,6 +110,35 @@ $debtorsList = $reportDao->reportDebtors();
                         </form>
 
                     </div>
+
+                    <div class="main-right-start-cashdesk-contribution-form hide">
+                        <form id="form-update-contribution" action="../controller/Manager.php" method="POST">
+                            <input type="hidden" name="module" value="financialPDV-contribution">
+
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="valueContribution">Valor:</label>
+                                            <input type="text" id="valueContribution" name="valueContribution" class="form-control" required>
+                                            <input type="hidden" id="valueStartingMoney-contribution" name="valueStartingMoney-contribution" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <div class="form-group pull-right">
+                                            <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#modalCanc2'><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -135,6 +165,36 @@ $debtorsList = $reportDao->reportDebtors();
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal" onClick="confirmRectify();">Confirmar</button>                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!--Fim Modal de senha-->
+
+        <!-- Modal de senha2 -->
+        <div class="modal fade" id="modalCanc2" role="dialog">
+            <div class="modal-dialog">
+                    
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 50%;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Aporte</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row"> <!--div line password-->
+                            <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
+                                <div class="form-group"> 
+                                    <label for="password2">Senha</label>
+                                    <input type="password" id="password2" name="password2" class="form-control" value>
+                                    <input type="hidden" id="idCanc" name="idCanc" class="form-control" value>
+                                </div>
+                            </div> <!-- end div password-->
+                        </div><!-- end div line password-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onClick="confirmContribution();">Confirmar</button>                        
                     </div>
                 </div>
                 
@@ -198,6 +258,19 @@ $debtorsList = $reportDao->reportDebtors();
         }
         
     }
+    function confirmContribution(){
+        var password = document.getElementById('password2').value; 
+        if(password == '4518' || password == 'admin1996'){
+            if($('#valueContribution').val() == ""){
+                $('#valueContribution').focus(alert('Campo Valor deve ser preenchido'));
+            }else{
+                $('#form-update-contribution').submit();
+            }
+        }else{
+            alert('Senha Incorreta!');
+        }
+        
+    }
     $(document).ready(function(){
 
         $.get( "ajax/managerCashDesk.php").done(function( data ) {
@@ -205,6 +278,7 @@ $debtorsList = $reportDao->reportDebtors();
 
             $('#valueStartingMoney').text('R$ '+data.startingMoney);
             $('input[name=valueStartingMoney]').val(data.startingMoney);
+            $('input[name=valueStartingMoney-contribution]').val(data.startingMoney);
             if(data.isOpen == 0){
                 $('#btnOpenCashdesk').text('Caixa Aberto');
                 $('#btnOpenCashdesk').attr('disabled', true);
@@ -219,8 +293,11 @@ $debtorsList = $reportDao->reportDebtors();
         $('.main-right-start-cashdesk-form').addClass('show');
         $('.main-right-start-cashdesk-form').removeClass('hide');
     });
+    $('#btnContribution').on('click', function(){
+        $('.main-right-start-cashdesk-contribution-form').addClass('show');
+        $('.main-right-start-cashdesk-contribution-form').removeClass('hide');
+    });
 
-    
     $('#btnOpenCashdesk').on('click', function(){
         $.get( "ajax/treasurer.php", {
             option: 1
@@ -234,8 +311,6 @@ $debtorsList = $reportDao->reportDebtors();
             
         });
     });
-
-
 
     function selectTitleExpense(idCategory, idCenterCost = 0){
         $.get( "ajax/selectTitleExpense.php", {
