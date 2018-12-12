@@ -9,11 +9,13 @@
 
             exit();
         }
-        $path = $_SERVER['SERVER_NAME']; 
-        if($path=='localhost'){
-            $path .=':7777';
+                
+        if($_SERVER['SERVER_NAME'] == 'localhost'){
+            $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
+        }else{
+            $urlBase = "https://".$_SERVER['SERVER_NAME'];
         }
-        Redirect('http://'.$path.'/bichoensaboado/Calendar/', false);
+        Redirect($urlBase.'/bichoensaboado/Calendar', false);
 
     }
     $date = $_GET['date'];

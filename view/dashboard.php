@@ -249,7 +249,7 @@ $debtorsList = $reportDao->reportDebtors();
             if($('#justification').val() == "" ){
                 $('#justification').on('focus', alert('Campo Justificativa deve ser preenchido'));
             }else if($('#value').val() == ""){
-                $('#value').focus(alert('Campo Valor deve ser preenchido'));
+                $('#value').on('focus', alert('Campo Valor deve ser preenchido'));
             }else{
                 $('#form-update').submit();
             }
