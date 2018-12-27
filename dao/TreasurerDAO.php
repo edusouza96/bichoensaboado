@@ -129,7 +129,7 @@ class TreasurerDAO{
 
     public function searchDate($dateRegistryTreasurer) {
         try {
-            $sql = "SELECT * FROM treasurer WHERE store = :store AND SUBSTRING(dateRegistryTreasurer, 1, 10) = :dateRegistryTreasurer";
+            $sql = "SELECT * FROM treasurer WHERE store = :store AND SUBSTRING(dateRegistryTreasurer, 1, 10) = :dateRegistryTreasurer ORDER BY dateRegistryTreasurer DESC";
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->bindValue(":store", getStore());
             $p_sql->bindValue(":dateRegistryTreasurer", $dateRegistryTreasurer);

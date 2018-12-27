@@ -1,4 +1,8 @@
-<?php
+<?php 
+/**
+ * TODO::Melhoria
+ * fazer um metodo JS que dispare um ajax com essa busca, e o retorno será setado via jquery $('#element').text(result.attribute);
+ */
     $path = $_SERVER['DOCUMENT_ROOT'];
     include_once($path."/bichoensaboado/dao/ReportDAO.php");
     $reportDao = new ReportDAO();

@@ -195,6 +195,22 @@
             header("location:../view/dashboard.php");
             exit;
         break;
+        
+        case 'financialPDV-sangria':
+            $valueTranfer = $_POST['valueSangria'];
+
+            $treasurerDao = new TreasurerDAO();
+            $treasurerClass = $treasurerDao->searchLastId();
+
+            $treasurerClass->moneyDrawerTreasurer -= $valueTranfer;   
+            $treasurerClass->moneySavingsTreasurer += $valueTranfer;                
+           
+            $treasurerDao = new TreasurerDAO();
+            $treasurerDao->update($treasurerClass);
+           
+            header("location:../view/dashboard.php");
+            exit;
+        break;
 
         case 'financial':
             foreach($_POST as $fieldKey=>$fieldValue){

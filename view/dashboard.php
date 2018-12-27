@@ -69,8 +69,10 @@ $debtorsList = $reportDao->reportDebtors();
 
                     <div class="main-right-buttons">
                         <button type="button" id="btnOpenCashdesk" class="btn btn-success">Abrir Caixa</button>
+                        <button type="button" id="btnCloseCashdesk" class="btn btn-success hide">Fechar Caixa</button>
                         <button type="button" id="btnContribution" class="btn btn-primary">Aporte</button>
                         <button type="button" id="btnRectify" class="btn btn-danger">Corrigir</button>
+                        <button type="button" id="btnSangria" class="btn btn-warning hide">Sangria</button>
                     </div>
 
                     <div class="main-right-start-cashdesk-form hide">
@@ -139,6 +141,34 @@ $debtorsList = $reportDao->reportDebtors();
 
                     </div>
                     
+                    <div class="main-right-sangria-cashdesk-form hide">
+                        <form id="form-update-sangria" action="../controller/Manager.php" method="POST">
+                            <input type="hidden" name="module" value="financialPDV-sangria">
+
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="valueSangria">Valor:</label>
+                                            <input type="text" id="valueSangria" name="valueSangria" class="form-control" required>
+                                            <input type="hidden" id="valueStartingMoney-sangria" name="valueStartingMoney-sangria" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <div class="form-group pull-right">
+                                            <button type="button" class="btn btn-primary" data-toggle='modal' data-target='#modalCanc3'><i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -195,6 +225,34 @@ $debtorsList = $reportDao->reportDebtors();
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal" onClick="confirmContribution();">Confirmar</button>                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- Modal de senha3 -->
+        <div class="modal fade" id="modalCanc3" role="dialog">
+            <div class="modal-dialog">
+                    
+                <!-- Modal content-->
+                <div class="modal-content" style="width: 50%;">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Sangria</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row"> <!--div line password-->
+                            <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10"> <!--div password-->
+                                <div class="form-group"> 
+                                    <label for="password3">Senha</label>
+                                    <input type="password" id="password3" name="password3" class="form-control" value>
+                                    <input type="hidden" id="idCanc" name="idCanc" class="form-control" value>
+                                </div>
+                            </div> <!-- end div password-->
+                        </div><!-- end div line password-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal" onClick="confirmSangria();">Confirmar</button>                        
                     </div>
                 </div>
                 
@@ -271,6 +329,19 @@ $debtorsList = $reportDao->reportDebtors();
         }
         
     }
+    function confirmSangria(){
+        var password = document.getElementById('password3').value; 
+        if(password == '4518' || password == 'admin1996'){
+            if($('#valueSangria').val() == ""){
+                $('#valueSangria').focus(alert('Campo Valor deve ser preenchido'));
+            }else{
+                $('#form-update-sangria').submit();
+            }
+        }else{
+            alert('Senha Incorreta!');
+        }
+        
+    }
     $(document).ready(function(){
 
         $.get( "ajax/managerCashDesk.php").done(function( data ) {
@@ -279,9 +350,13 @@ $debtorsList = $reportDao->reportDebtors();
             $('#valueStartingMoney').text('R$ '+data.startingMoney);
             $('input[name=valueStartingMoney]').val(data.startingMoney);
             $('input[name=valueStartingMoney-contribution]').val(data.startingMoney);
-            if(data.isOpen == 0){
-                $('#btnOpenCashdesk').text('Caixa Aberto');
-                $('#btnOpenCashdesk').attr('disabled', true);
+            
+            if(data.isOpen == 0 && data.closingMoney == 0.00){
+                $('#btnOpenCashdesk').addClass('hide');
+
+                $('#btnCloseCashdesk').removeClass('hide');
+                $('#btnSangria').removeClass('hide');
+
                 $('#btnRectify').attr('disabled', true);
             }
 
@@ -289,6 +364,10 @@ $debtorsList = $reportDao->reportDebtors();
                
     });
 
+    $('#btnSangria').on('click', function(){
+        $('.main-right-sangria-cashdesk-form').addClass('show');
+        $('.main-right-sangria-cashdesk-form').removeClass('hide');
+    });
     $('#btnRectify').on('click', function(){
         $('.main-right-start-cashdesk-form').addClass('show');
         $('.main-right-start-cashdesk-form').removeClass('hide');
@@ -309,6 +388,14 @@ $debtorsList = $reportDao->reportDebtors();
                 window.reload();
             }
             
+        });
+    });
+    
+    $('#btnCloseCashdesk').on('click', function(){
+        $.get( "ajax/treasurer.php", {
+            option: 2
+        }).done(function(data){
+            $('#dayMovement').modal('show');
         });
     });
 

@@ -16,7 +16,8 @@
         if(empty($treasurerList)){
             echo '{
                 "startingMoney":"0.00",
-                "isOpen": '.true.'
+                "isOpen": '.true.',
+                "closingMoney": "0.00"
             }';
         }else{
 
@@ -29,17 +30,20 @@
             }
             echo '{
                 "startingMoney":"'.$treasurerList[0]->moneyDrawerTreasurer.'",
-                "isOpen": '.true.'
+                "isOpen": '.true.',
+                "closingMoney": "'.$treasurerList[0]->closingMoneyDayTreasurer.'"
             }';
         }
     }else{
         $treasurerDao = new TreasurerDAO();
         $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
         $treasurerList = $treasurerDao->searchAll();
-        $startingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->moneyDrawerTreasurer;
+        $startingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->startingMoneyDayTreasurer;//24/12/2018 alterei isso de moneyDrawerTreasurer para startingMoneyDayTreasurer. Não sei o impacto dessa mudança
+        $closingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->closingMoneyDayTreasurer;
         echo '{
             "startingMoney":"'.$startingMoney.'",
-            "isOpen": 0
+            "isOpen": 0,
+            "closingMoney": "'.$closingMoney.'"
         }';
     }
     
