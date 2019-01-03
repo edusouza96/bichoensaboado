@@ -38,7 +38,7 @@
         $treasurerDao = new TreasurerDAO();
         $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
         $treasurerList = $treasurerDao->searchAll();
-        $startingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->startingMoneyDayTreasurer;//24/12/2018 alterei isso de moneyDrawerTreasurer para startingMoneyDayTreasurer. Não sei o impacto dessa mudança
+        $startingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->moneyDrawerTreasurer;//24/12/2018 alterei isso de moneyDrawerTreasurer para startingMoneyDayTreasurer. Não sei o impacto dessa mudança
         $closingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->closingMoneyDayTreasurer;
         echo '{
             "startingMoney":"'.$startingMoney.'",

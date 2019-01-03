@@ -172,6 +172,15 @@
                 $financialClass->store = getStore();
                 $financialDao->insert($financialClass);
                 $valuesOfDay = $treasurerDao->valuesOfDay(2);
+
+                $treasurerDao = new TreasurerDAO();
+                $treasurerClass = $treasurerDao->searchLastId();
+
+                $treasurerClass->startingMoneyDayTreasurer = $_POST['value'];   
+                $treasurerClass->moneyDrawerTreasurer = $_POST['value'];   
+            
+                $treasurerDao = new TreasurerDAO();
+                $treasurerDao->update($treasurerClass);
             }
            
             header("location:../view/dashboard.php");
@@ -190,7 +199,15 @@
             $financialClass->centerCost = 16;
             $financialClass->store = getStore();
             $financialDao->insert($financialClass);
-            $valuesOfDay = $treasurerDao->valuesOfDay(1, $_POST['valueContribution']);
+            // $valuesOfDay = $treasurerDao->valuesOfDay(1, $_POST['valueContribution']);
+            $treasurerDao = new TreasurerDAO();
+            $treasurerClass = $treasurerDao->searchLastId();
+
+            $treasurerClass->moneyDrawerTreasurer += $valueAdd * -1;   
+           
+            $treasurerDao = new TreasurerDAO();
+            $treasurerDao->update($treasurerClass);
+
            
             header("location:../view/dashboard.php");
             exit;

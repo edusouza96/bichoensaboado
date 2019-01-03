@@ -62,7 +62,7 @@ $debtorsList = $reportDao->reportDebtors();
                 <div class="main-right-start-cashdesk">
                     <div class="main-right-start-cashdesk-header">
                         <h3>
-                            <strong>Caixa Inicial</strong>
+                            <strong>Valor em Caixa</strong>
                             <span class="space-horizontal" id="valueStartingMoney"></span>
                         </h3>
                     </div>
@@ -346,7 +346,8 @@ $debtorsList = $reportDao->reportDebtors();
 
         $.get( "ajax/managerCashDesk.php").done(function( data ) {
             data = JSON.parse(data);
-
+            console.log(data);
+            
             $('#valueStartingMoney').text('R$ '+data.startingMoney);
             $('input[name=valueStartingMoney]').val(data.startingMoney);
             $('input[name=valueStartingMoney-contribution]').val(data.startingMoney);

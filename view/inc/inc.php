@@ -36,16 +36,16 @@
     $treasurerDao = new TreasurerDAO();
     $treasurerDao->addWhere(" SUBSTRING(dateRegistryTreasurer,1,10) = curdate()");
     $treasurerList = $treasurerDao->searchAll();
-    // if(empty($treasurerList)){
-    //     $textLink = "Abrir Caixa";
+    if(empty($treasurerList)){
+        $textLink = "Abrir Caixa";
     //     $option = 1;
-    // }else{
-    //     $textLink = "Fechar Caixa";
+    }else{
+        $textLink = "Fechar Caixa";
     //     $option = 2;
     //     if($treasurerList[0]->closingMoneyDayTreasurer != null){
     //         $disabledLink = true;
     //     }
-    // }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -77,7 +77,6 @@
                 ?>
 
                 <li><a href="/bichoensaboado/view/sales/">PDV</a></li>
-                <li><a class="cursor-link" id="link-treasurer" onclick="openCloseTreasurer(2);">teste</a></li>
                 <?php
                 if($dataLogin->role != 3){
                 ?>
