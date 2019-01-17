@@ -49,5 +49,19 @@ class TreasurerClass{
     public function serialize(){
         return json_encode(get_object_vars ($this));
     }
+
+    public function toJson(){
+        return '{
+            "idTreasurer": "'.$this->idTreasurer.'",
+            "startingMoneyDayTreasurer": "'.$this->startingMoneyDayTreasurer.'",
+            "closingMoneyDayTreasurer": "'.$this->closingMoneyDayTreasurer.'",
+            "moneyDrawerTreasurer": "'.$this->moneyDrawerTreasurer.'",
+            "moneySavingsTreasurer": "'.$this->moneySavingsTreasurer.'",
+            "moneyBankOnlineTreasurer": "'.$this->moneyBankOnlineTreasurer.'",
+            "moneyBankTreasurer": "'.$this->moneyBankTreasurer.'",
+            "dateRegistryTreasurer": "'.$this->dateRegistryTreasurer.'",
+            "store": "'.$this->store.'"
+        }';
+    }
 }
 ?>

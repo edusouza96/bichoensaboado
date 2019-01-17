@@ -1,45 +1,42 @@
 <?php 
-/**
- * TODO::Melhoria
- * fazer um metodo JS que dispare um ajax com essa busca, e o retorno será setado via jquery $('#element').text(result.attribute);
- */
-    $path = $_SERVER['DOCUMENT_ROOT'];
-    include_once($path."/bichoensaboado/dao/ReportDAO.php");
-    $reportDao = new ReportDAO();
-    $reportDayMovementList = $reportDao->reportDayMovement();
-    $inCash = 0;
-    $credit = 0;
-    $creditAliquot = 0;
-    $debit = 0;
-    $debitAliquot = 0;
-    $expenseBankOnline = 0;
-    $expenseSavings = 0;
-    $expenseDrawer = 0;
-    $expenseBank = 0;
-    foreach($reportDayMovementList as $report){
-        if($report->column3Report == 1){
-            $inCash = $report->column1Report;
-        }else if($report->column3Report == 2){
-            $debit = $report->column1Report;
-            $debitAliquot = $report->column5Report;
-        }else if($report->column3Report == 3){
-            $credit = $report->column1Report;
-            $creditAliquot = $report->column5Report;
-        }else{
-            if($report->column4Report == 1){
-                $expenseDrawer = $report->column1Report;
-            }else if($report->column4Report == 2){
-                $expenseSavings = $report->column1Report;
-            }else if($report->column4Report == 3){
-                $expenseBankOnline = $report->column1Report;
-            }else if($report->column4Report == 4){
-                $expenseBank = $report->column1Report;
-            }
-        }
-    }
-    include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
-    $treasurerDao = new TreasurerDAO();
-    $treasurerClass = $treasurerDao->searchLastId();
+
+    // $path = $_SERVER['DOCUMENT_ROOT'];
+    // include_once($path."/bichoensaboado/dao/ReportDAO.php");
+    // $reportDao = new ReportDAO();
+    // $reportDayMovementList = $reportDao->reportDayMovement();
+    // $inCash = 0;
+    // $credit = 0;
+    // $creditAliquot = 0;
+    // $debit = 0;
+    // $debitAliquot = 0;
+    // $expenseBankOnline = 0;
+    // $expenseSavings = 0;
+    // $expenseDrawer = 0;
+    // $expenseBank = 0;
+    // foreach($reportDayMovementList as $report){
+    //     if($report->column3Report == 1){
+    //         $inCash = $report->column1Report;
+    //     }else if($report->column3Report == 2){
+    //         $debit = $report->column1Report;
+    //         $debitAliquot = $report->column5Report;
+    //     }else if($report->column3Report == 3){
+    //         $credit = $report->column1Report;
+    //         $creditAliquot = $report->column5Report;
+    //     }else{
+    //         if($report->column4Report == 1){
+    //             $expenseDrawer = $report->column1Report;
+    //         }else if($report->column4Report == 2){
+    //             $expenseSavings = $report->column1Report;
+    //         }else if($report->column4Report == 3){
+    //             $expenseBankOnline = $report->column1Report;
+    //         }else if($report->column4Report == 4){
+    //             $expenseBank = $report->column1Report;
+    //         }
+    //     }
+    // }
+    // include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
+    // $treasurerDao = new TreasurerDAO();
+    // $treasurerClass = $treasurerDao->searchLastId();
 ?>
 <div class="modal fade" id="dayMovement" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-md">
@@ -52,33 +49,33 @@
                     <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
                         <div class="form-group">
                             <h3>Caixa Inicial</h3>
-                            <h5>R$ <?=$treasurerClass->startingMoneyDayTreasurer?></h5>
+                            <h5>R$ <span id="starting_money_day_treasurer"></span></h5>
 
                             <h3>Valores Arrecadados</h3>
-                            <h5>Dinheiro R$ <?=$inCash?></h5>
-                            <h5>Cartão de Débito R$ <?=$debit?></h5>
+                            <h5>Dinheiro R$ <span id="in_cash">0.00</span></h5>
+                            <h5>Cartão de Débito R$ <span id="debit">0.00</span></h5>
                             <?php if($admin){ ?>
-                                <h6>Com desconto da aliquota R$ <?=$debitAliquot?></h6>
+                                <h6>Com desconto da aliquota R$ <span id="debit_aliquot">0.00</span></h6>
                             <?php } ?>
-                            <h5>Cartão de Crédito R$ <?=$credit?></h5>
+                            <h5>Cartão de Crédito R$ <span id="credit">0.00</span></h5>
                             <?php if($admin){ ?>
-                                <h6>Com desconto da aliquota R$ <?=$creditAliquot?></h6>
+                                <h6>Com desconto da aliquota R$ <span id="credit_aliquot">0.00</span></h6>
                             <?php } ?>
 
                             <h3>Valores Retirado</h3>
-                            <h5>Caixa R$ <?=$expenseDrawer?></h5>
+                            <h5>Caixa R$ <span id="expense_drawer">0.00</span></h5>
                             <?php if($admin){ ?>
-                            <h5>Cofre R$ <?=$expenseSavings?></h5>
-                            <h5>Banco R$ <?=$expenseBank?></h5>
-                            <h5>PagSeguro R$ <?=$expenseBankOnline?></h5>
+                            <h5>Cofre R$ <span id="expense_savings">0.00</span></h5>
+                            <h5>Banco R$ <span id="expense_bank">0.00</span></h5>
+                            <h5>PagSeguro R$ <span id="expense_bank_online">0.00</span></h5>
                             <?php } ?>
 
                             <h3>Total</h3> 
-                            <h5>Caixa R$ <?=$treasurerClass->moneyDrawerTreasurer?></h5>
+                            <h5>Caixa R$ <span id="money_drawer_treasurer"></span></h5>
                             <?php if($admin){ ?>
-                            <h5>PagSeguro R$ ~<?=$treasurerClass->moneyBankOnlineTreasurer?></h5>
-                            <h5>Cofre R$ <?=$treasurerClass->moneySavingsTreasurer?></h5>
-                            <h5>Banco R$ <?=$treasurerClass->moneyBankTreasurer?></h5>
+                            <h5>PagSeguro R$ ~<span id="money_bank_online_treasurer"></span></h5>
+                            <h5>Cofre R$ <span id="money_savings_treasurer"></span></h5>
+                            <h5>Banco R$ <span id="money_bank_treasurer"></span></h5>
                             <?php } ?>
                             <br>
                             
@@ -165,4 +162,48 @@
             $('#btnSaveTranfer').attr('disabled', true);
         }
     });
+</script>
+
+<script>
+    function showDayMovement () {
+        $.get("../view/ajax/reportDayMovement.php")
+        .done(function(data) {
+            data = JSON.parse(data).pop();
+            
+            if(data.column3Report == 1){
+                $('#in_cash').text(data.column1Report);
+            }else if(data.column3Report == 2){
+                $('#debit').text(data.column1Report);
+                $('#debit_aliquot').text(data.column5Report);
+            }else if(data.column3Report == 3){
+                $('#credit').text(data.column1Report);
+                $('#credit_aliquot').text(data.column5Report);
+            }else{
+                if(data.column4Report == 1){
+                    $('#expense_drawer').text(data.column1Report);
+                }else if(data.column4Report == 2){
+                    $('#expense_savings').text(data.column1Report);
+                }else if(data.column4Report == 3){
+                    $('#expense_bank_online').text(data.column1Report);
+                }else if(data.column4Report == 4){
+                    $('#expense_bank').text(data.column1Report);
+                }
+            }
+        });
+
+        $.get("../view/ajax/treasurer.php",{
+            "option" : "lastid"
+        })
+        .done(function(data) {
+            data = JSON.parse(data);
+
+            $('#starting_money_day_treasurer').text(data.startingMoneyDayTreasurer);
+            $('#money_drawer_treasurer').text(data.moneyDrawerTreasurer);
+            $('#money_bank_online_treasurer').text(data.moneyBankOnlineTreasurer);
+            $('#money_savings_treasurer').text(data.moneySavingsTreasurer);
+            $('#money_bank_treasurer').text(data.moneyBankTreasurer);
+        });
+
+        $('#dayMovement').modal('show');
+    }
 </script>

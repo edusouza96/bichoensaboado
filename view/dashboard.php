@@ -396,7 +396,7 @@ $debtorsList = $reportDao->reportDebtors();
         $.get( "ajax/treasurer.php", {
             option: 2
         }).done(function(data){
-            $('#dayMovement').modal('show');
+            showDayMovement();
         });
     });
 
