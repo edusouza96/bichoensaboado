@@ -264,6 +264,7 @@ class TreasurerDAO{
                 $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
                 $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
                 $treasurerClass->moneyBankTreasurer -= $valueOutBank;
+                $treasurerClass->close = 1;
                 // $treasurerClass->dateRegistryTreasurer = $dateNow;
             }
             //Se $treasurerClass não for null é pq não deu erro no processo
@@ -380,6 +381,7 @@ class TreasurerDAO{
         $treasurerClass->moneyBankTreasurer = $row['moneyBankTreasurer'];
         $treasurerClass->dateRegistryTreasurer = $row['dateRegistryTreasurer'];
         $treasurerClass->store = $row['store'];
+        $treasurerClass->close = $row['close'];
         return $treasurerClass;
     }
 

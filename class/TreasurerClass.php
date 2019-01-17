@@ -9,6 +9,7 @@ class TreasurerClass{
     private $moneyBankTreasurer;
     private $dateRegistryTreasurer;
     private $store;
+    private $close;
 
     function __construct(){
             //
@@ -60,7 +61,8 @@ class TreasurerClass{
             "moneyBankOnlineTreasurer": "'.$this->moneyBankOnlineTreasurer.'",
             "moneyBankTreasurer": "'.$this->moneyBankTreasurer.'",
             "dateRegistryTreasurer": "'.$this->dateRegistryTreasurer.'",
-            "store": "'.$this->store.'"
+            "store": "'.$this->store.'",
+            "close": "'.$this->close.'"
         }';
     }
 }

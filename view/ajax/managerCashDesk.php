@@ -17,6 +17,7 @@
             echo '{
                 "startingMoney":"0.00",
                 "isOpen": '.true.',
+                "isClose": 0,
                 "closingMoney": "0.00"
             }';
         }else{
@@ -28,9 +29,11 @@
                 $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
                 $treasurerList = $treasurerDao->searchAll();
             }
+
             echo '{
                 "startingMoney":"'.$treasurerList[0]->moneyDrawerTreasurer.'",
                 "isOpen": '.true.',
+                "isClose": '.$treasurerList[0]->close.',
                 "closingMoney": "'.$treasurerList[0]->closingMoneyDayTreasurer.'"
             }';
         }
@@ -43,6 +46,7 @@
         echo '{
             "startingMoney":"'.$startingMoney.'",
             "isOpen": 0,
+            "isClose": '.$treasurerList[0]->close.',
             "closingMoney": "'.$closingMoney.'"
         }';
     }

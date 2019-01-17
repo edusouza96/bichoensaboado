@@ -230,7 +230,7 @@ class ReportDAO{
                     f.typeTreasurerFinancial AS column4Report,
                     SUM(f.valueAliquot) AS column5Report
                 FROM financial f 
-                WHERE f.store = ".getStore()."
+                WHERE f.store = ".getStore()." AND f.description <> 'Aporte'
                 GROUP BY f.methodPayment, f.datePayFinancial, f.typeTreasurerFinancial
                 HAVING f.datePayFinancial = CURDATE()
             ";
