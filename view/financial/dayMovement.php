@@ -1,42 +1,4 @@
 <?php 
-
-    // $path = $_SERVER['DOCUMENT_ROOT'];
-    // include_once($path."/bichoensaboado/dao/ReportDAO.php");
-    // $reportDao = new ReportDAO();
-    // $reportDayMovementList = $reportDao->reportDayMovement();
-    // $inCash = 0;
-    // $credit = 0;
-    // $creditAliquot = 0;
-    // $debit = 0;
-    // $debitAliquot = 0;
-    // $expenseBankOnline = 0;
-    // $expenseSavings = 0;
-    // $expenseDrawer = 0;
-    // $expenseBank = 0;
-    // foreach($reportDayMovementList as $report){
-    //     if($report->column3Report == 1){
-    //         $inCash = $report->column1Report;
-    //     }else if($report->column3Report == 2){
-    //         $debit = $report->column1Report;
-    //         $debitAliquot = $report->column5Report;
-    //     }else if($report->column3Report == 3){
-    //         $credit = $report->column1Report;
-    //         $creditAliquot = $report->column5Report;
-    //     }else{
-    //         if($report->column4Report == 1){
-    //             $expenseDrawer = $report->column1Report;
-    //         }else if($report->column4Report == 2){
-    //             $expenseSavings = $report->column1Report;
-    //         }else if($report->column4Report == 3){
-    //             $expenseBankOnline = $report->column1Report;
-    //         }else if($report->column4Report == 4){
-    //             $expenseBank = $report->column1Report;
-    //         }
-    //     }
-    // }
-    // include_once($path."/bichoensaboado/dao/TreasurerDAO.php");
-    // $treasurerDao = new TreasurerDAO();
-    // $treasurerClass = $treasurerDao->searchLastId();
 ?>
 <div class="modal fade" id="dayMovement" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-md">
