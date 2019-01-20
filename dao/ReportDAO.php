@@ -40,7 +40,7 @@ class ReportDAO{
                 INNER JOIN sales s ON (s.diary_idDiary = d.idDiary)
                 INNER JOIN financial f ON (f.sales_idSales = s.idSales)
                 INNER JOIN zinfo_method_payment im ON (im.idMethodPayment = f.methodPayment)
-                WHERE search = 1 ".$this->sqlWhere."
+                WHERE search = 1 ".$this->sqlWhere." AND f.store = ".getStore()."
                 ORDER BY a.district, d.dateHour;
             ";
 
@@ -63,7 +63,7 @@ class ReportDAO{
             $sql = "
                 SELECT f.description as column1Report, f.valueProduct as column2Report, f.datePayFinancial as column3Report
                 FROM financial f 
-                WHERE f.center_cost_idCenterCost = 7 ".$this->sqlWhere."
+                WHERE f.center_cost_idCenterCost = 7 ".$this->sqlWhere."  AND f.store = ".getStore()."
                 ORDER BY f.datePayFinancial;
             ";
             $result = Conexao::getInstance()->query($sql);
@@ -87,7 +87,7 @@ class ReportDAO{
                 FROM diary d 
                 INNER JOIN client c ON (c.idClient = d.client_idClient) 
                 INNER JOIN address a ON (a.idAddress = c.address_idAddress) 
-                WHERE 1 ".$this->sqlWhere."
+                WHERE 1 ".$this->sqlWhere." AND d.store = ".getStore()."
                 GROUP BY a.idAddress
                 ORDER BY a.district;
             ";
@@ -112,7 +112,7 @@ class ReportDAO{
                 FROM diary d 
                 INNER JOIN client c ON (c.idClient = d.client_idClient) 
                 INNER JOIN breed b ON (b.idBreed = c.breed_idBreed) 
-                WHERE 1 ".$this->sqlWhere."
+                WHERE 1 ".$this->sqlWhere." AND d.store = ".getStore()."
                 GROUP BY b.idBreed
                 ORDER BY b.nameBreed;
             ";
@@ -140,11 +140,11 @@ class ReportDAO{
                     ((SUM(valueInCredit)+SUM(valueInCash)) - SUM(valueOut)) as column4Report,
                     CONCAT(MAX(SUBSTRING(day, 6, 2)),'/',MAX(SUBSTRING(day, 1, 4))) as column5Report
                 FROM ( 
-                    (SELECT datePayFinancial as day, SUM(valueProduct) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1 GROUP BY day)
+                    (SELECT datePayFinancial as day, SUM(valueProduct) AS valueInCash, 0 as valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment = 1  AND store = ".getStore()." GROUP BY day)
                     UNION
-                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, SUM(valueAliquot) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1 GROUP BY day)
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 as valueOut, SUM(valueAliquot) AS valueInCredit FROM financial WHERE registerBuy IS NOT NULL AND methodPayment <> 1  AND store = ".getStore()." GROUP BY day)
                     UNION 
-                    (SELECT datePayFinancial as day, 0 as valueInCash, SUM(valueProduct) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL GROUP BY day) 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, SUM(valueProduct) AS valueOut, 0 AS valueInCredit FROM financial WHERE registerBuy IS NULL  AND store = ".getStore()." GROUP BY day) 
                     
                 ) AS tbl 
                 WHERE 1 ".$this->sqlWhere."
@@ -171,7 +171,7 @@ class ReportDAO{
                 FROM financial f
                 INNER JOIN center_cost ct ON (ct.idCenterCost = f.center_cost_idCenterCost)
                 INNER JOIN category_expense_financial cef ON (cef.idCategoryExpenseFinancial = ct.category_expense_financial_idCategoryExpenseFinancial)
-                WHERE f.sales_idSales IS NULL ".$this->sqlWhere."
+                WHERE f.sales_idSales IS NULL ".$this->sqlWhere." AND f.store = ".getStore()."
                 ORDER BY f.datePayFinancial;
             ";
             $result = Conexao::getInstance()->query($sql);
@@ -203,7 +203,7 @@ class ReportDAO{
                 LEFT JOIN diary d ON (d.idDiary = s.diary_idDiary)
                 LEFT JOIN servic sp ON (sp.idServic = d.servic_idServic)
                 LEFT JOIN breed b ON (b.idBreed = sp.breed_idBreed)
-                WHERE f.sales_idSales > 0  ".$this->sqlWhere."
+                WHERE f.sales_idSales > 0  ".$this->sqlWhere." AND f.store = ".getStore()."
                 ORDER BY f.datePayFinancial
             ";
             $result = Conexao::getInstance()->query($sql);

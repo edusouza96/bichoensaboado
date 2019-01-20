@@ -148,10 +148,16 @@
 
 function changeStore(currentStore){
     var url = $('#urlBase').val()+"/bichoensaboado/view/ajax/changeStore.php";
-    $.get(url, {
-        currentStore: currentStore
-    }).done(function(data) {
+    try {
+        $.get(url, {
+            currentStore: currentStore
+        }).done(function(data) {
+            location.reload();
+        });     
+    } catch (error) {
         location.reload();
-    });
+        
+    }
+   
 }
 </script>
