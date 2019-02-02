@@ -94,7 +94,9 @@
                                     $diaryDao->addWhere("OR","idDiary = ".$diaryId." ");   
                                     $diaryList = $diaryDao->SearchCompanion($diaryId);  
                                     $subValue = 0;
+                                    $valueService = 0;
                                     foreach($diaryList as $diaryClass){   
+                                        $valueService += $diaryClass->price;
                             ?>
                                 <div class="form-group" style="margin-bottom: 0px;display:block;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
@@ -111,6 +113,7 @@
                                         $subValue += $diaryClass->totalPrice;
                                     }
                             ?> 
+                            <input type="hidden" name="valueService" id="valueService" value="<?=$valueService?>">
                                     <script>
                                         window.onload = function() {
                                             diaryRegisterBuy(<?=$subValue?>);
@@ -372,11 +375,11 @@
     }
 
     function calcPromotion(idRebate) {
-        var totalBuy = $("#totalBuy").val();
-        totalBuy = parseFloat(totalBuy);
-        if(totalBuy > 0){
+        var valueService = $("#valueService").val();
+        valueService = parseFloat(valueService);
+        if(valueService > 0){
             $.get( "../ajax/getRebate.php", {idRebate : idRebate}).done(function( valueRebate ) {                    
-                var rebate = (totalBuy * valueRebate) /100;
+                var rebate = (valueService * valueRebate) /100;
                 $('#rebate').val(rebate);
                 applyRebate(rebate);
             });  

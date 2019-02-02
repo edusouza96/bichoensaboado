@@ -42,7 +42,7 @@
         $productSalesName = '';
         $productAuxDao = new ProductDAO();
         $diaryAuxDao = new DiaryDAO();
-        if($productSalesId>0){
+        if(count($productSalesId) >0){
             $productAuxClass = $productAuxDao->searchBarcode($productSalesId);
             $productSalesName = $productAuxClass->nameProduct;
         }else{
