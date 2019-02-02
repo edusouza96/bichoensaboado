@@ -352,7 +352,7 @@ $debtorsList = $reportDao->reportDebtors();
             $('input[name=valueStartingMoney]').val(data.startingMoney);
             $('input[name=valueStartingMoney-contribution]').val(data.startingMoney);
             
-            if(data.isClose == 0 && data.isOpen == 0){
+            if(data.isClose == 0 && data.isOpen == 1){
                 $('#btnOpenCashdesk').addClass('hide');
 
                 $('#btnCloseCashdesk').removeClass('hide');
