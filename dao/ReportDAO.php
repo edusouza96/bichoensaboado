@@ -220,6 +220,26 @@ class ReportDAO{
         
     }
 
+    public function reportSangriaOfDay(){
+        try {
+            $sql = "
+                SELECT 
+                    SUM(s.value) AS column1Report
+                FROM sangria s 
+                WHERE s.store = ".getStore()."
+                GROUP BY s.date
+                HAVING s.date = CURDATE()
+            ";
+
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->execute();
+            return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+            
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
+
     public function reportDayMovement(){
         try {
             $sql = "
@@ -228,7 +248,13 @@ class ReportDAO{
                     f.datePayFinancial AS column2Report,
                     f.methodPayment AS column3Report,
                     f.typeTreasurerFinancial AS column4Report,
-                    SUM(f.valueAliquot) AS column5Report
+                    SUM(f.valueAliquot) AS column5Report,
+                    (SELECT SUM(f1.valueProduct) 
+                        FROM financial f1 
+                        WHERE f1.store = ".getStore()." AND f1.description = 'Aporte' 
+                        GROUP BY f1.methodPayment, f1.datePayFinancial, f1.typeTreasurerFinancial 
+                        HAVING f1.datePayFinancial = CURDATE()
+                    ) AS column6Report
                 FROM financial f 
                 WHERE f.store = ".getStore()." AND f.description <> 'Aporte'
                 GROUP BY f.methodPayment, f.datePayFinancial, f.typeTreasurerFinancial

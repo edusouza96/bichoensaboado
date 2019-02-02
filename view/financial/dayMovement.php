@@ -13,6 +13,12 @@
                             <h3>Caixa Inicial</h3>
                             <h5>R$ <span id="starting_money_day_treasurer"></span></h5>
 
+                            <h3>Total de Aporte</h3>
+                            <h5>R$ <span id="total_contribution"></span></h5>
+                            
+                            <h3>Total de Sangrias</h3>
+                            <h5>R$ <span id="total_sangria"></span></h5>
+
                             <h3>Valores Arrecadados</h3>
                             <h5>Dinheiro R$ <span id="in_cash">0.00</span></h5>
                             <h5>Cartão de Débito R$ <span id="debit">0.00</span></h5>
@@ -44,7 +50,7 @@
                             <?php if($admin){ ?>
                             <fieldset>
                                 <legend>Transferir</legend>
-                                <form action="../../controller/Manager.php" method="POST">
+                                <form action="../controller/Manager.php" method="POST">
                                     <input type="hidden" name="module" value="treasurer-transfer"> 
                                     <input type="hidden" name="page" value="pdv"> 
                                     <div class="row">
@@ -134,6 +140,8 @@
             
             if(data.column3Report == 1){
                 $('#in_cash').text(data.column1Report);
+                $('#total_contribution').text(data.column6Report * -1);
+                $('#total_sangria').text(data.column7Report);
             }else if(data.column3Report == 2){
                 $('#debit').text(data.column1Report);
                 $('#debit_aliquot').text(data.column5Report);

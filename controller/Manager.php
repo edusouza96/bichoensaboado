@@ -29,6 +29,8 @@
     include_once($path."/bichoensaboado/class/VetClass.php");
     include_once($path."/bichoensaboado/dao/RebateDAO.php");
     include_once($path."/bichoensaboado/class/RebateClass.php");
+    include_once($path."/bichoensaboado/dao/SangriaDAO.php");
+    include_once($path."/bichoensaboado/class/SangriaClass.php");
     
     $clientClass = new ClientClass();
     $clientDao = new ClientDAO();
@@ -58,6 +60,8 @@
     $vetDao = new VetDAO();
     $rebateClass = new RebateClass();
     $rebateDao = new RebateDAO();
+    $sangriaClass = new SangriaClass();
+    $sangriaDao = new SangriaDAO();
     
     $module = $_POST['module'];
     
@@ -224,6 +228,14 @@
            
             $treasurerDao = new TreasurerDAO();
             $treasurerDao->update($treasurerClass);
+
+            $sangriaClass = new SangriaClass();
+            $sangriaClass->value = $valueTranfer;
+            $sangriaClass->date = date("Y-m-d");
+            $sangriaClass->store = getStore();
+
+            $sangriaDao = new SangriaDAO();
+            $id = $sangriaDao->insert($sangriaClass);
            
             header("location:../view/dashboard.php");
             exit;
