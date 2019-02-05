@@ -256,17 +256,18 @@ class TreasurerDAO{
             // $dateNow = date('Y-m-d H:i:s');
             $treasurerClass = null;
             $error = false;
+
             // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
-            if(!empty($day)){
-                $treasurerClass = $this->searchDate($day);
-                $treasurerClass->closingMoneyDayTreasurer = $valueInCash;
-                $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
-                $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
-                $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
-                $treasurerClass->moneyBankTreasurer -= $valueOutBank;
-                $treasurerClass->close = 1;
-                // $treasurerClass->dateRegistryTreasurer = $dateNow;
-            }
+            $dateNow = date('Y-m-d');
+            $treasurerClass = $this->searchDate($dateNow);
+            $treasurerClass->closingMoneyDayTreasurer = $valueInCash;
+            $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
+            $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
+            $treasurerClass->moneyBankOnlineTreasurer += ($valueInCredit-$valueOutBankOnline);
+            $treasurerClass->moneyBankTreasurer -= $valueOutBank;
+            $treasurerClass->close = 1;
+            // $treasurerClass->dateRegistryTreasurer = $dateNow;
+
             //Se $treasurerClass não for null é pq não deu erro no processo
             if(!is_null($treasurerClass)){
                 $error = $this->update($treasurerClass);
@@ -368,6 +369,72 @@ class TreasurerDAO{
         }catch(Exception $e){
             print "Ocorreu um erro ao tentar executar ação, tente novamente mais tarde.";
         }
+    }
+
+    public function calcDrawer($dateClose = null){
+        // metodo replicado só pra poder pegar o valor em gaveta
+        try{
+            if($dateClose == null){
+                $dateClose = date('Y-m-d');
+            }
+
+            // busca os valores do dia 
+            $sql = "SELECT 
+                    day, 
+                    SUM(valueInCash) as valueInCash, 
+                    SUM(valueInCredit) as valueInCredit, 
+                    SUM(valueOutDrawer) as valueOutDrawer,
+                    SUM(valueOutSavings) as valueOutSavings,
+                    SUM(valueOutBankOnline) as valueOutBankOnline,
+                    SUM(valueOutBank) as valueOutBank,
+                    (
+                        (SUM(valueInCredit)+SUM(valueInCash)) 
+                        - 
+                        (SUM(valueOutDrawer)+SUM(valueOutSavings)+SUM(valueOutBankOnline)+SUM(valueOutBank))
+                    ) as valueDay 
+                FROM (
+                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NOT NULL AND methodPayment = 1 AND treasurer_idTreasurer IS NULL)
+                        UNION 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 1) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 2) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 4) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NOT NULL AND methodPayment <> 1 AND treasurer_idTreasurer IS NULL)
+                ) AS tbl 
+                WHERE SUBSTRING(day, 1, 10) = '".$dateClose."'
+                GROUP BY day
+            ";
+
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->execute();
+            $resultInfosAux = $p_sql->fetch(PDO::FETCH_ASSOC);
+            // seta os resultados em variaveis
+            $day = $resultInfosAux['day'];
+            $valueInCash = $resultInfosAux['valueInCash'];
+            $valueInCredit = $resultInfosAux['valueInCredit'];
+            $valueOutDrawer = $resultInfosAux['valueOutDrawer'];
+            $valueOutSavings = $resultInfosAux['valueOutSavings'];
+            $valueOutBankOnline = $resultInfosAux['valueOutBankOnline'];
+            $valueOutBank = $resultInfosAux['valueOutBank'];
+            $valueDay = $resultInfosAux['valueDay'];
+
+            // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
+            $dateNow = date('Y-m-d');
+            $treasurerClass = $this->searchDate($dateNow);
+            $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
+
+            return $treasurerClass->moneyDrawerTreasurer;
+        }catch(Exception $e){
+            print "Ocorreu um erro ao tentar executar ação, tente novamente mais tarde.";
+        }
+        /**
+         * TODO::O que fazer
+         * pegar todas as vendas e vincular com treasurer, para na hora de buscar os dados desconsiderar os vinculados
+         */
     }
 
     private function showObject($row){

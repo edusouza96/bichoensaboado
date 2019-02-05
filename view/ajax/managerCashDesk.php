@@ -38,13 +38,18 @@
             }';
         }
     }else{
+        // CAIXA FECHADO OU ABERTO// FLUXO NORMAL
         $treasurerDao = new TreasurerDAO();
         $treasurerDao->addComplement(" ORDER BY dateRegistryTreasurer DESC");
         $treasurerList = $treasurerDao->searchAll();
+        
+        $inDrawer = $treasurerDao->calcDrawer();
+
+
         $startingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->moneyDrawerTreasurer;//24/12/2018 alterei isso de moneyDrawerTreasurer para startingMoneyDayTreasurer. Não sei o impacto dessa mudança
         $closingMoney = empty($treasurerList) ? '0.00' : $treasurerList[0]->closingMoneyDayTreasurer;
         echo '{
-            "startingMoney":"'.$startingMoney.'",
+            "startingMoney":"'.$inDrawer.'",
             "isOpen": 0,
             "isClose": '.$treasurerList[0]->close.',
             "closingMoney": "'.$closingMoney.'"

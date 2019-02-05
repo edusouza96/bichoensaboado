@@ -14,7 +14,7 @@ foreach ($reportDayMovementList as $report) {
 }
 
 if (count($reportDayMovementList) == 0) {
-    echo '{}';
+    echo '[]';
 } else {
     echo listObject2Json($reportDayMovementList);
 }

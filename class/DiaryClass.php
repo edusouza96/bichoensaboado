@@ -44,6 +44,19 @@ class DiaryClass
         return $this->pay;
     }
 
+    public function price()
+    {
+        return $this->price + $this->priceVet;
+    }
+    
+    public function valueSearch()
+    {
+        if($this->search == 1)
+            return $this->totalPrice - $this->price;
+        
+        return 0;
+    }
+
     public function __get($property)
     {
         if (property_exists($this, $property)) {

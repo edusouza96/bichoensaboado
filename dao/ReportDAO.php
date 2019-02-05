@@ -234,7 +234,6 @@ class ReportDAO{
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->execute();
             return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
-            
         } catch (Exception $e) {
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
@@ -304,10 +303,11 @@ class ReportDAO{
     }
     
     private function showObject($row) {
-        
         $reportClass = new ReportClass();
-        foreach($row as $field => $value){
-            $reportClass->${'field'} = $value;    
+        if($row){
+            foreach($row as $field => $value){
+                $reportClass->${'field'} = $value;    
+            }
         }
        
         return $reportClass;

@@ -52,7 +52,7 @@
                                 <legend>Transferir</legend>
                                 <form action="../controller/Manager.php" method="POST">
                                     <input type="hidden" name="module" value="treasurer-transfer"> 
-                                    <input type="hidden" name="page" value="pdv"> 
+                                    <input type="hidden" name="page" value="dashboard"> 
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
                                             <div class="form-group">
@@ -137,26 +137,28 @@
         $.get("../view/ajax/reportDayMovement.php")
         .done(function(data) {
             data = JSON.parse(data).pop();
-            
-            if(data.column3Report == 1){
-                $('#in_cash').text(data.column1Report);
-                $('#total_contribution').text(data.column6Report * -1);
-                $('#total_sangria').text(data.column7Report);
-            }else if(data.column3Report == 2){
-                $('#debit').text(data.column1Report);
-                $('#debit_aliquot').text(data.column5Report);
-            }else if(data.column3Report == 3){
-                $('#credit').text(data.column1Report);
-                $('#credit_aliquot').text(data.column5Report);
-            }else{
-                if(data.column4Report == 1){
-                    $('#expense_drawer').text(data.column1Report);
-                }else if(data.column4Report == 2){
-                    $('#expense_savings').text(data.column1Report);
-                }else if(data.column4Report == 3){
-                    $('#expense_bank_online').text(data.column1Report);
-                }else if(data.column4Report == 4){
-                    $('#expense_bank').text(data.column1Report);
+            if(data){
+
+                if(data.column3Report == 1){
+                    $('#in_cash').text(data.column1Report);
+                    $('#total_contribution').text(data.column6Report * -1);
+                    $('#total_sangria').text(data.column7Report);
+                }else if(data.column3Report == 2){
+                    $('#debit').text(data.column1Report);
+                    $('#debit_aliquot').text(data.column5Report);
+                }else if(data.column3Report == 3){
+                    $('#credit').text(data.column1Report);
+                    $('#credit_aliquot').text(data.column5Report);
+                }else{
+                    if(data.column4Report == 1){
+                        $('#expense_drawer').text(data.column1Report);
+                    }else if(data.column4Report == 2){
+                        $('#expense_savings').text(data.column1Report);
+                    }else if(data.column4Report == 3){
+                        $('#expense_bank_online').text(data.column1Report);
+                    }else if(data.column4Report == 4){
+                        $('#expense_bank').text(data.column1Report);
+                    }
                 }
             }
         });

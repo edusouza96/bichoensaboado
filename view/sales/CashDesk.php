@@ -96,22 +96,37 @@
                                     $subValue = 0;
                                     $valueService = 0;
                                     foreach($diaryList as $diaryClass){   
-                                        $valueService += $diaryClass->price;
+                                        $valueService += $diaryClass->price();
                             ?>
-                                <div class="form-group" style="margin-bottom: 0px;display:block;">
+                                <div class="form-group" style="margin-bottom: 0px;display:block;height: 60px;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
                                     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$diaryClass->servic->nameServic?>/<?=$diaryClass->servicVet->nameServic?></p>
-                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
-                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->totalPrice?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->price()?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->price()?></p>
                                 </div>
                                 <input type="hidden" name="quantityProductSales[]" value="1">
                                 <input type="hidden" name="diarySales[]" value="<?=$diaryClass->idDiary?>">
                                 <input type="hidden" name="productSales[]" value="0">
-                                <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->totalPrice?>">
+                                <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->price()?>">
+                                        
+                                <?php
+                                    if($diaryClass->valueSearch() > 0){
+                                ?>
+                                    <div class="form-group" style="margin-bottom: 0px;display:block;height: 60px;">
+                                        <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
+                                        <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">Busca</p>
+                                        <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->valueSearch()?></p>
+                                        <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$diaryClass->valueSearch()?></p>
+                                    </div>
+                                    <input type="hidden" name="quantityProductSales[]" value="1">
+                                    <input type="hidden" name="diarySales[]" value="<?=$diaryClass->idDiary?>">
+                                    <input type="hidden" name="productSales[]" value="0">
+                                    <input type="hidden" name="valuationUnitSales[]" value="<?=$diaryClass->valueSearch()?>">
                                
                             <?php
-                                        $subValue += $diaryClass->totalPrice;
                                     }
+                                    $subValue += $diaryClass->price() + $diaryClass->valueSearch();
+                                }
                             ?> 
                             <input type="hidden" name="valueService" id="valueService" value="<?=$valueService?>">
                                     <script>
@@ -149,7 +164,7 @@
                                     $vetClass = $vetDao->SearchId($vetId);  
                                     $subValue = 0;
                             ?>
-                                <div class="form-group" style="margin-bottom: 0px;display:block;">
+                                <div class="form-group" style="margin-bottom: 0px;display:block;height: 60px;">
                                     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
                                     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$vetClass->servic->nameServic?></p>
                                     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$vetClass->totalPrice?></p>
@@ -346,7 +361,7 @@
             if($("#numberItems").val() <2){
                 $("#numberItems").val(1);
             }
-            var div = '<div class="form-group" style="margin-bottom: 0px;display:block;">'; 
+            var div = '<div class="form-group" style="margin-bottom: 0px;display:block;height: 60px;">'; 
             div +=    '     <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">'+ $("#numberItems").val() +'</p>';
             div +=    '     <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4">'+ productName +'</p>';
             div +=    '     <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3">'+ $("#valueItems").val() +'</p>';

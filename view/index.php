@@ -356,7 +356,7 @@
                                         echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
                                     }else if($diary->status == 0){
                                         echo "<input type='button' onClick='finish(".$diary->idDiary.",1);' value='Check-in'/>";
-                                        echo "<input type='button' onClick='payAnticipate(".$diary->idDiary.");' value='Pagar'/>";
+                                        echo $diary->isPay() ? "<button class='btn-default' disabled>Já Pagou</button>" : "<input type='button' onClick='payAnticipate(".$diary->idDiary.");' value='Pagar'/>";
                                         echo "<br><input type='button' onClick='canc(".$diary->idDiary.");' data-toggle='modal' data-target='#modalCanc' value='Cancelar'/>";
                                         echo "<input type='button' onClick='dataToModal(".$diary->idDiary.",&quot;".$dHourShow."&quot;,&quot;".$date."&quot;);' data-toggle='modal' data-target='#modalEdit' value='Editar'/>";
                                     }

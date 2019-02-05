@@ -437,7 +437,7 @@
             $treasurerDao = new TreasurerDAO();
             $treasurerDao->update($treasurerClass);
             if(isset($_POST['page'])){
-                header("location:../view/sales/CashDesk.php");
+                header("location:../view/dashboard.php");
                 exit;
             }else{
                 header("location:../view/financial/TransferTreasury.php");
