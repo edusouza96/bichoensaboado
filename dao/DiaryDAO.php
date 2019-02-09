@@ -237,12 +237,12 @@ class DiaryDAO
 
         try {
             if($user->role == 3){
-                $sql = "SELECT distinct idDiary, diary.* FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') AND store = :store";
+                $sql = "SELECT diary.*, MIN(sales.idSales) as idSales FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') AND store = :store GROUP BY diary.idDiary";
                 $p_sql = Conexao::getInstance()->prepare($sql);
                 $p_sql->bindValue(":dateHour", $dateHour);
                 $p_sql->bindValue(":store", $user->store);
             }else{
-                $sql = "SELECT distinct idDiary, diary.*  FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') ";
+                $sql = "SELECT diary.*, MIN(sales.idSales) as idSales FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') GROUP BY diary.idDiary";
                 $p_sql = Conexao::getInstance()->prepare($sql);
                 $p_sql->bindValue(":dateHour", $dateHour);
             }
@@ -250,7 +250,7 @@ class DiaryDAO
             $p_sql->execute();
             $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
-            
+
             foreach ($list as $row) {
                 $f_list[] = $this->ShowObject($row);
             }
@@ -298,7 +298,7 @@ class DiaryDAO
         $diary->status          = ($row['status']);
         $diary->package         = PackageDAO::getInstance()->SearchId($row['package_idPackage']);
         $diary->store           = ($row['store']);
-        $diary->pay = isset($row['idSales']);
+        $diary->pay             = isset($row['idSales']);
         return $diary;
     }
 }
