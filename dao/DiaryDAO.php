@@ -83,7 +83,6 @@ class DiaryDAO
         }
     }
    
-
     public function UpdateStatus($idDiary, $status)
     {
         try {
@@ -130,7 +129,6 @@ class DiaryDAO
         }
     }
       
-
     public function Update(DiaryClass $diary)
     {
         try {
@@ -182,8 +180,6 @@ class DiaryDAO
         }
     }
    
-      
-   
     public function SearchId($idDiary)
     {
         try {
@@ -196,8 +192,7 @@ class DiaryDAO
             print "#01xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
-   
-     
+       
     public function SearchAll()
     {
         try {
@@ -242,24 +237,24 @@ class DiaryDAO
 
         try {
             if($user->role == 3){
-                $sql = "SELECT * FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') AND store = :store";
+                $sql = "SELECT distinct idDiary, diary.* FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') AND store = :store";
                 $p_sql = Conexao::getInstance()->prepare($sql);
                 $p_sql->bindValue(":dateHour", $dateHour);
                 $p_sql->bindValue(":store", $user->store);
             }else{
-                $sql = "SELECT * FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') ";
+                $sql = "SELECT distinct idDiary, diary.*  FROM diary LEFT JOIN sales ON (diary.idDiary = sales.diary_idDiary) WHERE dateHour = :dateHour AND companion in ('true','false') ";
                 $p_sql = Conexao::getInstance()->prepare($sql);
                 $p_sql->bindValue(":dateHour", $dateHour);
             }
-            
+
             $p_sql->execute();
             $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
             $f_list = array();
-   
+            
             foreach ($list as $row) {
                 $f_list[] = $this->ShowObject($row);
             }
-   
+            
             return $f_list;
         } catch (Exception $e) {
             print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";

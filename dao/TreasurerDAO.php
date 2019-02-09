@@ -260,6 +260,11 @@ class TreasurerDAO{
             // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
             $dateNow = date('Y-m-d');
             $treasurerClass = $this->searchDate($dateNow);
+
+            if(is_null($treasurerClass->idTreasurer)){
+                $treasurerClass = $this->searchLastId();
+            }
+
             $treasurerClass->closingMoneyDayTreasurer = $valueInCash;
             $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
             $treasurerClass->moneySavingsTreasurer -= $valueOutSavings;
@@ -425,6 +430,9 @@ class TreasurerDAO{
             // Seta os valores para update caso $day não for vazio, se for significa que o caixa não foi aberto
             $dateNow = date('Y-m-d');
             $treasurerClass = $this->searchDate($dateNow);
+            if(is_null($treasurerClass->idTreasurer)){
+                $treasurerClass = $this->searchLastId();
+            }
             $treasurerClass->moneyDrawerTreasurer += ($valueInCash-$valueOutDrawer);
 
             return $treasurerClass->moneyDrawerTreasurer;
