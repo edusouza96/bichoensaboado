@@ -10,7 +10,7 @@ function Redirect($url, $permanent = false)
 }
 $path = $_SERVER['SERVER_NAME']; 
 if($path=='localhost'){
-    $path .=':7777';
+    $path .='';
 }
 Redirect('http://'.$path.'/bichoensaboado/view/servic/ListServic.php', false);
 ?>

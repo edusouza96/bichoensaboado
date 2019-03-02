@@ -11,7 +11,7 @@
         }
                 
         if($_SERVER['SERVER_NAME'] == 'localhost'){
-            $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
+            $urlBase = "http://".$_SERVER['SERVER_NAME']."";
         }else{
             $urlBase = "https://".$_SERVER['SERVER_NAME'];
         }
