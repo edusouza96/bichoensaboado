@@ -11,9 +11,9 @@
         }
                 
         if($_SERVER['SERVER_NAME'] == 'localhost'){
-            $urlBase = "http://".$_SERVER['SERVER_NAME']."";
+            $urlBase = "http://".$_SERVER['SERVER_NAME'].":7777";
         }else{
-            $urlBase = "https://".$_SERVER['SERVER_NAME'];
+            $urlBase = "http://".$_SERVER['SERVER_NAME'];
         }
         Redirect($urlBase.'/bichoensaboado/Calendar', false);
 
@@ -45,14 +45,13 @@
     $nameAnimalsList = array_unique($nameAnimalsList);
     
     foreach ($nameAnimalsList as $name){
-        $f_list[] = array('label' => utf8_encode($name));
+        $f_list[] = array('label' => ($name));
     }
     
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <meta charset="UTF-8">
         <title>Agenda Pet</title>
         
         <?php

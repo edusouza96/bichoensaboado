@@ -14,5 +14,4 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
     $urlBase = "https://".$_SERVER['SERVER_NAME'];
 }
 Redirect($urlBase.'/bichoensaboado/view/index.php', false);
-// teste commit
 ?>
