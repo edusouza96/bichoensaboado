@@ -48,16 +48,16 @@ class ClientDAO {
               if($client->idOwner == 0){
                   $client->idOwner = $this->UltimateOwner();
               }
-              $p_sql->bindValue(":owner",             $client->owner);
+              $p_sql->bindValue(":owner",             utf8_decode($client->owner));
               $p_sql->bindValue(":idOwner",           $client->idOwner);
-              $p_sql->bindValue(":nameAnimal",        $client->nameAnimal);
+              $p_sql->bindValue(":nameAnimal",        utf8_decode($client->nameAnimal));
               $p_sql->bindValue(":breed_idBreed",     $client->breed);
               $p_sql->bindValue(":address_idAddress", $client->address);
               $p_sql->bindValue(":addressNumber",     $client->addressNumber);
-              $p_sql->bindValue(":addressComplement", $client->addressComplement);
+              $p_sql->bindValue(":addressComplement", utf8_decode($client->addressComplement));
               $p_sql->bindValue(":phone1",            $client->phone1);
               $p_sql->bindValue(":phone2",            $client->phone2);
-              $p_sql->bindValue(":email",             $client->email);
+              $p_sql->bindValue(":email",             utf8_decode($client->email));
    
    
               return $p_sql->execute();
@@ -83,15 +83,15 @@ class ClientDAO {
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":idClient",          $client->idClient);
-              $p_sql->bindValue(":owner",             $client->owner);
-              $p_sql->bindValue(":nameAnimal",        $client->nameAnimal);
+              $p_sql->bindValue(":owner",             utf8_decode($client->owner));
+              $p_sql->bindValue(":nameAnimal",        utf8_decode($client->nameAnimal));
               $p_sql->bindValue(":breed_idBreed",     $client->breed);
               $p_sql->bindValue(":address_idAddress", $client->address);
               $p_sql->bindValue(":addressNumber",     $client->addressNumber);
-              $p_sql->bindValue(":addressComplement", $client->addressComplement);
+              $p_sql->bindValue(":addressComplement", utf8_decode($client->addressComplement));
               $p_sql->bindValue(":phone1",            $client->phone1);
               $p_sql->bindValue(":phone2",            $client->phone2);
-              $p_sql->bindValue(":email",             $client->email);
+              $p_sql->bindValue(":email",             utf8_decode($client->email));
    
               return $p_sql->execute();
           } catch (Exception $e) {
@@ -248,16 +248,16 @@ class ClientDAO {
           
           $client = new ClientClass();
           $client->idClient          = ($row['idClient']);
-          $client->owner             = ($row['owner']);
+          $client->owner             = utf8_encode($row['owner']);
           $client->idOwner           = ($row['idOwner']);
-          $client->nameAnimal        = ($row['nameAnimal']);
+          $client->nameAnimal        = utf8_encode($row['nameAnimal']);
           $client->breed             = BreedDAO::getInstance()->SearchId($row['breed_idBreed']);
           $client->address           = AddressDAO::getInstance()->SearchId($row['address_idAddress']);
-          $client->addressNumber     = ($row['addressNumber']);
-          $client->addressComplement = ($row['addressComplement']);
+          $client->addressNumber     = utf8_encode($row['addressNumber']);
+          $client->addressComplement = utf8_encode($row['addressComplement']);
           $client->phone1            = ($row['phone1']);
           $client->phone2            = ($row['phone2']);
-          $client->email             = ($row['email']);
+          $client->email             = utf8_encode(($row['email']));
 
           return $client;
       }

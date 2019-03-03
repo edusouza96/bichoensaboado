@@ -306,7 +306,7 @@ class ReportDAO{
         $reportClass = new ReportClass();
         if($row){
             foreach($row as $field => $value){
-                $reportClass->${'field'} = $value;    
+                $reportClass->${'field'} = utf8_encode($value);    
             }
         }
        

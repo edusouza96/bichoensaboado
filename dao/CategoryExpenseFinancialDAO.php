@@ -31,7 +31,7 @@ class CategoryExpenseFinancialDAO
    
             $p_sql = Conexao::getInstance()->prepare($sql);
    
-            $p_sql->bindValue(":descCategoryExpenseFinancial", $categoryExpenseFinancial->descCategoryExpenseFinancial);
+            $p_sql->bindValue(":descCategoryExpenseFinancial", utf8_decode($categoryExpenseFinancial->descCategoryExpenseFinancial));
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
         } catch (Exception $e) {
@@ -53,7 +53,7 @@ class CategoryExpenseFinancialDAO
              
             $p_sql = Conexao::getInstance()->prepare($sql);
    
-            $p_sql->bindValue(":idCategoryExpenseFinancial", $categoryExpenseFinancial->idCategoryExpenseFinancial);
+            $p_sql->bindValue(":idCategoryExpenseFinancial", utf8_decode($categoryExpenseFinancial->idCategoryExpenseFinancial));
    
             return $p_sql->execute();
         } catch (Exception $e) {

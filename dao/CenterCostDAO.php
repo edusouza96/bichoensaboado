@@ -36,7 +36,7 @@ class CenterCostDAO
             $p_sql = Conexao::getInstance()->prepare($sql);
    
             $p_sql->bindValue(":categoryExpenseFinancial",  $centerCost->categoryExpenseFinancial);
-            $p_sql->bindValue(":nameCenterCost",            $centerCost->nameCenterCost);
+            $p_sql->bindValue(":nameCenterCost",            utf8_decode($centerCost->nameCenterCost));
             $p_sql->execute();
             $newIdCenterCost = Conexao::getInstance()->lastInsertId();
               
@@ -57,7 +57,7 @@ class CenterCostDAO
                 }
             }
             $sql .= " WHERE idCenterCost = :idCenterCost ORDER BY category_expense_financial_idCategoryExpenseFinancial, nameCenterCost";
-            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql = Conexao::getInstance()->prepare(utf8_decode($sql));
    
             $p_sql->bindValue(":idCenterCost", $centerCost->idCenterCost);
    
@@ -122,7 +122,7 @@ class CenterCostDAO
     {
         $centerCost = new CenterCostClass();
         $centerCost->idCenterCost = $row['idCenterCost'];
-        $centerCost->nameCenterCost = $row['nameCenterCost'];
+        $centerCost->nameCenterCost = utf8_encode($row['nameCenterCost']);
         $centerCost->categoryExpenseFinancial = CategoryExpenseFinancialDAO::getInstance()->searchId($row['category_expense_financial_idCategoryExpenseFinancial']);
         return $centerCost;
     }

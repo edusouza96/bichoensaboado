@@ -25,7 +25,7 @@ class BreedDAO {
    
               $p_sql = Conexao::getInstance()->prepare($sql);
    
-              $p_sql->bindValue(":nameBreed",  $breed->nameBreed);
+              $p_sql->bindValue(":nameBreed",  utf8_decode($breed->nameBreed));
               $p_sql->execute();
               return Conexao::getInstance()->lastInsertId();
           } catch (Exception $e) {
@@ -42,7 +42,7 @@ class BreedDAO {
               $p_sql = Conexao::getInstance()->prepare($sql);
    
               $p_sql->bindValue(":idBreed",  $breed->idBreed);
-              $p_sql->bindValue(":nameBreed",$breed->nameBreed);
+              $p_sql->bindValue(":nameBreed",utf8_decode($breed->nameBreed));
    
               return $p_sql->execute();
           } catch (Exception $e) {
@@ -114,7 +114,7 @@ class BreedDAO {
       private function ShowObject($row) {
           
           $breed = new BreedClass();
-          $breed->BreedClass($row['idBreed'], $row['nameBreed']);
+          $breed->BreedClass($row['idBreed'], utf8_encode($row['nameBreed']));
           return $breed;
       }
    

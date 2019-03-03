@@ -34,7 +34,7 @@ class AddressDAO
             $p_sql = Conexao::getInstance()->prepare($sql);
 
             $p_sql->bindValue(":district", $address->district);
-            $p_sql->bindValue(":street", $address->street);
+            $p_sql->bindValue(":street", utf8_decode($address->street));
             $p_sql->bindValue(":valuation", $address->valuation);
 
             return $p_sql->execute();
@@ -56,7 +56,7 @@ class AddressDAO
 
             $p_sql->bindValue(":idAddress", $address->idAddress);
             $p_sql->bindValue(":district", $address->district);
-            $p_sql->bindValue(":street", $address->street);
+            $p_sql->bindValue(":street", utf8_decode($address->street));
             $p_sql->bindValue(":valuation", $address->valuation);
 
             return $p_sql->execute();
@@ -134,7 +134,7 @@ class AddressDAO
     {
 
         $address = new AddressClass();
-        $address->AddressClass($row['idAddress'], $row['district'], $row['street'], $row['valuation']);
+        $address->AddressClass($row['idAddress'], utf8_encode($row['district']), utf8_encode($row['street']), $row['valuation']);
         return $address;
     }
 

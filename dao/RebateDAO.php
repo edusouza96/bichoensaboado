@@ -31,10 +31,9 @@ class RebateDAO
                 :descriptionRebate,
                 :valueRebate
                 )";
-   
             $p_sql = Conexao::getInstance()->prepare($sql);
    
-            $p_sql->bindValue(":descriptionRebate", $rebate->descriptionRebate);
+            $p_sql->bindValue(":descriptionRebate", utf8_decode($rebate->descriptionRebate));
             $p_sql->bindValue(":valueRebate",       $rebate->valueRebate);
             $p_sql->execute();
             $newIdRebate = Conexao::getInstance()->lastInsertId();
@@ -56,7 +55,7 @@ class RebateDAO
                 }
             }
             $sql .= " WHERE idRebate = :idRebate";
-            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql = Conexao::getInstance()->prepare(utf8_decode($sql));
    
             $p_sql->bindValue(":idRebate", $rebate->idRebate);
    
@@ -121,7 +120,7 @@ class RebateDAO
     {
         $rebate = new RebateClass();
         $rebate->idRebate = $row['idRebate'];
-        $rebate->descriptionRebate = $row['descriptionRebate'];
+        $rebate->descriptionRebate = utf8_encode($row['descriptionRebate']);
         $rebate->valueRebate = $row['valueRebate'];
         $rebate->active = $row['active'];
         return $rebate;

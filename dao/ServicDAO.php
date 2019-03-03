@@ -59,7 +59,7 @@ class ServicDAO
 
             $p_sql = Conexao::getInstance()->prepare($sql);
 
-            $p_sql->bindValue(":nameServic", $servic->nameServic);
+            $p_sql->bindValue(":nameServic", utf8_decode($servic->nameServic));
             $p_sql->bindValue(":breed_idBreed", $servic->breed);
             $p_sql->bindValue(":sizeAnimal", $servic->sizeAnimal);
             $p_sql->bindValue(":valuation", $servic->valuation);
@@ -84,7 +84,7 @@ class ServicDAO
 
             $p_sql = Conexao::getInstance()->prepare($sql);
             $p_sql->bindValue(":idServic", $servic->idServic);
-            $p_sql->bindValue(":nameServic", $servic->nameServic);
+            $p_sql->bindValue(":nameServic", utf8_decode($servic->nameServic));
             $p_sql->bindValue(":breed_idBreed", $servic->breed);
             $p_sql->bindValue(":valuation", $servic->valuation);
             $p_sql->bindValue(":package", $servic->package);
@@ -202,7 +202,7 @@ class ServicDAO
     {
         $servic = new ServicClass();
         $servic->idServic = $row['idServic'];
-        $servic->nameServic = $row['nameServic'];
+        $servic->nameServic = utf8_encode($row['nameServic']);
         $servic->breed = BreedDAO::getInstance()->SearchId($row['breed_idBreed']);
         $servic->sizeAnimal = $row['sizeAnimal'];
         $servic->valuation = $row['valuation'];

@@ -39,7 +39,7 @@ class ProductDAO
    
             $p_sql = Conexao::getInstance()->prepare($sql);
    
-            $p_sql->bindValue(":nameProduct", $product->nameProduct);
+            $p_sql->bindValue(":nameProduct", utf8_decode($product->nameProduct));
             $p_sql->bindValue(":valuationProduct", $product->valuationProduct);
             $p_sql->bindValue(":quantityProduct", $product->quantityProduct);
             $p_sql->bindValue(":valuationBuyProduct", $product->valuationBuyProduct);
@@ -65,7 +65,7 @@ class ProductDAO
             }
             $sql .= " WHERE idProduct = :idProduct";
              
-            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql = Conexao::getInstance()->prepare(utf8_decode($sql));
    
             $p_sql->bindValue(":idProduct", $product->idProduct);
 
@@ -177,7 +177,7 @@ class ProductDAO
         $product = new ProductClass();
         $product->ProductClass(
           $row['idProduct'],
-          $row['nameProduct'],
+          utf8_encode($row['nameProduct']),
           $row['valuationProduct'],
           $row['quantityProduct'],
           $row['valuationBuyProduct'],
