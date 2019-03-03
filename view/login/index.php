@@ -7,10 +7,10 @@
     <link href="/bichoensaboado/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bichoensaboado/css/styleLogin.css" rel="stylesheet">
 
-    <meta property="og:url" content="https://bichoensaboado.com.br/view/login">
+    <meta property="og:url" content="http://bichoensaboado.com.br/view/login">
     <meta property="og:title" content="Bicho Ensaboado - Login">
     <meta property="og:description" content="Intranet">
-    <meta property="og:image" content="https://bichoensaboado.com.br/bichoensaboado/img/logo.jpg">
+    <meta property="og:image" content="http://bichoensaboado.com.br/bichoensaboado/img/logo.jpg">
     <link rel="icon" type="image/png" href="/bichoensaboado/img/logo.jpg" />
 
   </head>

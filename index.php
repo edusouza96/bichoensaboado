@@ -11,7 +11,7 @@ function Redirect($url, $permanent = false)
 if($_SERVER['SERVER_NAME'] == 'localhost'){
     $urlBase = "http://".$_SERVER['SERVER_NAME']."";
 }else{
-    $urlBase = "https://".$_SERVER['SERVER_NAME'];
+    $urlBase = "http://".$_SERVER['SERVER_NAME'];
 }
 Redirect($urlBase.'/bichoensaboado/view/index.php', false);
 ?>

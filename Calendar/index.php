@@ -2,7 +2,7 @@
 if($_SERVER['SERVER_NAME'] == 'localhost'){
 	$urlBase = "http://".$_SERVER['SERVER_NAME']."";
 }else{
-	$urlBase = "https://".$_SERVER['SERVER_NAME'];
+	$urlBase = "http://".$_SERVER['SERVER_NAME'];
 }
 
 session_start();
