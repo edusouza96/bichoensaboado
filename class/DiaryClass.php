@@ -86,7 +86,7 @@ class DiaryClass
         }
 
         if(!empty($week)){
-            return $this->servic->nameServic.' - Semana '.$week.' (Primeiro banho do Pacote '. date("d/m/Y h:i", strtotime($this->package->date1)).')';
+            return $this->servic->nameServic.' - Semana '.$week.' (Primeiro banho do Pacote '. date("d/m/Y H:i", strtotime($this->package->date1)).')';
         }
 
         return  $this->servic->nameServic;

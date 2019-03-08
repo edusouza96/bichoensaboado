@@ -69,7 +69,7 @@
                         echo "</td>";
 
                         echo "<td>";
-                        echo date("d/m/Y h:i", strtotime($diary->dateHour));
+                        echo date("d/m/Y H:i", strtotime($diary->dateHour));
                         echo "</td>";
 
                         echo "<td>";
