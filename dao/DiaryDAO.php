@@ -281,6 +281,24 @@ class DiaryDAO
         }
     }
 
+    public function searchByNameAnimal($nameAnimal) {
+        try {
+            $sql = "SELECT d.* FROM diary d LEFT JOIN client c ON (c.idClient = d.client_idClient) WHERE c.nameAnimal LIKE :nameAnimal ORDER BY c.owner, d.dateHour desc";
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $nameAnimal = '%' . $nameAnimal . '%';
+            $p_sql->bindParam(':nameAnimal', $nameAnimal, PDO::PARAM_STR);
+            $p_sql->execute();
+            $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+            $f_list = array();
+            foreach ($list as $row){
+                $f_list[] = $this->ShowObject($row);
+            }
+            return $f_list;
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
+
     private function ShowObject($row)
     {
           
@@ -298,6 +316,7 @@ class DiaryDAO
         $diary->status          = ($row['status']);
         $diary->package         = PackageDAO::getInstance()->SearchId($row['package_idPackage']);
         $diary->store           = ($row['store']);
+        $diary->checkinHourDiary = ($row['checkinHourDiary']);
         $diary->pay             = isset($row['idSales']);
         return $diary;
     }

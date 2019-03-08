@@ -70,4 +70,25 @@ class DiaryClass
             $this->$property = $value;
         }
     }
+
+    public function getNameServic()
+    {
+        $week = '';
+        if($this->package){
+            for($iPack = 1; $iPack<5; $iPack++){
+                $datePack = 'date'.$iPack;
+                $weekPack = 'week'.$iPack;
+                if($this->dateHour == $this->package->${'datePack'}){
+                    $week = $this->package->${'weekPack'};
+                    break;
+                }
+            }
+        }
+
+        if(!empty($week)){
+            return $this->servic->nameServic.' - Semana '.$week.' (Primeiro banho do Pacote '. date("d/m/Y h:i", strtotime($this->package->date1)).')';
+        }
+
+        return  $this->servic->nameServic;
+    }
 }

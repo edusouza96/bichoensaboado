@@ -38,13 +38,8 @@
     $treasurerList = $treasurerDao->searchAll();
     if(empty($treasurerList)){
         $textLink = "Abrir Caixa";
-    //     $option = 1;
     }else{
         $textLink = "Fechar Caixa";
-    //     $option = 2;
-    //     if($treasurerList[0]->closingMoneyDayTreasurer != null){
-    //         $disabledLink = true;
-    //     }
     }
 ?>
 <!DOCTYPE html>
@@ -65,6 +60,7 @@
                 <li><a href="/bichoensaboado/view/product/">Produtos</a></li>
                 <li><a href="/bichoensaboado/view/rebate/">Descontos</a></li>
                 <li><a href="/bichoensaboado/view/sales/salesOfDay.php">Vendas do dia</a></li>
+                <li><a href="/bichoensaboado/view/client/historic.php">Histórico Clientes</a></li>
                 <li><a href="/bichoensaboado/view/financial/SaveOutlay.php">Registrar Gastos</a></li>
                 <?php
                 if($dataLogin->role != 3){
