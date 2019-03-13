@@ -52,7 +52,7 @@ class DiaryClass
     public function valueSearch()
     {
         if($this->search == 1)
-            return $this->totalPrice - $this->price;
+            return $this->totalPrice - $this->price();
         
         return 0;
     }
@@ -86,9 +86,11 @@ class DiaryClass
         }
 
         if(!empty($week)){
-            return $this->servic->nameServic.' - Semana '.$week.' (Primeiro banho do Pacote '. date("d/m/Y H:i", strtotime($this->package->date1)).')';
+            return $this->servic->nameServic.
+                ' - Semana '.$week.' (Primeiro banho do Pacote '. date("d/m/Y H:i", strtotime($this->package->date1)).')<br>'.
+                $this->servicVet->nameServic;
         }
 
-        return  $this->servic->nameServic;
+        return  $this->servic->nameServic.'<br>'.$this->servicVet->nameServic;
     }
 }
