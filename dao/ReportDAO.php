@@ -319,7 +319,7 @@ class ReportDAO{
                 FROM diary d 
                 LEFT JOIN sales s ON (d.idDiary = s.diary_idDiary)
                 LEFT JOIN client c ON (d.client_idClient = c.idClient)
-                WHERE d.STATUS = 2 AND (s.idSales IS NULL) OR (s.valuationUnitSales > s.valueReceive) AND d.store = ".getStore()."
+                WHERE d.STATUS = 2 AND s.idSales IS NULL AND d.store = ".getStore()."
             ";
 
             $result = Conexao::getInstance()->query($sql);
