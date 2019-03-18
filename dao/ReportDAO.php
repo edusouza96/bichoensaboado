@@ -220,6 +220,39 @@ class ReportDAO{
         
     }
 
+    public function reportFinancialOut(){
+        try {
+            $sql = "
+                SELECT 
+                    SUM(valueOutDrawer) as idReport,
+                    SUM(valueOutSavings) as column8Report,
+                    SUM(valueOutBankOnline) as column9Report,
+                    SUM(valueOutBank) as column10Report
+                FROM (
+                    (SELECT datePayFinancial as day, (valueProduct) AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NOT NULL AND methodPayment = 1 AND treasurer_idTreasurer IS NULL)
+                        UNION 
+                    (SELECT datePayFinancial as day, 0 as valueInCash, (valueProduct) AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank , 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 1 AND center_cost_idCenterCost <> 16) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, (valueProduct) AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 2) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, (valueAliquot) AS valueOutBankOnline, 0 AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 3) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 as valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, (valueProduct) AS valueOutBank, 0 AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NULL AND typeTreasurerFinancial = 4) 
+                        UNION
+                    (SELECT datePayFinancial as day, 0 AS valueInCash, 0 AS valueOutDrawer, 0 AS valueOutSavings, 0 AS valueOutBankOnline, 0 AS valueOutBank, (valueProduct) AS valueInCredit FROM financial WHERE store = ".getStore()." AND  registerBuy IS NOT NULL AND methodPayment <> 1 AND treasurer_idTreasurer IS NULL)
+                ) AS tbl 
+                WHERE SUBSTRING(day, 1, 10) = CURDATE()
+                GROUP BY day
+            ";
+
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->execute();
+            return $this->showObject($p_sql->fetch(PDO::FETCH_ASSOC));
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
+    
     public function reportSangriaOfDay(){
         try {
             $sql = "
@@ -280,13 +313,13 @@ class ReportDAO{
                     c.nameAnimal AS column1Report,
                     c.owner AS column2Report,
                     c.phone1 AS column3Report,
-                    d.totalPrice AS column4Report,
+                    d.totalPrice - IFNULL(s.valueReceive, 0) AS column4Report,
                     d.idDiary AS column5Report,
                     d.dateHour AS column6Report
                 FROM diary d 
                 LEFT JOIN sales s ON (d.idDiary = s.diary_idDiary)
                 LEFT JOIN client c ON (d.client_idClient = c.idClient)
-                WHERE d.STATUS = 2 AND s.idSales IS NULL AND d.store = ".getStore()."
+                WHERE d.STATUS = 2 AND (s.diary_idDiary IS NULL) OR (s.valuationUnitSales > s.valueReceive) AND d.store = ".getStore()."
             ";
 
             $result = Conexao::getInstance()->query($sql);

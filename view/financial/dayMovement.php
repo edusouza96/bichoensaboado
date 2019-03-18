@@ -1,4 +1,4 @@
-<?php 
+<?php
 ?>
 <div class="modal fade" id="dayMovement" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-md">
@@ -15,44 +15,44 @@
 
                             <h3>Total de Aporte</h3>
                             <h5>R$ <span id="total_contribution"></span></h5>
-                            
+
                             <h3>Total de Sangrias</h3>
                             <h5>R$ <span id="total_sangria"></span></h5>
 
                             <h3>Valores Arrecadados</h3>
                             <h5>Dinheiro R$ <span id="in_cash">0.00</span></h5>
                             <h5>Cartão de Débito R$ <span id="debit">0.00</span></h5>
-                            <?php if($admin){ ?>
+                            <?php if ($admin) {?>
                                 <h6>Com desconto da aliquota R$ <span id="debit_aliquot">0.00</span></h6>
-                            <?php } ?>
+                            <?php }?>
                             <h5>Cartão de Crédito R$ <span id="credit">0.00</span></h5>
-                            <?php if($admin){ ?>
+                            <?php if ($admin) {?>
                                 <h6>Com desconto da aliquota R$ <span id="credit_aliquot">0.00</span></h6>
-                            <?php } ?>
+                            <?php }?>
 
                             <h3>Valores Retirado</h3>
                             <h5>Caixa R$ <span id="expense_drawer">0.00</span></h5>
-                            <?php if($admin){ ?>
+                            <?php if ($admin) {?>
                             <h5>Cofre R$ <span id="expense_savings">0.00</span></h5>
                             <h5>Banco R$ <span id="expense_bank">0.00</span></h5>
                             <h5>PagSeguro R$ <span id="expense_bank_online">0.00</span></h5>
-                            <?php } ?>
+                            <?php }?>
 
-                            <h3>Total</h3> 
+                            <h3>Total</h3>
                             <h5>Caixa R$ <span id="money_drawer_treasurer"></span></h5>
-                            <?php if($admin){ ?>
+                            <?php if ($admin) {?>
                             <h5>PagSeguro R$ ~<span id="money_bank_online_treasurer"></span></h5>
                             <h5>Cofre R$ <span id="money_savings_treasurer"></span></h5>
                             <h5>Banco R$ <span id="money_bank_treasurer"></span></h5>
-                            <?php } ?>
+                            <?php }?>
                             <br>
-                            
-                            <?php if($admin){ ?>
+
+                            <?php if ($admin) {?>
                             <fieldset>
                                 <legend>Transferir</legend>
                                 <form action="../controller/Manager.php" method="POST">
-                                    <input type="hidden" name="module" value="treasurer-transfer"> 
-                                    <input type="hidden" name="page" value="dashboard"> 
+                                    <input type="hidden" name="module" value="treasurer-transfer">
+                                    <input type="hidden" name="page" value="dashboard">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-5 col-lg-5 col-md-5">
                                             <div class="form-group">
@@ -108,7 +108,7 @@
                                     </div>
                                 </form>
                             </fieldset>
-                            <?php } ?>
+                            <?php }?>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
 
 <script language="javascript" src="/bichoensaboado/js/jquery.min.js"></script>
 <script>
-     
+
     $('#passwordAdmin').on('keyup', function(){
         if(this.value == '4518'){
             $('#btnSaveTranfer').attr('disabled', false);
@@ -138,6 +138,11 @@
         .done(function(data) {
             data = JSON.parse(data).pop();
             if(data){
+
+                $('#expense_drawer').text(data.idReport);
+                $('#expense_savings').text(data.column8Report);
+                $('#expense_bank_online').text(data.column9Report);
+                $('#expense_bank').text(data.column10Report);
 
                 if(data.column3Report == 1){
                     $('#in_cash').text(data.column1Report);

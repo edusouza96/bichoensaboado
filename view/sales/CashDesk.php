@@ -43,7 +43,7 @@
 
         <form action="../../controller/Manager.php" method="POST">
             <input type="hidden" name="module" value="sales"> 
-            <input type="hidden" name="idSales" value="0" >
+            <input type="hidden" name="idSales" id="idSales" value="0" >
             
             <div class="container">
                 <div class="row"> 
@@ -136,8 +136,35 @@
                                     </script>
                             <?php
                                     $subValue = 'R$ '.$subValue;
+                                }else if($salesList[0]->debtorValue() > 0) {
+                                    $diaryDao = new DiaryDAO();
+                                    $diaryDebtor = $diaryDao->SearchId($diaryId);
+
+                                    $subValue = $salesList[0]->debtorValue();
+                                    $idSales = $salesList[0]->idSales;
+
+                            ?>
+                                <div class="form-group" style="margin-bottom: 0px;display:block;height: 60px;">
+                                    <p class="col-xs-2 col-sm-2 col-lg-2 col-md-2">1</p>
+                                    <p class="col-xs-4 col-sm-4 col-lg-4 col-md-4"><?=$diaryDebtor->servic->nameServic?>/<?=$diaryDebtor->servicVet->nameServic?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$subValue?></p>
+                                    <p class="col-xs-3 col-sm-3 col-lg-3 col-md-3"><?=$subValue?></p>
+                                </div>
+                                <input type="hidden" name="quantityProductSales[]" value="1">
+                                <input type="hidden" name="diarySales[]" value="<?=$diaryDebtor->idDiary?>">
+                                <input type="hidden" name="productSales[]" value="0">
+                                <input type="hidden" name="valuationUnitSales[]" value="<?=$subValue?>">
+
+                                <input type="hidden" name="valueService" id="valueService" value="<?=$subValue?>">
+                                <script>
+                                    window.onload = function() {
+                                        diaryRegisterBuy(<?=$subValue?>);
+                                        document.getElementById('idSales').value = '<?=$idSales?>';
+                                    };
+                                </script>
+                            <?php
                                 }else{
-                                    ?>
+                            ?>
                                     <script>
                                         window.onload = function() {
                                             document.getElementById('alert').style.display = 'block';
@@ -150,7 +177,7 @@
                             ?>
 
 
-                                <!-- VET -->
+                            <!-- VET -->
                             <?php
                             if(!empty($_GET['vet'])){
                                 $vetId = $_GET['vet'];

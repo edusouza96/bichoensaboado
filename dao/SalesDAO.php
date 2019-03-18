@@ -24,12 +24,14 @@ class SalesDAO{
                 diary_idDiary,
                 product_idProduct,
                 quantityProductSales,
-                valuationUnitSales 
+                valuationUnitSales,
+                valueReceive
                 )VALUES (
                 :diarySales,
                 :productSales,
                 :quantityProductSales,
-                :valuationUnitSales)";
+                :valuationUnitSales,
+                :valueReceive)";
    
             $p_sql = Conexao::getInstance()->prepare($sql);
    
@@ -37,6 +39,7 @@ class SalesDAO{
             $p_sql->bindValue(":productSales", $sales->productSales);
             $p_sql->bindValue(":quantityProductSales", $sales->quantityProductSales);
             $p_sql->bindValue(":valuationUnitSales", $sales->valuationUnitSales);
+            $p_sql->bindValue(":valueReceive", $sales->valueReceive);
             $p_sql->execute();
             return Conexao::getInstance()->lastInsertId();
         } catch (Exception $e) {
@@ -47,15 +50,16 @@ class SalesDAO{
     public function update(SalesClass $sales){
         try {
             $sql = "UPDATE sales set idSales = :idSales";
-            foreach ($sales as $key => $value) {
-                if ($value != "") {
+            $salesList = $sales->iterateVisible();
+            foreach ($salesList as $key => $value) {
+                if ($value != "" && $key != 'diarySales' && $key != 'productSales') {
                     $sql .= ", ".$key." = ".$value;
                 }
             }
             $sql .= " WHERE idSales = :idSales";
-   
+            
             $p_sql = Conexao::getInstance()->prepare($sql);
-   
+            
             $p_sql->bindValue(":idSales", $sales->idSales);
    
             return $p_sql->execute();
@@ -112,7 +116,14 @@ class SalesDAO{
      
     private function showObject($row){
         $sales = new SalesClass();
-        $sales->SalesClass($row['idSales'], $row['diary_idDiary'], $row['product_idProduct'], $row['quantityProductSales'], $row['valuationUnitSales']);
+        $sales->SalesClass(
+            $row['idSales'], 
+            $row['diary_idDiary'], 
+            $row['product_idProduct'], 
+            $row['quantityProductSales'], 
+            $row['valuationUnitSales'],
+            $row['valueReceive']
+        );
         return $sales;
     }
 }

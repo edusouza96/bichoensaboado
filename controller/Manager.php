@@ -337,7 +337,15 @@
         case 'sales':
 
             if($_POST['idSales'] > 0){
-                // 
+                $idSales = $_POST['idSales'];
+                $salesDao = new SalesDAO();
+                $sales = $salesDao->searchId($idSales);
+                $sales->valueReceive += $_POST['valueReceive'];
+                $salesDao->update($sales);
+
+                header("location:../view/dashboard.php");
+                exit;
+
             }else{
                 $quantityProductSales = $_POST['quantityProductSales'];
                 $productSales         = $_POST['productSales'];
@@ -349,17 +357,30 @@
                 $valueReceive         = $_POST['valueReceive'];
                 $rebate               = $_POST['rebate'];
                 $change               = $_POST['change'];
+                $calcChange           = $change;
 
                 if($numberPlotsFinancial < 1){
                     $numberPlotsFinancial = 1;
                 }
                 $saleIds = array();
                 for($i=0; $i<count($valuationUnitSales); $i++){
+                    if($calcChange < 0) {
+                        $calcValueReceiver = $valuationUnitSales[$i] + $calcChange;
+                        if($calcValueReceiver < 0) {
+                            $calcChange = $calcValueReceiver;
+                            $calcValueReceiver = 0;
+                        }else {
+                            $calcChange = 0;
+                        }
+                    }else {
+                        $calcValueReceiver =  $valuationUnitSales[$i];
+                    }
                     $salesClass = new SalesClass();
                     $salesClass->quantityProductSales = $quantityProductSales[$i];
                     $salesClass->valuationUnitSales   = $valuationUnitSales[$i];
                     $salesClass->productSales         = $productSales[$i];
-                    @$salesClass->diarySales           = $diarySales[$i];
+                    $salesClass->valueReceive         = $calcValueReceiver;
+                    @$salesClass->diarySales          = $diarySales[$i];
                     $saleIds[] = $salesDao->insert($salesClass);
                     if($productSales[$i] > 0){
                         $productUpDao = new ProductDAO();
