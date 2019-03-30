@@ -87,7 +87,7 @@ class ReportDAO{
                 FROM diary d 
                 INNER JOIN client c ON (c.idClient = d.client_idClient) 
                 INNER JOIN address a ON (a.idAddress = c.address_idAddress) 
-                WHERE 1 ".$this->sqlWhere." AND d.store = ".getStore()."
+                WHERE 1 ".$this->sqlWhere." AND d.status = 2 AND d.store = ".getStore()."
                 GROUP BY a.idAddress
                 ORDER BY a.district;
             ";
@@ -112,7 +112,7 @@ class ReportDAO{
                 FROM diary d 
                 INNER JOIN client c ON (c.idClient = d.client_idClient) 
                 INNER JOIN breed b ON (b.idBreed = c.breed_idBreed) 
-                WHERE 1 ".$this->sqlWhere." AND d.store = ".getStore()."
+                WHERE 1 ".$this->sqlWhere." AND d.status = 2 AND d.store = ".getStore()."
                 GROUP BY b.idBreed
                 ORDER BY b.nameBreed;
             ";
