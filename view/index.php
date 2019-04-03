@@ -134,14 +134,14 @@
                             echo "<td id='priceVet".$i."'>";
                             echo "</td>";
 
+                            echo "<td id='observation".$i."'>";
+                            echo "</td>";
+                            
                             echo "<td id='deliveryPrice".$i."'>";
                             // echo "<input type='text' id='deliveryPrice".$i."' name='deliveryPrice' class='form-control'>";
                             echo "</td>";
 
                             echo "<td id='totalPrice".$i."'>";
-                            echo "</td>";
-                            
-                            echo "<td id='observation".$i."'>";
                             echo "</td>";
 
                             echo "<td>";

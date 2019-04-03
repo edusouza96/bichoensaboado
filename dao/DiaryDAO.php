@@ -311,6 +311,7 @@ class DiaryDAO
             
             return $p_sql->execute();
         } catch (Exception $e) {
+            var_dump($e);
             header("HTTP/1.0 500");
             print "#10xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
@@ -335,7 +336,7 @@ class DiaryDAO
         $diary->store           = ($row['store']);
         $diary->checkinHourDiary = ($row['checkinHourDiary']);
         $diary->pay             = isset($row['idSales']);
-        $diary->observation     = ($row['observation']);
+        @$diary->observation     = ($row['observation']);
         return $diary;
     }
 }

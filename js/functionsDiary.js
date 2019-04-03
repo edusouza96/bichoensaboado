@@ -645,7 +645,7 @@ function saveObservation()
         location.reload();
     }).fail(function(error) {
         console.log(error.responseText);
-        showMessage('Falha no agendamento, tente novamente');
+        showMessage('Falha na atualização, tente novamente');
     });
         
 
