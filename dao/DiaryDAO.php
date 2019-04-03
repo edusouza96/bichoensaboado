@@ -299,6 +299,23 @@ class DiaryDAO
         }
     }
 
+    public function setObservation($id, $observation)
+    {
+        try {
+            $sql = "UPDATE diary set observation = :observation WHERE idDiary = :id";
+   
+            $p_sql = Conexao::getInstance()->prepare($sql);
+   
+            $p_sql->bindValue(":observation", $observation);
+            $p_sql->bindValue(":id", $id);
+            
+            return $p_sql->execute();
+        } catch (Exception $e) {
+            header("HTTP/1.0 500");
+            print "#10xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
+
     private function ShowObject($row)
     {
           
@@ -318,6 +335,7 @@ class DiaryDAO
         $diary->store           = ($row['store']);
         $diary->checkinHourDiary = ($row['checkinHourDiary']);
         $diary->pay             = isset($row['idSales']);
+        $diary->observation     = ($row['observation']);
         return $diary;
     }
 }

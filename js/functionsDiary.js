@@ -231,11 +231,12 @@ function addRow(hour, date) {
             } else if (i == 11) {
                 newcell.setAttribute('id', 'priceVet' + id);
             } else if (i == 12) {
-                newcell.setAttribute('id', 'deliveryPrice' + id);
-                // newcell.innerHTML = "<input type='text' id='deliveryPrice"+id+"' name='deliveryPrice' class='form-control'>";
+                newcell.setAttribute('id', 'observation' + id);
             } else if (i == 13) {
-                newcell.setAttribute('id', 'totalPrice' + id);
+                newcell.setAttribute('id', 'deliveryPrice' + id);
             } else if (i == 14) {
+                newcell.setAttribute('id', 'totalPrice' + id);
+            } else if (i == 15) {
                 newcell.innerHTML = "<input type='button' id='save" + id + "' onClick='save(" + id + ",&quot;" + date + "&quot;)' value='Agendar'/>";
             }
 
@@ -622,5 +623,30 @@ function showFormSelectDaysPackageAnimalSameOwner() {
     }
 
     $('#modalRowsSelectDaysAnimalSameOwner').html(buildDiv);
+
+}
+
+function modalSetDiary(id, observation)
+{
+    $('#observationDiaryId').val(id);
+    $('#observation').val(observation);
+}
+
+function saveObservation()
+{
+    var id = $('#observationDiaryId').val();
+    var observation = $('#observation').val();
+
+    $.post("ajax/saveObservation.php", {
+        id: id,
+        observation: observation
+    }).done(function() {
+        showMessage('Atualizado!');
+        location.reload();
+    }).fail(function(error) {
+        console.log(error.responseText);
+        showMessage('Falha no agendamento, tente novamente');
+    });
+        
 
 }

@@ -81,6 +81,7 @@
                     <th>Valor Pet</th>
                     <th>Serviço Vet</th>
                     <th>Valor Vet</th>
+                    <th>Obs</th>
                     <th>Taxa de Entrega</th>
                     <th>Total</th>
                     <th></th>
@@ -138,6 +139,9 @@
                             echo "</td>";
 
                             echo "<td id='totalPrice".$i."'>";
+                            echo "</td>";
+                            
+                            echo "<td id='observation".$i."'>";
                             echo "</td>";
 
                             echo "<td>";
@@ -328,6 +332,12 @@
                                 }
                                 echo "</td>";
                                 // END VET
+
+                                echo "<td id='observation".$diary->idDiary."'>
+                                    <button type='button' data-toggle='modal' data-target='#modalObservation' class='btn' onclick='modalSetDiary(".$diary->idDiary.",&quot;".$diary->observation."&quot;);'>
+                                        <i class='fa fa-eye' aria-hidden='true'></i>
+                                    </button>
+                                </td>";
                                 echo "<td id='tdDeliveryPrice_".$diary->idDiary."'>";
                                 if($diary->deliveryPrice > 0)
                                     echo $diary->deliveryPrice;
@@ -518,6 +528,39 @@
 
                     </div>
                 </div> <!--Fim Modal seleção de dias do pacote -->
+
+                <!-- Modal observation -->
+                <div class="modal fade" id="modalObservation" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="width: 70%;">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Observação</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row"> <!--div line head -->
+                                   
+
+                                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <div class="form-group"> 
+                                            <textarea name="observation" id="observation" class="form-control" rows="10"></textarea>
+                                        </div>
+                                    </div>
+                                </div> <!-- end div line head -->
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <input type="hidden" name="observation_diary_id" id="observationDiaryId" value />
+                                <button type="button" class="btn btn-success" data-dismiss="modal" onClick="saveObservation();">Confirmar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!--Fim observation -->
                 
             </tbody>
         </table>
