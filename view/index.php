@@ -332,9 +332,9 @@
                                 }
                                 echo "</td>";
                                 // END VET
-
+                                $styleObservation = is_null($diary->observation) ? '' : 'background: cornflowerblue;';
                                 echo "<td id='observation".$diary->idDiary."'>
-                                    <button type='button' data-toggle='modal' data-target='#modalObservation' class='btn' onclick='modalSetDiary(".$diary->idDiary.",&quot;".$diary->observation."&quot;);'>
+                                    <button style='".$styleObservation."' type='button' data-toggle='modal' data-target='#modalObservation' class='btn' onclick='modalSetDiary(".$diary->idDiary.",&quot;".$diary->observation."&quot;);'>
                                         <i class='fa fa-eye' aria-hidden='true'></i>
                                     </button>
                                 </td>";

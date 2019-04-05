@@ -49,6 +49,7 @@
                     <th class="text-center">Data</th>
                     <th class="text-center">Serviço</th>
                     <th class="text-center">Check-in</th>
+                    <th class="text-center">Observação</th>
                 </tr>
             </thead>
             <tbody>
@@ -78,6 +79,10 @@
 
                         echo "<td>";
                         echo $diary->checkinHourDiary;
+                        echo "</td>";
+                        
+                        echo "<td>";
+                        echo $diary->observation;
                         echo "</td>";
                         echo "</tr>";
                     }
