@@ -33,50 +33,55 @@ class DiaryDAO
     public function Insert(DiaryClass $diary)
     {
         try {
-            session_start();
-            $user = unserialize($_SESSION['userOnline']);
+            $hasAlreadyDateHour = $this->hasAlreadyDateHour($diary->dateHour, $diary->client);
+            if($hasAlreadyDateHour === false){
+                session_start();
+                $user = unserialize($_SESSION['userOnline']);
 
-            $sql = "INSERT INTO diary (    
-                  client_idClient,
-                  search,
-                  servic_idServic,
-                  price,
-                  servicVet_idServic,
-                  priceVet,
-                  deliveryPrice,
-                  totalPrice,
-                  dateHour,
-                  package_idPackage,
-                  store
-                  ) VALUES (
-                  :client_idClient,
-                  :search,
-                  :servic_idServic,
-                  :price,
-                  :servicVet_idServic,
-                  :priceVet,
-                  :deliveryPrice,
-                  :totalPrice,
-                  :dateHour,
-                  :package_idPackage,
-                  :store)";
-   
-            $p_sql = Conexao::getInstance()->prepare($sql);
-   
-            $p_sql->bindValue(":client_idClient", $diary->client);
-            $p_sql->bindValue(":search", $diary->search);
-            $p_sql->bindValue(":servic_idServic", $diary->servic);
-            $p_sql->bindValue(":price", $diary->price);
-            $p_sql->bindValue(":servicVet_idServic", $diary->servicVet);
-            $p_sql->bindValue(":priceVet", $diary->priceVet);
-            $p_sql->bindValue(":deliveryPrice", $diary->deliveryPrice);
-            $p_sql->bindValue(":totalPrice", $diary->totalPrice);
-            $p_sql->bindValue(":dateHour", $diary->dateHour);
-            $p_sql->bindValue(":package_idPackage", $diary->package);
-            $p_sql->bindValue(":store", $user->store);
+                $sql = "INSERT INTO diary (    
+                    client_idClient,
+                    search,
+                    servic_idServic,
+                    price,
+                    servicVet_idServic,
+                    priceVet,
+                    deliveryPrice,
+                    totalPrice,
+                    dateHour,
+                    package_idPackage,
+                    store
+                    ) VALUES (
+                    :client_idClient,
+                    :search,
+                    :servic_idServic,
+                    :price,
+                    :servicVet_idServic,
+                    :priceVet,
+                    :deliveryPrice,
+                    :totalPrice,
+                    :dateHour,
+                    :package_idPackage,
+                    :store)";
+    
+                $p_sql = Conexao::getInstance()->prepare($sql);
+    
+                $p_sql->bindValue(":client_idClient", $diary->client);
+                $p_sql->bindValue(":search", $diary->search);
+                $p_sql->bindValue(":servic_idServic", $diary->servic);
+                $p_sql->bindValue(":price", $diary->price);
+                $p_sql->bindValue(":servicVet_idServic", $diary->servicVet);
+                $p_sql->bindValue(":priceVet", $diary->priceVet);
+                $p_sql->bindValue(":deliveryPrice", $diary->deliveryPrice);
+                $p_sql->bindValue(":totalPrice", $diary->totalPrice);
+                $p_sql->bindValue(":dateHour", $diary->dateHour);
+                $p_sql->bindValue(":package_idPackage", $diary->package);
+                $p_sql->bindValue(":store", $user->store);
 
-            $p_sql->execute();
-            return Conexao::getInstance()->lastInsertId();
+                $p_sql->execute();
+                return Conexao::getInstance()->lastInsertId();
+            }else{
+                return $hasAlreadyDateHour;
+            }
         } catch (Exception $e) {
             header("HTTP/1.0 404 Not Found");
             return $e."\nOcorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
@@ -132,36 +137,68 @@ class DiaryDAO
     public function Update(DiaryClass $diary)
     {
         try {
-            $sql = "UPDATE diary set
-                        client_idClient   = :client_idClient,
-                        search            = :search,
-                        servic_idServic   = :servic_idServic,
-                        price             = :price,
-                        servicVet_idServic= :servicVet_idServic,
-                        priceVet          = :priceVet,
-                        deliveryPrice     = :deliveryPrice,
-                        totalPrice        = :totalPrice,
-                        dateHour          = :dateHour,
-                        status            = :status,
-                        package_idPackage = :package_idPackage
-                    WHERE idDiary = :idDiary";
-   
-            $p_sql = Conexao::getInstance()->prepare($sql);
-   
-            $p_sql->bindValue(":client_idClient", $diary->client->idClient);
-            $p_sql->bindValue(":search", $diary->search);
-            $p_sql->bindValue(":servic_idServic", is_null($diary->servic) ? null : $diary->servic->idServic);
-            $p_sql->bindValue(":price", $diary->price);
-            $p_sql->bindValue(":servicVet_idServic", is_null($diary->servicVet) ? null : $diary->servicVet->idServic);
-            $p_sql->bindValue(":priceVet", $diary->priceVet);
-            $p_sql->bindValue(":deliveryPrice", $diary->deliveryPrice);
-            $p_sql->bindValue(":totalPrice", $diary->totalPrice);
-            $p_sql->bindValue(":dateHour", $diary->dateHour);
-            $p_sql->bindValue(":status", $diary->status);
-            $p_sql->bindValue(":package_idPackage", $diary->package->idPackage ? $diary->package->idPackage : 0);
-            $p_sql->bindValue(":idDiary", $diary->idDiary);
+            $hasAlreadyDateHour = $this->hasAlreadyDateHour($diary->dateHour, $diary->client->idClient, $diary->idDiary);
+            if($hasAlreadyDateHour === false){
+                $sql = "UPDATE diary set
+                            client_idClient   = :client_idClient,
+                            search            = :search,
+                            servic_idServic   = :servic_idServic,
+                            price             = :price,
+                            servicVet_idServic= :servicVet_idServic,
+                            priceVet          = :priceVet,
+                            deliveryPrice     = :deliveryPrice,
+                            totalPrice        = :totalPrice,
+                            dateHour          = :dateHour,
+                            status            = :status,
+                            package_idPackage = :package_idPackage
+                        WHERE idDiary = :idDiary";
+    
+                $p_sql = Conexao::getInstance()->prepare($sql);
+    
+                $p_sql->bindValue(":client_idClient", $diary->client->idClient);
+                $p_sql->bindValue(":search", $diary->search);
+                $p_sql->bindValue(":servic_idServic", is_null($diary->servic) ? null : $diary->servic->idServic);
+                $p_sql->bindValue(":price", $diary->price);
+                $p_sql->bindValue(":servicVet_idServic", is_null($diary->servicVet) ? null : $diary->servicVet->idServic);
+                $p_sql->bindValue(":priceVet", $diary->priceVet);
+                $p_sql->bindValue(":deliveryPrice", $diary->deliveryPrice);
+                $p_sql->bindValue(":totalPrice", $diary->totalPrice);
+                $p_sql->bindValue(":dateHour", $diary->dateHour);
+                $p_sql->bindValue(":status", $diary->status);
+                $p_sql->bindValue(":package_idPackage", $diary->package->idPackage ? $diary->package->idPackage : 0);
+                $p_sql->bindValue(":idDiary", $diary->idDiary);
             
-            return $p_sql->execute();
+                return $p_sql->execute();
+            }else{
+                $sql = "UPDATE diary set
+                            client_idClient   = :client_idClient,
+                            search            = :search,
+                            servic_idServic   = :servic_idServic,
+                            price             = :price,
+                            servicVet_idServic= :servicVet_idServic,
+                            priceVet          = :priceVet,
+                            deliveryPrice     = :deliveryPrice,
+                            totalPrice        = :totalPrice,
+                            status            = :status,
+                            package_idPackage = :package_idPackage
+                        WHERE idDiary = :idDiary";
+    
+                $p_sql = Conexao::getInstance()->prepare($sql);
+    
+                $p_sql->bindValue(":client_idClient", $diary->client->idClient);
+                $p_sql->bindValue(":search", $diary->search);
+                $p_sql->bindValue(":servic_idServic", is_null($diary->servic) ? null : $diary->servic->idServic);
+                $p_sql->bindValue(":price", $diary->price);
+                $p_sql->bindValue(":servicVet_idServic", is_null($diary->servicVet) ? null : $diary->servicVet->idServic);
+                $p_sql->bindValue(":priceVet", $diary->priceVet);
+                $p_sql->bindValue(":deliveryPrice", $diary->deliveryPrice);
+                $p_sql->bindValue(":totalPrice", $diary->totalPrice);
+                $p_sql->bindValue(":status", $diary->status);
+                $p_sql->bindValue(":package_idPackage", $diary->package->idPackage ? $diary->package->idPackage : 0);
+                $p_sql->bindValue(":idDiary", $diary->idDiary);
+            
+                return $p_sql->execute();
+            }
         } catch (Exception $e) {
             print "#02xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
@@ -314,6 +351,28 @@ class DiaryDAO
             var_dump($e);
             header("HTTP/1.0 500");
             print "#10xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
+        }
+    }
+
+    private function hasAlreadyDateHour($dateHour, $idClient, $id = 0)
+    {
+        try {
+            $sql = "SELECT * FROM diary WHERE dateHour = :dateHour AND client_idClient = :idClient AND idDiary <> :id";
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->bindValue(":dateHour", $dateHour);
+            $p_sql->bindValue(":idClient", $idClient);
+            $p_sql->bindValue(":id", $id);
+
+            $p_sql->execute();
+            $list = $p_sql->fetchAll(PDO::FETCH_ASSOC);
+
+            if(count($list) > 0){
+                return $list[0]['idDiary'];
+            }
+            
+            return false;
+        } catch (Exception $e) {
+            print "#03xD - Ocorreu um erro ao tentar executar esta ação, tente novamente mais tarde.";
         }
     }
 
